@@ -125,8 +125,9 @@ function calculate() {
   document.getElementById("result").innerHTML = `
     時薪（${mode === 'base' ? '成型下' : '成型上'}）：${hourly.toFixed(2)}<br>
     平日加班費：${(fee1 + fee2 + fee3).toFixed(0)} 元<br>
+    平日加班誤餐費：${weekdayMeal} 元<br>
     週六加班費：${(feeSat1 + feeSat2 + feeSat3).toFixed(0)} 元<br>
-    誤餐費：${weekdayMeal + weekendMeal} 元，週六伙食補貼：${weekendDaily} 元<br>
+    週六誤餐費：${weekendDaily} 元<br>
     扣款：${leaveDeduct.toFixed(0)} 元<br>
     總薪資：${total.toFixed(0)} 元
   `;
