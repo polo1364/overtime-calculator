@@ -107,7 +107,7 @@ function autoFillInsurance() {
   const total = parse("baseSalary") + 2000 + 1800 + parse("extraBonus");
   for (let i = 0; i < insuranceLevels.length; i++) {
     if (insuranceLevels[i][0] >= total) {
-      const level = insuranceLevels[Math.min(i + 1, insuranceLevels.length - 1)];
+      const level = insuranceLevels[i];
       document.getElementById("laborInsurance").value = level[1];
       document.getElementById("healthInsurance").value = level[2];
       break;
