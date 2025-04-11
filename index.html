@@ -115,7 +115,7 @@ function calculate() {
 
   const weekdayHours = parseInput("ot2h") + parseInput("ot3to4h") + parseInput("ot5to6h");
   const weekendHours = parseInput("sat2h") + parseInput("sat3to8h") + parseInput("sat9to12h");
-  const weekdayMeal = weekdayHours >= 2 ? 60 : 0;
+  const weekdayMeal = Math.floor(parseInput("ot2h") / 2) * 60;
   const weekendMeal = weekendHours >= 8 ? 60 : 0;
   const weekendDaily = Math.floor((parseInput("sat2h") + parseInput("sat3to8h")) / 8) * 60;
   const leaveDeduct = hourly * leave;
