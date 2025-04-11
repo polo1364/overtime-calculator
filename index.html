@@ -9,7 +9,7 @@
     body { font-family: "Microsoft JhengHei", sans-serif; margin: 0 auto; padding: 20px; background: #f4f4f4; }
     h2 { text-align: center; font-size: 22px; }
     label { display: block; margin-top: 16px; font-weight: bold; }
-    input { width: 100%; padding: 10px; font-size: 16px; margin-top: 4px; }
+    input, select { width: 100%; padding: 10px; font-size: 16px; margin-top: 4px; }
     button { width: 100%; margin-top: 24px; padding: 12px; font-size: 18px; background-color: #007bff; color: white; border: none; border-radius: 6px; }
     button:hover { background-color: #0056b3; }
     .result { margin-top: 30px; padding: 16px; background: white; border: 1px solid #ccc; border-radius: 8px; }
@@ -19,17 +19,29 @@
   <h2>加班費試算工具</h2>
   <label>本薪（月薪）</label>
   <input type="number" id="baseSalary" placeholder="請輸入本薪">
+
+  <label>日薪計算方式</label>
+  <select id="salaryMode">
+    <option value="full">成型上</option>
+    <option value="base">成型下</option>
+  </select>
+
   <label>勞保費（自填）</label>
-  <input type="number" id="laborInsurance" placeholder="例如 1098">
+  <input type="number" id="laborInsurance" placeholder="請輸入勞保費">
+
   <label>健保費（自填）</label>
-  <input type="number" id="healthInsurance" placeholder="例如 681">
+  <input type="number" id="healthInsurance" placeholder="請輸入健保費">
+
+  <label>福利金（自填）</label>
+  <input type="number" id="welfareFund" placeholder="請輸入福利金">
+
   <label>請假時數</label>
   <input type="number" id="leaveHours">
 
   <label>平日加班</label>
   <input type="number" id="ot2h" placeholder="前2小時 (2.00)">
   <input type="number" id="ot3to4h" placeholder="第3-4小時 (2.33)">
-  <input type="number" id="ot5to6h" placeholder="第5-6小時 (2.66)">
+  <input type="number" id="ot5to6h" placeholder="第5-6小時 (2.66 倍，請填 1.5 小時)">
 
   <label>週六加班</label>
   <input type="number" id="sat2h" placeholder="前2小時 (2.00)">
@@ -50,9 +62,12 @@ function parseInput(id) {
 function calculate() {
   const base = parseInput("baseSalary"), leave = parseInput("leaveHours");
   const labor = parseInput("laborInsurance"), health = parseInput("healthInsurance");
-  const fullBonus = 2000, mealBonus = 1800, welfare = 202;
+  const welfare = parseInput("welfareFund");
+  const fullBonus = 2000, mealBonus = 1800;
 
-  const hourly = (base + fullBonus + mealBonus) / 30 / 8;
+  const mode = document.getElementById("salaryMode").value;
+  const salaryForHourly = mode === "base" ? base : base + fullBonus + mealBonus;
+  const hourly = salaryForHourly / 30 / 8;
   const fullSalary = base + fullBonus + mealBonus;
 
   const fee1 = hourly * 2.00 * parseInput("ot2h");
@@ -70,12 +85,10 @@ function calculate() {
   const weekendDaily = Math.floor((parseInput("sat2h") + parseInput("sat3to8h")) / 8) * 1800;
   const leaveDeduct = hourly * leave;
 
-  const total = fullSalary - labor - health - welfare - leaveDeduct +
-                fee1 + fee2 + fee3 + feeSat1 + feeSat2 + feeSat3 + feeHoliday +
-                weekdayMeal + weekendMeal + weekendDaily;
+  const total = fullSalary - labor - health - welfare - leaveDeduct + fee1 + fee2 + fee3 + feeSat1 + feeSat2 + feeSat3 + feeHoliday + weekdayMeal + weekendMeal + weekendDaily;
 
   document.getElementById("result").innerHTML = `
-    時薪：${hourly.toFixed(2)}<br>
+    時薪（${mode === 'base' ? '成型下' : '成型上'}）：${hourly.toFixed(2)}<br>
     平日加班費：${(fee1 + fee2 + fee3).toFixed(0)} 元<br>
     週六加班費：${(feeSat1 + feeSat2 + feeSat3).toFixed(0)} 元<br>
     假日加班費：${feeHoliday.toFixed(0)} 元<br>
