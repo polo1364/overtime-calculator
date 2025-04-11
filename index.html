@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -23,12 +24,16 @@
       font-weight: bold;
       font-size: 14px;
     }
-    input, select {
+    input {
       width: 100%;
       padding: 8px;
       font-size: 14px;
       margin-top: 4px;
       box-sizing: border-box;
+    }
+    input[readonly] {
+      background-color: #e9ecef;
+      color: #495057;
     }
     button {
       width: 100%;
@@ -59,11 +64,14 @@
   <label>本薪（月薪）</label>
   <input type="number" id="baseSalary" placeholder="請輸入本薪">
 
-  <label>日薪計算方式</label>
-  <select id="salaryMode">
-    <option value="full">成型上</option>
-    <option value="base">成型下</option>
-  </select>
+  <label>全勤獎金</label>
+  <input type="number" id="fullBonus" value="2000" readonly>
+
+  <label>伙食費</label>
+  <input type="number" id="mealBonus" value="1800" readonly>
+
+  <label>其他津貼（自填）</label>
+  <input type="number" id="extraBonus" placeholder="請輸入其他津貼">
 
   <label>勞保費（自填）</label>
   <input type="number" id="laborInsurance" placeholder="請輸入勞保費">
@@ -96,15 +104,18 @@ function parseInput(id) {
   return val === '' || isNaN(parseFloat(val)) ? 0 : parseFloat(val);
 }
 function calculate() {
-  const base = parseInput("baseSalary"), leave = parseInput("leaveHours");
-  const labor = parseInput("laborInsurance"), health = parseInput("healthInsurance");
+  const base = parseInput("baseSalary");
+  const fullBonus = 2000;
+  const mealBonus = 1800;
+  const extra = parseInput("extraBonus");
+  const labor = parseInput("laborInsurance");
+  const health = parseInput("healthInsurance");
   const welfare = parseInput("welfareFund");
-  const fullBonus = 2000, mealBonus = 1800;
+  const leave = parseInput("leaveHours");
 
-  const mode = document.getElementById("salaryMode").value;
-  const salaryForHourly = mode === "base" ? base : base + fullBonus + mealBonus;
+  const salaryForHourly = base + fullBonus + mealBonus;
   const hourly = salaryForHourly / 30 / 8;
-  const fullSalary = base + fullBonus + mealBonus;
+  const fullSalary = base + fullBonus + mealBonus + extra;
 
   const fee1 = hourly * 2.00 * parseInput("ot2h");
   const fee2 = hourly * 2.33 * parseInput("ot3to4h");
@@ -113,17 +124,14 @@ function calculate() {
   const feeSat2 = hourly * 2.33 * parseInput("sat3to8h");
   const feeSat3 = hourly * 3.32 * parseInput("sat9to12h");
 
-  const weekdayHours = parseInput("ot2h") + parseInput("ot3to4h") + parseInput("ot5to6h");
-  const weekendHours = parseInput("sat2h") + parseInput("sat3to8h") + parseInput("sat9to12h");
   const weekdayMeal = Math.floor(parseInput("ot2h") / 2) * 60;
-  const weekendMeal = weekendHours >= 8 ? 60 : 0;
   const weekendDaily = Math.floor((parseInput("sat2h") + parseInput("sat3to8h")) / 8) * 60;
   const leaveDeduct = hourly * leave;
 
-  const total = fullSalary - labor - health - welfare - leaveDeduct + fee1 + fee2 + fee3 + feeSat1 + feeSat2 + feeSat3 + weekdayMeal + weekendMeal + weekendDaily;
+  const total = fullSalary - labor - health - welfare - leaveDeduct + fee1 + fee2 + fee3 + feeSat1 + feeSat2 + feeSat3 + weekdayMeal + weekendDaily;
 
   document.getElementById("result").innerHTML = `
-    時薪（${mode === 'base' ? '成型下' : '成型上'}）：${hourly.toFixed(2)}<br>
+    時薪：${hourly.toFixed(2)} 元<br>
     平日加班費：${(fee1 + fee2 + fee3).toFixed(0)} 元<br>
     平日加班誤餐費：${weekdayMeal} 元<br>
     週六加班費：${(feeSat1 + feeSat2 + feeSat3).toFixed(0)} 元<br>
