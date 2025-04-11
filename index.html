@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -8,61 +7,43 @@
   <style>
     body {
       font-family: "Microsoft JhengHei", sans-serif;
+      max-width: 480px;
       margin: 0 auto;
       padding: 20px;
       background: #f4f4f4;
-      max-width: 480px;
-    }
-    h2 {
-      text-align: center;
-      font-size: 20px;
-      margin-bottom: 16px;
     }
     label {
-      display: block;
-      margin-top: 12px;
       font-weight: bold;
-      font-size: 14px;
+      margin-top: 12px;
+      display: block;
     }
     input {
       width: 100%;
       padding: 8px;
-      font-size: 14px;
       margin-top: 4px;
       box-sizing: border-box;
     }
-    input[readonly] {
-      background-color: #e9ecef;
-      color: #495057;
-    }
     button {
       width: 100%;
-      margin-top: 20px;
       padding: 10px;
-      font-size: 16px;
+      margin-top: 16px;
       background-color: #007bff;
       color: white;
       border: none;
-      border-radius: 6px;
-    }
-    button:hover {
-      background-color: #0056b3;
+      font-size: 16px;
     }
     .result {
       margin-top: 24px;
       padding: 14px;
       background: white;
       border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-      line-height: 1.6;
     }
   </style>
 </head>
 <body>
   <h2>大瑞科技薪資計算</h2>
   <label>本薪（月薪）</label>
-  <input type="number" id="baseSalary" placeholder="請輸入本薪">
+  <input type="number" id="baseSalary" oninput="autoFillInsurance()">
 
   <label>全勤獎金</label>
   <input type="number" value="2000" readonly>
@@ -71,30 +52,30 @@
   <input type="number" value="1800" readonly>
 
   <label>其他津貼（自填）</label>
-  <input type="number" id="extraBonus" placeholder="請輸入其他津貼">
+  <input type="number" id="extraBonus" oninput="autoFillInsurance()">
 
-  <label>勞保費（自填）</label>
-  <input type="number" id="laborInsurance" placeholder="請輸入勞保費">
+  <label>勞保費</label>
+  <input type="number" id="laborInsurance">
 
-  <label>健保費（自填）</label>
-  <input type="number" id="healthInsurance" placeholder="請輸入健保費">
+  <label>健保費</label>
+  <input type="number" id="healthInsurance">
 
-  <label>福利金（自填）</label>
-  <input type="number" id="welfareFund" placeholder="請輸入福利金">
+  <label>福利金</label>
+  <input type="number" id="welfareFund">
 
   <label>請假時數</label>
   <input type="number" id="leaveHours">
 
-  <button onclick="toggleDisplay('weekdayOT')">填寫平日加班</button>
-  <div id="weekdayOT" style="display:none;">
+  <button onclick="toggle('weekday')">填寫平日加班</button>
+  <div id="weekday" style="display:none;">
     <label>平日加班</label>
-    <input type="number" id="ot2h" placeholder="前2小時 (x2.00)">
-    <input type="number" id="ot3to4h" placeholder="第3-4小時 (x2.33)">
-    <input type="number" id="ot5to6h" placeholder="第5-6小時 (x2.66)">
+    <input type="number" id="ot2h" placeholder="前2小時 (2.00)">
+    <input type="number" id="ot3to4h" placeholder="第3-4小時 (2.33)">
+    <input type="number" id="ot5to6h" placeholder="第5-6小時 (2.66)">
   </div>
 
-  <button onclick="toggleDisplay('weekendOT')">填寫週六加班</button>
-  <div id="weekendOT" style="display:none;">
+  <button onclick="toggle('weekend')">填寫週六加班</button>
+  <div id="weekend" style="display:none;">
     <label>週六加班</label>
     <input type="number" id="sat2h" placeholder="前2小時 (2.00)">
     <input type="number" id="sat3to8h" placeholder="第3-8小時 (2.33)">
@@ -104,54 +85,61 @@
   <button onclick="calculate()">開始計算</button>
   <div class="result" id="result"></div>
 
-  <script>
-    function toggleDisplay(id) {
-      const el = document.getElementById(id);
-      el.style.display = el.style.display === 'none' ? 'block' : 'none';
+<script>
+const insuranceLevels = [
+  [28590, 715, 444],[28800, 720, 447],[30300, 758, 470],
+  [31800, 795, 493],[33300, 833, 516],[34800, 870, 540],
+  [36300, 908, 563],[38200, 955, 592],[40100, 1003, 622],
+  [42000, 1050, 651],[43900, 1098, 681],[45800, 1145, 710]
+];
+
+function toggle(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+function parse(id) {
+  const v = parseFloat(document.getElementById(id)?.value);
+  return isNaN(v) ? 0 : v;
+}
+
+function autoFillInsurance() {
+  const total = parse("baseSalary") + 2000 + 1800 + parse("extraBonus");
+  for (let i = 0; i < insuranceLevels.length; i++) {
+    if (insuranceLevels[i][0] >= total) {
+      const level = insuranceLevels[Math.min(i + 1, insuranceLevels.length - 1)];
+      document.getElementById("laborInsurance").value = level[1];
+      document.getElementById("healthInsurance").value = level[2];
+      break;
     }
-    function parseInput(id) {
-      const val = document.getElementById(id)?.value;
-      return val === '' || isNaN(parseFloat(val)) ? 0 : parseFloat(val);
-    }
-    function calculate() {
-      const base = parseInput("baseSalary");
-      const fullBonus = 2000;
-      const mealBonus = 1800;
-      const extra = parseInput("extraBonus");
-      const labor = parseInput("laborInsurance");
-      const health = parseInput("healthInsurance");
-      const welfare = parseInput("welfareFund");
-      const leave = parseInput("leaveHours");
+  }
+}
 
-      const salaryForHourly = base + fullBonus + mealBonus + extra;
-      const hourly = salaryForHourly / 30 / 8;
-      const fullSalary = base + fullBonus + mealBonus + extra;
+function calculate() {
+  const hourly = (parse("baseSalary") + 2000 + 1800 + parse("extraBonus")) / 30 / 8;
+  const fee1 = hourly * 2.00 * parse("ot2h");
+  const fee2 = hourly * 2.33 * parse("ot3to4h");
+  const fee3 = hourly * 2.66 * parse("ot5to6h");
+  const feeSat1 = hourly * 2.00 * parse("sat2h");
+  const feeSat2 = hourly * 2.33 * parse("sat3to8h");
+  const feeSat3 = hourly * 3.32 * parse("sat9to12h");
+  const weekdayMeal = Math.floor(parse("ot2h") / 2) * 60;
+  const weekendMeal = Math.floor((parse("sat2h") + parse("sat3to8h")) / 8) * 60;
+  const leave = hourly * parse("leaveHours");
+  const total = (parse("baseSalary") + 2000 + 1800 + parse("extraBonus"))
+              - parse("laborInsurance") - parse("healthInsurance") - parse("welfareFund") - leave
+              + fee1 + fee2 + fee3 + feeSat1 + feeSat2 + feeSat3 + weekdayMeal + weekendMeal;
 
-      const fee1 = hourly * 2.00 * parseInput("ot2h");
-      const fee2 = hourly * 2.33 * parseInput("ot3to4h");
-      const fee3 = hourly * 2.66 * parseInput("ot5to6h");
-      const feeSat1 = hourly * 2.00 * parseInput("sat2h");
-      const feeSat2 = hourly * 2.33 * parseInput("sat3to8h");
-      const feeSat3 = hourly * 3.32 * parseInput("sat9to12h");
-
-      const weekdayMeal = Math.floor(parseInput("ot2h") / 2) * 60;
-      const weekendDaily = Math.floor((parseInput("sat2h") + parseInput("sat3to8h")) / 8) * 60;
-      const leaveDeduct = hourly * leave;
-
-      const total = fullSalary - labor - health - welfare - leaveDeduct +
-                    fee1 + fee2 + fee3 + feeSat1 + feeSat2 + feeSat3 +
-                    weekdayMeal + weekendDaily;
-
-      document.getElementById("result").innerHTML = `
-        時薪：${hourly.toFixed(2)} 元<br>
-        平日加班費：${(fee1 + fee2 + fee3).toFixed(0)} 元<br>
-        平日加班誤餐費：${weekdayMeal} 元<br>
-        週六加班費：${(feeSat1 + feeSat2 + feeSat3).toFixed(0)} 元<br>
-        週六誤餐費：${weekendDaily} 元<br>
-        扣款：${leaveDeduct.toFixed(0)} 元<br>
-        總薪資：${total.toFixed(0)} 元
-      `;
-    }
-  </script>
+  document.getElementById("result").innerHTML = `
+    時薪：${hourly.toFixed(2)} 元<br>
+    平日加班費：${(fee1 + fee2 + fee3).toFixed(0)} 元<br>
+    平日加班誤餐費：${weekdayMeal} 元<br>
+    週六加班費：${(feeSat1 + feeSat2 + feeSat3).toFixed(0)} 元<br>
+    週六誤餐費：${weekendMeal} 元<br>
+    扣款：${leave.toFixed(0)} 元<br>
+    總薪資：${total.toFixed(0)} 元
+  `;
+}
+</script>
 </body>
 </html>
