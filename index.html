@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -6,13 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>加班費試算</title>
   <style>
-    body { font-family: "Microsoft JhengHei", sans-serif; margin: 0 auto; padding: 20px; background: #f4f4f4; }
-    h2 { text-align: center; font-size: 22px; }
-    label { display: block; margin-top: 16px; font-weight: bold; }
-    input, select { width: 100%; padding: 10px; font-size: 16px; margin-top: 4px; }
-    button { width: 100%; margin-top: 24px; padding: 12px; font-size: 18px; background-color: #007bff; color: white; border: none; border-radius: 6px; }
-    button:hover { background-color: #0056b3; }
-    .result { margin-top: 30px; padding: 16px; background: white; border: 1px solid #ccc; border-radius: 8px; }
+    body {
+      font-family: "Microsoft JhengHei", sans-serif;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f4f4f4;
+      max-width: 480px;
+    }
+    h2 {
+      text-align: center;
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      font-size: 14px;
+      margin-top: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 24px;
+      padding: 14px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
   </style>
 </head>
 <body>
@@ -39,17 +78,14 @@
   <input type="number" id="leaveHours">
 
   <label>平日加班</label>
-  <input type="number" id="ot2h" placeholder="前2小時 (2.00)">
-  <input type="number" id="ot3to4h" placeholder="第3-4小時 (2.33)">
-  <input type="number" id="ot5to6h" placeholder="第5-6小時 (2.66 倍，請填 1.5 小時)">
+  <input type="number" id="ot2h" placeholder="前2小時 (x2.00)">
+  <input type="number" id="ot3to4h" placeholder="第3-4小時 (x2.33)">
+  <input type="number" id="ot5to6h" placeholder="第5-6小時 (x2.66)">
 
   <label>週六加班</label>
   <input type="number" id="sat2h" placeholder="前2小時 (2.00)">
   <input type="number" id="sat3to8h" placeholder="第3-8小時 (2.33)">
-  <input type="number" id="sat9to12h" placeholder="第9-12小時 (2.99)">
-
-  <label>假日加班</label>
-  <input type="number" id="holiday8h" placeholder="前8小時 (1.83)">
+  <input type="number" id="sat9to12h" placeholder="第9-12小時 (3.32)">
 
   <button onclick="calculate()">開始計算</button>
   <div class="result" id="result"></div>
@@ -75,23 +111,21 @@ function calculate() {
   const fee3 = hourly * 2.66 * parseInput("ot5to6h");
   const feeSat1 = hourly * 2.00 * parseInput("sat2h");
   const feeSat2 = hourly * 2.33 * parseInput("sat3to8h");
-  const feeSat3 = hourly * 2.99 * parseInput("sat9to12h");
-  const feeHoliday = hourly * 1.83 * parseInput("holiday8h");
+  const feeSat3 = hourly * 3.32 * parseInput("sat9to12h");
 
   const weekdayHours = parseInput("ot2h") + parseInput("ot3to4h") + parseInput("ot5to6h");
-  const weekendHours = parseInput("sat2h") + parseInput("sat3to8h") + parseInput("sat9to12h") + parseInput("holiday8h");
+  const weekendHours = parseInput("sat2h") + parseInput("sat3to8h") + parseInput("sat9to12h");
   const weekdayMeal = weekdayHours >= 2 ? 60 : 0;
   const weekendMeal = weekendHours >= 8 ? 60 : 0;
   const weekendDaily = Math.floor((parseInput("sat2h") + parseInput("sat3to8h")) / 8) * 1800;
   const leaveDeduct = hourly * leave;
 
-  const total = fullSalary - labor - health - welfare - leaveDeduct + fee1 + fee2 + fee3 + feeSat1 + feeSat2 + feeSat3 + feeHoliday + weekdayMeal + weekendMeal + weekendDaily;
+  const total = fullSalary - labor - health - welfare - leaveDeduct + fee1 + fee2 + fee3 + feeSat1 + feeSat2 + feeSat3 + weekdayMeal + weekendMeal + weekendDaily;
 
   document.getElementById("result").innerHTML = `
     時薪（${mode === 'base' ? '成型下' : '成型上'}）：${hourly.toFixed(2)}<br>
     平日加班費：${(fee1 + fee2 + fee3).toFixed(0)} 元<br>
     週六加班費：${(feeSat1 + feeSat2 + feeSat3).toFixed(0)} 元<br>
-    假日加班費：${feeHoliday.toFixed(0)} 元<br>
     誤餐費：${weekdayMeal + weekendMeal} 元，週六伙食補貼：${weekendDaily} 元<br>
     扣款：${leaveDeduct.toFixed(0)} 元<br>
     總薪資：${total.toFixed(0)} 元
