@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -82,6 +83,12 @@
     <input type="number" id="sat9to12h" placeholder="第9-12小時 (3.32)">
   </div>
 
+  <button onclick="toggle('holiday')">填寫節日加班</button>
+  <div id="holiday" style="display:none;">
+    <label>節日加班</label>
+    <input type="number" id="holidayHours" placeholder="節日加班時數 (2.16)">
+  </div>
+
   <button onclick="calculate()">開始計算</button>
   <div class="result" id="result"></div>
 
@@ -107,7 +114,7 @@ function autoFillInsurance() {
   const total = parse("baseSalary") + 2000 + 1800 + parse("extraBonus");
   for (let i = 0; i < insuranceLevels.length; i++) {
     if (insuranceLevels[i][0] >= total) {
-      const level = insuranceLevels[i];
+      const level = insuranceLevels[i]; // 不升級級距
       document.getElementById("laborInsurance").value = level[1];
       document.getElementById("healthInsurance").value = level[2];
       break;
@@ -123,12 +130,20 @@ function calculate() {
   const feeSat1 = hourly * 2.00 * parse("sat2h");
   const feeSat2 = hourly * 2.33 * parse("sat3to8h");
   const feeSat3 = hourly * 3.32 * parse("sat9to12h");
+  const feeHoliday = hourly * 2.16 * parse("holidayHours");
+
+  const totalOTHours = parse("ot2h") + parse("ot3to4h") + parse("ot5to6h")
+                     + parse("sat2h") + parse("sat3to8h") + parse("sat9to12h") + parse("holidayHours");
+  const bonusOT = totalOTHours > 50 ? 3000 : totalOTHours > 40 ? 2000 : totalOTHours > 30 ? 1500 : 0;
+
   const weekdayMeal = Math.floor(parse("ot2h") / 2) * 60;
   const weekendMeal = Math.floor((parse("sat2h") + parse("sat3to8h")) / 8) * 60;
+  const holidayMeal = parse("holidayHours") > 0 ? 60 : 0;
   const leave = hourly * parse("leaveHours");
+
   const total = (parse("baseSalary") + 2000 + 1800 + parse("extraBonus"))
               - parse("laborInsurance") - parse("healthInsurance") - parse("welfareFund") - leave
-              + fee1 + fee2 + fee3 + feeSat1 + feeSat2 + feeSat3 + weekdayMeal + weekendMeal;
+              + fee1 + fee2 + fee3 + feeSat1 + feeSat2 + feeSat3 + feeHoliday + weekdayMeal + weekendMeal + holidayMeal + bonusOT;
 
   document.getElementById("result").innerHTML = `
     時薪：${hourly.toFixed(2)} 元<br>
@@ -136,7 +151,10 @@ function calculate() {
     平日加班誤餐費：${weekdayMeal} 元<br>
     週六加班費：${(feeSat1 + feeSat2 + feeSat3).toFixed(0)} 元<br>
     週六誤餐費：${weekendMeal} 元<br>
+    節日加班費：${feeHoliday.toFixed(0)} 元<br>
+    節日誤餐費：${holidayMeal} 元<br>
     扣款：${leave.toFixed(0)} 元<br>
+    加班時數獎金（共 ${totalOTHours} 小時）：${bonusOT} 元<br>
     總薪資：${total.toFixed(0)} 元
   `;
 }
