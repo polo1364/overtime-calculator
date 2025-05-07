@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>大瑞科技薪資計算</title>
   <style>
     body {
@@ -67,103 +66,89 @@
   <div class="container">
     <h2>大瑞科技薪資計算</h2>
 
-    <label>本薪（月薪）</label><input type="number" id="baseSalary" />
-    <label>全勤獎金</label><input type="number" id="bonus" value="2000" readonly />
-    <label>伙食費</label><input type="number" id="meal" value="1800" readonly />
-    <label>其他津貼</label><input type="number" id="extraPay" />
-    <label>請假時數</label><input type="number" id="leaveHours" />
-    <label>勞退自扣 (%)</label><input type="number" id="pensionRate" />
+    <label>本薪（月薪）</label><input type="number" id="baseSalary">
+    <label>全勤獎金</label><input type="number" id="bonus" value="2000" readonly>
+    <label>伙食費</label><input type="number" id="meal" value="1800" readonly>
+    <label>其他津貼</label><input type="number" id="extraPay">
+    <label>請假時數</label><input type="number" id="leaveHours">
+    <label>勞退自扣 (%)</label><input type="number" id="pensionRate">
 
     <label>平日加班</label>
-    <input type="number" id="ot2h" placeholder="前2小時 (x2.00)" />
-    <input type="number" id="ot3to4h" placeholder="第3-4小時 (x2.33)" />
-    <input type="number" id="ot5to6h" placeholder="第5-6小時 (x2.66)" />
+    <input type="number" id="ot2h" placeholder="前2小時 (x2.00)">
+    <input type="number" id="ot3to4h" placeholder="第3-4小時 (x2.33)">
+    <input type="number" id="ot5to6h" placeholder="第5-6小時 (x2.66)">
 
     <label>週六加班</label>
-    <input type="number" id="sat2h" placeholder="前2小時 (x2.00)" />
-    <input type="number" id="sat3to8h" placeholder="第3-8小時 (x2.33)" />
-    <input type="number" id="sat9to12h" placeholder="第9-12小時 (x3.32)" />
+    <input type="number" id="sat2h" placeholder="前2小時 (x2.00)">
+    <input type="number" id="sat3to8h" placeholder="第3-8小時 (x2.33)">
+    <input type="number" id="sat9to12h" placeholder="第9-12小時 (x3.32)">
 
     <label>節日加班</label>
-    <input type="number" id="holidayHours" placeholder="節日加班時數 (x2.16)" />
+    <input type="number" id="holidayHours" placeholder="節日加班時數 (x2.16)">
 
     <button onclick="calculate()">開始計算</button>
     <div class="result" id="result"></div>
   </div>
 
-  <script>
-    const insuranceTable = [
-      { salary: 28590, labor: 715, health: 444 },
-      { salary: 28800, labor: 720, health: 447 },
-      { salary: 30300, labor: 758, health: 470 },
-      { salary: 31800, labor: 795, health: 493 },
-      { salary: 33300, labor: 833, health: 516 },
-      { salary: 34800, labor: 870, health: 540 },
-      { salary: 36300, labor: 908, health: 563 },
-      { salary: 38200, labor: 955, health: 592 },
-      { salary: 40100, labor: 1003, health: 622 },
-      { salary: 42000, labor: 1050, health: 651 },
-      { salary: 43900, labor: 1098, health: 681 },
-      { salary: 45800, labor: 1145, health: 710 },
-    ];
-    function parse(id) {
-      return parseFloat(document.getElementById(id).value) || 0;
-    }
-    function getInsurance(salary) {
-      return insuranceTable.find((row) => salary <= row.salary) || insuranceTable[insuranceTable.length - 1];
-    }
-    function calculate() {
-      const base = parse("baseSalary"),
-        bonus = 2000,
-        meal = 1800,
-        extra = parse("extraPay");
-      const totalBase = base + bonus + meal + extra;
-      const ins = getInsurance(totalBase);
-      const labor = ins.labor,
-        health = ins.health;
-      const hourly = totalBase / 30 / 8;
-      const leave = parse("leaveHours"),
-        pensionRate = parse("pensionRate") / 100;
-      const leaveDeduct = leave * hourly;
-      const ot1 = parse("ot2h"),
-        ot2 = parse("ot3to4h"),
-        ot3 = parse("ot5to6h");
-      const s1 = parse("sat2h"),
-        s2 = parse("sat3to8h"),
-        s3 = parse("sat9to12h");
-      const h1 = parse("holidayHours");
-      const fee1 = ot1 * 2 * hourly,
-        fee2 = ot2 * 2.33 * hourly,
-        fee3 = ot3 * 2.66 * hourly;
-      const feeSat1 = s1 * 2 * hourly,
-        feeSat2 = s2 * 2.33 * hourly,
-        feeSat3 = s3 * 3.32 * hourly;
-      const feeHoliday = h1 * 2.16 * hourly;
-      const mealWD = Math.ceil(ot1 % 2 === 0 ? ot1 / 2 : (Math.floor(ot1) + 1) / 2) * 60;
-      const mealSat = Math.floor((s1 + s2) / 8) * 60;
-      const mealH = Math.ceil(h1 / 8) * 60;
-      const otTotal = ot1 + ot2 + ot3 + s1 + s2 + s3 + h1;
-      const otBonus = otTotal > 50 ? 3000 : otTotal > 40 ? 2000 : otTotal > 30 ? 1500 : 0;
-      const pension = Math.round(ins.salary * pensionRate);
-      const welfare = Math.round(totalBase * 0.00477);
-      const deductions = labor + health + welfare + pension + leaveDeduct;
-      const net = totalBase - deductions + fee1 + fee2 + fee3 + feeSat1 + feeSat2 + feeSat3 + feeHoliday + mealWD + mealSat + mealH + otBonus;
-
-      document.getElementById("result").innerText = 
+<script>
+const insuranceTable = [
+  { salary: 28590, labor: 715, health: 444 },
+  { salary: 28800, labor: 720, health: 447 },
+  { salary: 30300, labor: 758, health: 470 },
+  { salary: 31800, labor: 795, health: 493 },
+  { salary: 33300, labor: 833, health: 516 },
+  { salary: 34800, labor: 870, health: 540 },
+  { salary: 36300, labor: 908, health: 563 },
+  { salary: 38200, labor: 955, health: 592 },
+  { salary: 40100, labor: 1003, health: 622 },
+  { salary: 42000, labor: 1050, health: 651 },
+  { salary: 43900, labor: 1098, health: 681 },
+  { salary: 45800, labor: 1145, health: 710 }
+];
+function parse(id) {
+  return parseFloat(document.getElementById(id).value) || 0;
+}
+function getInsurance(salary) {
+  return insuranceTable.find(row => salary <= row.salary) || insuranceTable[insuranceTable.length - 1];
+}
+function calculate() {
+  const base = parse("baseSalary"), bonus = 2000, meal = 1800, extra = parse("extraPay");
+  const totalBase = base + bonus + meal + extra;
+  const ins = getInsurance(totalBase);
+  const labor = ins.labor, health = ins.health;
+  const hourly = totalBase / 30 / 8;
+  const leave = parse("leaveHours"), pensionRate = parse("pensionRate") / 100;
+  const leaveDeduct = leave * hourly;
+  const ot1 = parse("ot2h"), ot2 = parse("ot3to4h"), ot3 = parse("ot5to6h");
+  const s1 = parse("sat2h"), s2 = parse("sat3to8h"), s3 = parse("sat9to12h");
+  const h1 = parse("holidayHours");
+  const fee1 = ot1 * 2 * hourly, fee2 = ot2 * 2.33 * hourly, fee3 = ot3 * 2.66 * hourly;
+  const feeSat1 = s1 * 2 * hourly, feeSat2 = s2 * 2.33 * hourly, feeSat3 = s3 * 3.32 * hourly;
+  const feeHoliday = h1 * 2.16 * hourly;
+  const mealWD = Math.ceil(ot1 % 2 === 0 ? ot1 / 2 : (Math.floor(ot1) + 1) / 2) * 60;
+  const mealSat = Math.floor((s1 + s2) / 8) * 60;
+  const mealH = Math.ceil(h1 / 8) * 60;
+  const otTotal = ot1 + ot2 + ot3 + s1 + s2 + s3 + h1;
+  const otBonus = otTotal > 50 ? 3000 : otTotal > 40 ? 2000 : otTotal > 30 ? 1500 : 0;
+  const pension = Math.round(ins.salary * pensionRate);
+  const welfare = Math.round(totalBase * 0.00477);
+  const net = totalBase - labor - health - pension - welfare - leaveDeduct + fee1 + fee2 + fee3 + feeSat1 + feeSat2 + feeSat3 + feeHoliday + mealWD + mealSat + mealH + otBonus;
+  document.getElementById("result").innerText =
 `時薪：${hourly.toFixed(2)} 元
 勞保費：${labor} 元
 健保費：${health} 元
-福利金：${welfare} 元
+福利金：${welfare} 元（誤差±1）
+勞退自扣：${pension} 元
 平日加班費：${(fee1 + fee2 + fee3).toFixed(0)} 元
 平日加班誤餐費：${mealWD} 元
 週六加班費：${(feeSat1 + feeSat2 + feeSat3).toFixed(0)} 元
 週六誤餐費：${mealSat} 元
 節日加班費：${feeHoliday.toFixed(0)} 元
 節日誤餐費：${mealH} 元
-扣款：${deductions.toFixed(0)} 元
+扣款：${(labor + health + welfare + pension + leaveDeduct).toFixed(0)} 元（包含勞保${labor}、健保${health}、福利金${welfare}、勞退${pension}、請假扣款${leaveDeduct.toFixed(0)}）
 加班時數獎金（共 ${otTotal} 小時）：${otBonus} 元
 實領薪資：${net.toFixed(0)} 元`;
-    }
-  </script>
+}
+</script>
 </body>
 </html>
