@@ -90,6 +90,10 @@
   </div>
 
   <button onclick="calculate()">開始計算</button>
+
+  <label>勞退自扣 (%)</label>
+  <input type="number" id="pensionRate" placeholder="例如 6">
+
   <div class="result" id="result"></div>
 
 <script>
@@ -148,11 +152,21 @@ function calculate() {
   const holidayMeal = parse("holidayHours") > 0 ? 60 : 0;
   const leave = hourly * parse("leaveHours");
 
-  const welfareAmt = parseFloat(document.getElementById("welfareFund").value);
+  const welfareText = document.getElementById("welfareFund").value;
+  const welfareAmt = parseFloat(welfareText.replace(/[^\d.]/g, ""));
   const total = (parse("baseSalary") + 2000 + 1800 + parse("extraBonus"))
               - parse("laborInsurance") - parse("healthInsurance") - welfareAmt - leave
               + fee1 + fee2 + fee3 + feeSat1 + feeSat2 + feeSat3 + feeHoliday + weekdayMeal + weekendMeal + holidayMeal + bonusOT;
 
+  const pensionRate = parse("pensionRate");
+  const insuranceTable = {
+    715: 28590, 720: 28800, 758: 30300, 795: 31800, 833: 33300,
+    870: 34800, 908: 36300, 955: 38200, 1003: 40100,
+    1050: 42000, 1098: 43900, 1145: 45800
+  };
+  const lb = parse("laborInsurance");
+  const insuredSalary = insuranceTable[lb] || 0;
+  const pensionAmount = Math.round(insuredSalary * pensionRate / 100);
   document.getElementById("result").innerHTML = `
     時薪：${hourly.toFixed(2)} 元<br>
     平日加班費：${(fee1 + fee2 + fee3).toFixed(0)} 元<br>
@@ -163,6 +177,7 @@ function calculate() {
     節日誤餐費：${holidayMeal} 元<br>
     扣款：${leave.toFixed(0)} 元<br>
     加班時數獎金（共 ${totalOTHours} 小時）：${bonusOT} 元<br>
+    勞退自扣：${pensionAmount} 元<br>
     總薪資：${total.toFixed(0)} 元
   `;
 }
