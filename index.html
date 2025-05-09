@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -72,6 +73,7 @@
     <label>其他津貼</label><input type="number" id="extraPay">
     <label>請假時數</label><input type="number" id="leaveHours">
     <label>勞退自扣 (%)</label><input type="number" id="pensionRate">
+    <label>健保費眷屬人數（人）</label><input type="number" id="dependents">
 
     <label>平日加班</label>
     <input type="number" id="ot2h" placeholder="前2小時 (x2.00)">
@@ -115,7 +117,11 @@ function calculate() {
   const base = parse("baseSalary"), bonus = 2000, meal = 1800, extra = parse("extraPay");
   const totalBase = base + bonus + meal + extra;
   const ins = getInsurance(totalBase);
-  const labor = ins.labor, health = ins.health;
+  const labor = ins.labor;
+  const dependents = parse("dependents");
+  const personalHealth = ins.health;
+  const dependentHealth = Math.round(ins.salary * 0.0517 * 0.6 * dependents);
+  const health = personalHealth + dependentHealth;
   const hourly = totalBase / 30 / 8;
   const leave = parse("leaveHours"), pensionRate = parse("pensionRate") / 100;
   const leaveDeduct = leave * hourly;
@@ -135,17 +141,13 @@ function calculate() {
   const net = totalBase - labor - health - pension - welfare - leaveDeduct + fee1 + fee2 + fee3 + feeSat1 + feeSat2 + feeSat3 + feeHoliday + mealWD + mealSat + mealH + otBonus;
   document.getElementById("result").innerText =
 `時薪：${hourly.toFixed(2)} 元
-勞保費：${labor} 元
-健保費：${health} 元
-福利金：${welfare} 元（誤差±1）
-勞退自扣：${pension} 元
 平日加班費：${(fee1 + fee2 + fee3).toFixed(0)} 元
 平日加班誤餐費：${mealWD} 元
 週六加班費：${(feeSat1 + feeSat2 + feeSat3).toFixed(0)} 元
 週六誤餐費：${mealSat} 元
 節日加班費：${feeHoliday.toFixed(0)} 元
 節日誤餐費：${mealH} 元
-扣款：${(labor + health + welfare + pension + leaveDeduct).toFixed(0)} 元（包含勞保${labor}、健保${health}、福利金${welfare}、勞退${pension}、請假扣款${leaveDeduct.toFixed(0)}）
+扣款（含勞保${labor}元、健保${health}元［本人${personalHealth}＋眷屬${dependentHealth}］、福利金${welfare}(誤差±1)元、勞退${pension}元、請假${leaveDeduct.toFixed(0)}元）：${(labor + health + welfare + pension + leaveDeduct).toFixed(0)} 元
 加班時數獎金（共 ${otTotal} 小時）：${otBonus} 元
 實領薪資：${net.toFixed(0)} 元`;
 }
