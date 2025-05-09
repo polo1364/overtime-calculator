@@ -118,9 +118,9 @@ function calculate() {
   const totalBase = base + bonus + meal + extra;
   const ins = getInsurance(totalBase);
   const labor = ins.labor;
-  const dependents = parse("dependents");
   const personalHealth = ins.health;
-  const dependentHealth = Math.round(ins.salary * 0.0517 * 0.6 * dependents);
+  const dependents = parse("dependents");
+  const dependentHealth = personalHealth * dependents;
   const health = personalHealth + dependentHealth;
   const hourly = totalBase / 30 / 8;
   const leave = parse("leaveHours"), pensionRate = parse("pensionRate") / 100;
@@ -147,7 +147,8 @@ function calculate() {
 週六誤餐費：${mealSat} 元
 節日加班費：${feeHoliday.toFixed(0)} 元
 節日誤餐費：${mealH} 元
-扣款（含勞保${labor}元、健保${health}元［本人${personalHealth}＋眷屬${dependentHealth}］、福利金${welfare}(誤差±1)元、勞退${pension}元、請假${leaveDeduct.toFixed(0)}元）：${(labor + health + welfare + pension + leaveDeduct).toFixed(0)} 元
+扣款：${(labor + health + welfare + pension + leaveDeduct).toFixed(0)} 元
+（勞保 ${labor} 元 + 健保本人 ${personalHealth} 元 + 眷屬 ${dependentHealth} 元 + 福利金 ${welfare} 元（誤差±1）+ 勞退 ${pension} 元 + 請假 ${leaveDeduct.toFixed(0)} 元）
 加班時數獎金（共 ${otTotal} 小時）：${otBonus} 元
 實領薪資：${net.toFixed(0)} 元`;
 }
