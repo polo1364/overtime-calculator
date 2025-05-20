@@ -11,46 +11,44 @@
       background-color: #f9f9f9;
       padding: 20px;
       color: #333;
-      display: flex;
-      justify-content: center;
     }
+    h2, h3 { text-align: center; color: #007bff; }
+    table { margin: 20px auto; border-collapse: collapse; width: 100%; max-width: 1000px; background: #fff; }
+    th, td { border: 1px solid #ccc; padding: 6px; vertical-align: top; width: 14.28%; height: 100px; }
+    th { background: #eaeaea; }
+    .holiday { color: red; font-weight: bold; }
+    .festival { color: orange; font-weight: bold; }
+    .weekday { color: blue; }
+    .cell-date { font-weight: bold; margin-bottom: 4px; display: block; }
+    input[type="number"] { width: 100%; margin-top: 4px; }
+    #totalBox { margin-top: 10px; text-align: center; font-size: 16px; font-weight: bold; }
+
     .container {
-      max-width: 400px;
-      width: 100%;
-    }
-    h2 {
-      text-align: center;
-      font-size: 24px;
-      margin-bottom: 16px;
-      color: #007bff;
+      max-width: 480px;
+      margin: 0 auto;
     }
     label {
       font-weight: bold;
       display: block;
       margin: 10px 0 4px;
     }
-    input[type="number"] {
-      width: 100%;
-      max-width: 10cm;
+    .input-group input[type="number"] {
       padding: 6px;
       font-size: 14px;
       border: 1px solid #ccc;
       border-radius: 4px;
+      width: 100%;
     }
     button {
       margin-top: 16px;
       padding: 10px;
       width: 100%;
-      max-width: 10cm;
       font-size: 16px;
       background-color: #007bff;
       color: #fff;
       border: none;
       border-radius: 5px;
       cursor: pointer;
-    }
-    button:hover {
-      background-color: #0056b3;
     }
     .result {
       margin-top: 24px;
@@ -61,12 +59,51 @@
       font-size: 15px;
       white-space: pre-line;
     }
-  </style>
+  
+@media (max-width: 768px) {
+  table, th, td {
+    font-size: 12px;
+    padding: 4px;
+  }
+  input[type="number"] {
+    font-size: 14px;
+  }
+  .container {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+}
+
+</style>
 </head>
 <body>
-  <div class="container">
-    <h2>大瑞科技薪資計算</h2>
+  <h2>大瑞科技薪資計算</h2>
+  
+  
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; align-items: center; margin-bottom: 10px;">
+    <label>開始日期：<input type="date" id="startDate" style="min-width: 140px;"></label>
+    <label>結束日期：<input type="date" id="endDate" style="min-width: 140px;"></label>
+  </div>
+  <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+    <button onclick="generateCalendar()" style="width: 100%; max-width: 10cm;">生成結算日期</button>
+  </div>
 
+
+  <table id="calendar" style="display: none;">
+    <thead>
+      <tr>
+        <th>週日</th><th>週一</th><th>週二</th><th>週三</th><th>週四</th><th>週五</th><th>週六</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div id="totalBox" style="display: none;">
+    共 <span id="otTotalHours">0</span> 小時加班
+  </div>
+
+  <h3>薪資計算區</h3>
+  <div class="container">
     <label>本薪（月薪）</label><input type="number" id="baseSalary">
     <label>全勤獎金</label><input type="number" id="bonus" value="2000" readonly>
     <label>伙食費</label><input type="number" id="meal" value="1800" readonly>
@@ -93,65 +130,199 @@
   </div>
 
 <script>
-const insuranceTable = [
-  { salary: 28590, labor: 715, health: 444 },
-  { salary: 28800, labor: 720, health: 447 },
-  { salary: 30300, labor: 758, health: 470 },
-  { salary: 31800, labor: 795, health: 493 },
-  { salary: 33300, labor: 833, health: 516 },
-  { salary: 34800, labor: 870, health: 540 },
-  { salary: 36300, labor: 908, health: 563 },
-  { salary: 38200, labor: 955, health: 592 },
-  { salary: 40100, labor: 1003, health: 622 },
-  { salary: 42000, labor: 1050, health: 651 },
-  { salary: 43900, labor: 1098, health: 681 },
-  { salary: 45800, labor: 1145, health: 710 }
-];
-function parse(id) {
-  return parseFloat(document.getElementById(id).value) || 0;
-}
-function getInsurance(salary) {
-  return insuranceTable.find(row => salary <= row.salary) || insuranceTable[insuranceTable.length - 1];
-}
-function calculate() {
-  const base = parse("baseSalary"), bonus = 2000, meal = 1800, extra = parse("extraPay");
-  const totalBase = base + bonus + meal + extra;
-  const ins = getInsurance(totalBase);
-  const labor = ins.labor;
-  const personalHealth = ins.health;
-  const dependents = parse("dependents");
-  const dependentHealth = personalHealth * dependents;
-  const health = personalHealth + dependentHealth;
-  const hourly = totalBase / 30 / 8;
-  const leave = parse("leaveHours"), pensionRate = parse("pensionRate") / 100;
-  const leaveDeduct = leave * hourly;
-  const ot1 = parse("ot2h"), ot2 = parse("ot3to4h"), ot3 = parse("ot5to6h");
-  const s1 = parse("sat2h"), s2 = parse("sat3to8h"), s3 = parse("sat9to12h");
-  const h1 = parse("holidayHours");
-  const fee1 = ot1 * 2 * hourly, fee2 = ot2 * 2.33 * hourly, fee3 = ot3 * 2.66 * hourly;
-  const feeSat1 = s1 * 2 * hourly, feeSat2 = s2 * 2.33 * hourly, feeSat3 = s3 * 3.32 * hourly;
-  const feeHoliday = h1 * 2.16 * hourly;
-  const mealWD = Math.ceil(ot1 % 2 === 0 ? ot1 / 2 : (Math.floor(ot1) + 1) / 2) * 60;
-  const mealSat = Math.floor((s1 + s2) / 8) * 60;
-  const mealH = Math.ceil(h1 / 8) * 60;
-  const otTotal = ot1 + ot2 + ot3 + s1 + s2 + s3 + h1;
-  const otBonus = otTotal > 50 ? 3000 : otTotal > 40 ? 2000 : otTotal > 30 ? 1500 : 0;
-  const pension = Math.round(ins.salary * pensionRate);
-  const welfare = Math.round(totalBase * 0.00477);
-  const net = totalBase - labor - health - pension - welfare - leaveDeduct + fee1 + fee2 + fee3 + feeSat1 + feeSat2 + feeSat3 + feeHoliday + mealWD + mealSat + mealH + otBonus;
-  document.getElementById("result").innerText =
+  const holidays = {
+    "2025-01-01": "元旦",
+    "2025-01-27": "彈性放假",
+    "2025-01-28": "除夕",
+    "2025-01-29": "春節",
+    "2025-01-30": "春節",
+    "2025-01-31": "春節",
+    "2025-02-28": "和平紀念日",
+    "2025-04-03": "彈性放假",
+    "2025-04-04": "兒童節與清明節",
+    "2025-05-01": "勞動節",
+    "2025-05-30": "端午節補假",
+    "2025-05-31": "端午節",
+    "2025-10-06": "中秋節",
+    "2025-10-10": "國慶日",
+    "2025-12-25": "行憲紀念日"
+  };
+  const makeupWorkdays = ["2025-02-08"];
+
+  function generateCalendar() {
+    const start = new Date(document.getElementById("startDate").value);
+    const end = new Date(document.getElementById("endDate").value);
+    const tbody = document.querySelector("#calendar tbody");
+    tbody.innerHTML = "";
+    if (isNaN(start) || isNaN(end) || start > end) {
+      alert("請選擇有效的起訖日期");
+      return;
+    }
+
+    let currentRow = document.createElement("tr");
+    let d = new Date(start);
+
+    for (let i = 0; i < d.getDay(); i++) {
+      currentRow.appendChild(document.createElement("td"));
+    }
+
+    for (; d <= end; d.setDate(d.getDate() + 1)) {
+      const yyyy = d.getFullYear(), mm = String(d.getMonth() + 1).padStart(2, '0'), dd = String(d.getDate()).padStart(2, '0');
+      const key = `${yyyy}-${mm}-${dd}`;
+      const weekday = d.getDay();
+      let label = "平日", className = "weekday", dayType = "weekday";
+
+      if ((weekday === 0 || weekday === 6) && !makeupWorkdays.includes(key)) {
+        label = "假日"; className = "holiday"; dayType = "weekend";
+      }
+
+      if (makeupWorkdays.includes(key)) {
+        label = "補班日"; className = "weekday"; dayType = "weekday";
+      }
+
+      if (holidays[key]) {
+        label = holidays[key];
+        className = (weekday === 0 || weekday === 6) && !makeupWorkdays.includes(key) ? "holiday" : "festival";
+        dayType = "holiday";
+      }
+
+      const cell = document.createElement("td");
+      cell.classList.add(className);
+      cell.innerHTML = `<span class="cell-date">${mm}/${dd}</span><div>${label}</div>
+      <input type="number" min="0" step="0.5" data-daytype="${dayType}" onchange="updateTotal()" />`;
+      currentRow.appendChild(cell);
+
+      if (weekday === 6) {
+        tbody.appendChild(currentRow);
+        currentRow = document.createElement("tr");
+      }
+    }
+
+    if (currentRow.children.length > 0) {
+      while (currentRow.children.length < 7) {
+        currentRow.appendChild(document.createElement("td"));
+      }
+      tbody.appendChild(currentRow);
+    }
+
+    document.getElementById("calendar").style.display = "table";
+    document.getElementById("totalBox").style.display = "block";
+    updateTotal();
+  }
+
+  function updateTotal() {
+    const inputs = document.querySelectorAll("td input[type='number']");
+    let ot = { weekday: 0, weekend: 0, holiday: 0 };
+    inputs.forEach(i => {
+      const v = parseFloat(i.value);
+      if (!isNaN(v)) ot[i.dataset.daytype] += v;
+    });
+    
+    let w = ot.weekday;
+    document.getElementById("ot2h").value = w > 0 ? Math.min(w, 2).toFixed(1) : "";
+    document.getElementById("ot3to4h").value = w > 2 ? Math.min(Math.max(w - 2, 0), 2).toFixed(1) : "";
+    document.getElementById("ot5to6h").value = w > 4 ? Math.max(w - 4, 0).toFixed(1) : "";
+
+    let s = ot.weekend;
+    document.getElementById("sat2h").value = s > 0 ? Math.min(s, 2).toFixed(1) : "";
+    document.getElementById("sat3to8h").value = s > 2 ? Math.min(Math.max(s - 2, 0), 6).toFixed(1) : "";
+    document.getElementById("sat9to12h").value = s > 8 ? Math.max(s - 8, 0).toFixed(1) : "";
+    
+    document.getElementById("sat2h").value = ot.weekend.toFixed(1);
+    document.getElementById("holidayHours").value = ot.holiday.toFixed(1);
+    document.getElementById("otTotalHours").textContent = (ot.weekday + ot.weekend + ot.holiday).toFixed(1);
+  }
+
+  const insuranceTable = [
+    { salary: 28590, labor: 715, health: 444 },{ salary: 28800, labor: 720, health: 447 },{ salary: 30300, labor: 758, health: 470 },
+    { salary: 31800, labor: 795, health: 493 },{ salary: 33300, labor: 833, health: 516 },{ salary: 34800, labor: 870, health: 540 },
+    { salary: 36300, labor: 908, health: 563 },{ salary: 38200, labor: 955, health: 592 },{ salary: 40100, labor: 1003, health: 622 },
+    { salary: 42000, labor: 1050, health: 651 },{ salary: 43900, labor: 1098, health: 681 },{ salary: 45800, labor: 1145, health: 710 }
+  ];
+  function parse(id) { return parseFloat(document.getElementById(id).value) || 0; }
+  function getInsurance(salary) {
+    return insuranceTable.find(row => salary <= row.salary) || insuranceTable[insuranceTable.length - 1];
+  }
+  function calculate() {
+    const base = parse("baseSalary"), bonus = 2000, meal = 1800, extra = parse("extraPay");
+    const totalBase = base + bonus + meal + extra;
+    const ins = getInsurance(totalBase);
+    const labor = ins.labor, personalHealth = ins.health, dependents = parse("dependents");
+    const dependentHealth = personalHealth * dependents;
+    const health = personalHealth + dependentHealth;
+    const hourly = totalBase / 30 / 8;
+    const leave = parse("leaveHours"), pensionRate = parse("pensionRate") / 100;
+    const leaveDeduct = leave * hourly;
+    const ot1 = parse("ot2h"), ot2 = parse("ot3to4h"), ot3 = parse("ot5to6h");
+    const s1 = parse("sat2h"), s2 = parse("sat3to8h"), s3 = parse("sat9to12h");
+    const h1 = parse("holidayHours");
+    const fee1 = ot1 * 2 * hourly, fee2 = ot2 * 2.33 * hourly, fee3 = ot3 * 2.66 * hourly;
+    const feeSat1 = s1 * 2 * hourly, feeSat2 = s2 * 2.33 * hourly, feeSat3 = s3 * 3.32 * hourly;
+    const feeHoliday = h1 * 2.16 * hourly;
+    const mealWD = Math.ceil(ot1 % 2 === 0 ? ot1 / 2 : (Math.floor(ot1) + 1) / 2) * 60;
+    const mealSat = Math.floor((s1 + s2) / 8) * 60;
+    const mealH = Math.ceil(h1 / 8) * 60;
+    const otTotal = ot1 + ot2 + ot3 + s1 + s2 + s3 + h1;
+    const otBonus = otTotal > 50 ? 3000 : otTotal > 40 ? 2000 : otTotal > 30 ? 1500 : 0;
+    const pension = Math.round(ins.salary * pensionRate);
+    const welfare = Math.round(totalBase * 0.00477);
+    const net = totalBase - labor - health - pension - welfare - leaveDeduct + fee1 + fee2 + fee3 + feeSat1 + feeSat2 + feeSat3 + feeHoliday + mealWD + mealSat + mealH + otBonus;
+    document.getElementById("result").innerText =
 `時薪：${hourly.toFixed(2)} 元
 平日加班費：${(fee1 + fee2 + fee3).toFixed(0)} 元
-平日加班誤餐費：${mealWD} 元
+平日誤餐費：${mealWD} 元
 週六加班費：${(feeSat1 + feeSat2 + feeSat3).toFixed(0)} 元
 週六誤餐費：${mealSat} 元
 節日加班費：${feeHoliday.toFixed(0)} 元
 節日誤餐費：${mealH} 元
 扣款：${(labor + health + welfare + pension + leaveDeduct).toFixed(0)} 元
-（勞保 ${labor} 元 + 健保本人 ${personalHealth} 元 + 眷屬 ${dependentHealth} 元 + 福利金 ${welfare} 元（誤差±1）+ 勞退 ${pension} 元 + 請假 ${leaveDeduct.toFixed(0)} 元）
+（勞保 ${labor} 元 + 健保本人 ${personalHealth} 元 + 眷屬 ${dependentHealth} 元 + 福利金 ${welfare} 元 + 勞退 ${pension} 元 + 請假 ${leaveDeduct.toFixed(0)} 元）
 加班時數獎金（共 ${otTotal} 小時）：${otBonus} 元
 實領薪資：${net.toFixed(0)} 元`;
+  }
+
+function updateTotal() {
+  const inputs = document.querySelectorAll("td input[type='number']");
+  let w2=0, w233=0, w266=0;
+  let s2=0, s233=0, s332=0;
+  let holiday = 0;
+
+  inputs.forEach(i => {
+    const v = parseFloat(i.value);
+    if (isNaN(v)) return;
+    const type = i.dataset.daytype;
+
+    if (type === "weekday") {
+      w2 += Math.min(v, 2);
+      w233 += Math.min(Math.max(v - 2, 0), 2);
+      w266 += Math.max(v - 4, 0);
+    } else if (type === "weekend") {
+      s2 += Math.min(v, 2);
+      s233 += Math.min(Math.max(v - 2, 0), 6);
+      s332 += Math.max(v - 8, 0);
+    } else if (type === "holiday") {
+      holiday += v;
+    }
+  });
+
+  document.getElementById("ot2h").value = w2 ? w2.toFixed(1) : "";
+  document.getElementById("ot3to4h").value = w233 ? w233.toFixed(1) : "";
+  document.getElementById("ot5to6h").value = w266 ? w266.toFixed(1) : "";
+
+  document.getElementById("sat2h").value = s2 ? s2.toFixed(1) : "";
+  document.getElementById("sat3to8h").value = s233 ? s233.toFixed(1) : "";
+  document.getElementById("sat9to12h").value = s332 ? s332.toFixed(1) : "";
+
+  document.getElementById("holidayHours").value = holiday ? holiday.toFixed(1) : "";
+  const total = w2 + w233 + w266 + s2 + s233 + s332 + holiday;
+  document.getElementById("otTotalHours").textContent = total.toFixed(1);
 }
+
+
+window.addEventListener("load", function() {
+  alert("【溫馨提醒】\n1. 4/11~5/20月份結算\n2. 目前加班日期 5/21\n3. 不定期更新 XD");
+});
+
 </script>
 </body>
 </html>
