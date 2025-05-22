@@ -234,11 +234,42 @@
   }
 
   const insuranceTable = [
-    { salary: 28590, labor: 715, health: 444 },{ salary: 28800, labor: 720, health: 447 },{ salary: 30300, labor: 758, health: 470 },
-    { salary: 31800, labor: 795, health: 493 },{ salary: 33300, labor: 833, health: 516 },{ salary: 34800, labor: 870, health: 540 },
-    { salary: 36300, labor: 908, health: 563 },{ salary: 38200, labor: 955, health: 592 },{ salary: 40100, labor: 1003, health: 622 },
-    { salary: 42000, labor: 1050, health: 651 },{ salary: 43900, labor: 1098, health: 681 },{ salary: 45800, labor: 1145, health: 710 }
-  ];
+  { salary: 26400, labor: 528, health: 396 },
+  { salary: 27600, labor: 552, health: 414 },
+  { salary: 28800, labor: 576, health: 432 },
+  { salary: 30000, labor: 600, health: 450 },
+  { salary: 31200, labor: 624, health: 468 },
+  { salary: 32400, labor: 648, health: 486 },
+  { salary: 33600, labor: 672, health: 504 },
+  { salary: 34800, labor: 696, health: 522 },
+  { salary: 36000, labor: 720, health: 540 },
+  { salary: 37200, labor: 744, health: 558 },
+  { salary: 38400, labor: 768, health: 576 },
+  { salary: 39600, labor: 792, health: 594 },
+  { salary: 40800, labor: 816, health: 612 },
+  { salary: 42000, labor: 840, health: 630 },
+  { salary: 43200, labor: 864, health: 648 },
+  { salary: 44400, labor: 888, health: 666 },
+  { salary: 45600, labor: 912, health: 684 },
+  { salary: 46800, labor: 936, health: 702 },
+  { salary: 48000, labor: 960, health: 720 },
+  { salary: 49200, labor: 984, health: 738 },
+  { salary: 50400, labor: 1008, health: 756 },
+  { salary: 51600, labor: 1032, health: 774 },
+  { salary: 52800, labor: 1056, health: 792 },
+  { salary: 54000, labor: 1080, health: 810 },
+  { salary: 55200, labor: 1104, health: 828 },
+  { salary: 56700, labor: 1134, health: 850 },
+  { salary: 58200, labor: 1164, health: 873 },
+  { salary: 59700, labor: 1194, health: 896 },
+  { salary: 61200, labor: 1224, health: 918 },
+  { salary: 62700, labor: 1254, health: 940 },
+  { salary: 64200, labor: 1284, health: 963 },
+  { salary: 65700, labor: 1314, health: 986 },
+  { salary: 67200, labor: 1344, health: 1008 },
+  { salary: 68700, labor: 1374, health: 1030 },
+  { salary: 70200, labor: 1404, health: 1053 }
+];
   function parse(id) { return parseFloat(document.getElementById(id).value) || 0; }
   function getInsurance(salary) {
     return insuranceTable.find(row => salary <= row.salary) || insuranceTable[insuranceTable.length - 1];
