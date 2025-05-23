@@ -368,6 +368,12 @@ fetch("https://polo1364.github.io/overtime-calculator/popup.json")
   .then(res => res.json())
   .then(data => {
     document.getElementById("popupText").innerText = data.content;
+
+    // ✅ 自動填入日期欄位（若有設定）
+    if (data.range) {
+      document.getElementById("startDate").value = data.range.start || "";
+      document.getElementById("endDate").value = data.range.end || "";
+    }
   })
   .catch(() => {
     document.getElementById("popupText").innerText = "提醒載入失敗，請稍後再試。";
