@@ -1,8 +1,8 @@
 {
-  "content": "1. 4/11~5/20 月份結算，請依日期填寫自己的加班時數，會自動對應到下方表格。或是自己手動輸入也可以。\n2. 目前加班日期 5/21.24.27.28.30\n3. 不定期更新 XD",
+  "content": "1. 4/11~5/20 月份結算，請依日期填寫自己的加班時數，會自動對應到下方表格。\n2. 目前加班日期 5/21.24.27.28.30\n3. 不定期更新 XD",
   "range": {
     "start": "2025-04-11",
     "end": "2025-05-20"
   },
-  "backgroundImage": "https://cloud.tipo.gov.tw/S282/pic/20160227/102/050/158/pic_102050158_20130909_1.jpg"
+  "backgroundImage": "https://raw.githubusercontent.com/polo1364/overtime-calculator/refs/heads/main/1E98141E-2F67-4066-8872-6377941D8D97.png"
 }
