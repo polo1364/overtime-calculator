@@ -369,10 +369,18 @@ fetch("https://polo1364.github.io/overtime-calculator/popup.json")
   .then(data => {
     document.getElementById("popupText").innerText = data.content;
 
-    // ✅ 自動填入日期欄位（若有設定）
+    // ✅ 自動填入日期欄位
     if (data.range) {
       document.getElementById("startDate").value = data.range.start || "";
       document.getElementById("endDate").value = data.range.end || "";
+    }
+
+    // ✅ 自動設定背景圖
+    if (data.backgroundImage) {
+      document.body.style.backgroundImage = `url('${data.backgroundImage}')`;
+      document.body.style.backgroundSize = "cover";
+      document.body.style.backgroundPosition = "center";
+      document.body.style.backgroundRepeat = "no-repeat";
     }
   })
   .catch(() => {
