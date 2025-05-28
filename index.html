@@ -367,7 +367,8 @@ function updateTotal() {
 fetch("https://polo1364.github.io/overtime-calculator/popup.json")
   .then(res => res.json())
   .then(data => {
-    document.getElementById("popupText").innerText = data.content;
+    // 將 \n 轉換成換行 & 保留 <b> 標籤顯示
+    document.getElementById("popupText").innerHTML = data.content.replace(/\\n/g, "<br>");
 
     // ✅ 自動填入日期欄位
     if (data.range) {
