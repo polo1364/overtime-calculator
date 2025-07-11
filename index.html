@@ -294,7 +294,7 @@
     const mealSat = Math.floor((s1 + s2) / 8) * 60;
     const mealH = Math.ceil(h1 / 8) * 60;
     const otTotal = ot1 + ot2 + ot3 + s1 + s2 + s3 + h1;
-    const otBonus = otTotal > 50 ? 3000 : otTotal > 40 ? 2000 : otTotal > 30 ? 1500 : 0;
+    const otBonus = otTotal >= 50 ? 3000 : otTotal >= 40 ? 2000 : otTotal >= 30 ? 1500 : 0;
     const pension = Math.round(ins.salary * pensionRate);
     const welfare = Math.round((base + bonus + extra) * 0.005);
     const net = totalBase - labor - health - pension - welfare - leaveDeduct + fee1 + fee2 + fee3 + feeSat1 + feeSat2 + feeSat3 + feeHoliday + mealWD + mealSat + mealH + otBonus;
