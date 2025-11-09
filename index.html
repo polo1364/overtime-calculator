@@ -25,9 +25,10 @@
         }
         
         .container { 
-            max-width: 1600px; 
-            margin: 0 auto; 
-            padding: 15px; 
+            width: 100%; 
+            max-width: 100%; 
+            margin: 0; 
+            padding: 15px 30px; 
             /* 讓 container 佔滿剩餘高度 */
             flex-grow: 1;
             display: flex;
@@ -92,17 +93,17 @@
         
         @media (min-width: 768px) { 
             .game-layout { 
-                grid-template-columns: 350px 1fr; /* 改為兩欄佈局 */
+                grid-template-columns: 1fr; /* 改為兩欄佈局 */
                 grid-template-rows: 1fr; /* 橫向佈局 */
             } 
             .container { 
-                padding: 20px; 
+                padding: 15px; 
             } 
         }
         
         @media (min-width: 1200px) { 
             .game-layout { 
-                grid-template-columns: 400px 1fr; /* 寬螢幕也是兩欄 */
+                grid-template-columns: 1fr; /* 寬螢幕也是單欄 */
             } 
         }
         
@@ -278,10 +279,21 @@
         }
         
         .controls { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
             gap: 8px; 
             margin-top: 15px; 
+        }
+        
+        .controls > div {
+            justify-content: center !important;
+        }
+        
+        .controls button {
+            flex: 0 0 auto !important;
+            width: 180px !important;
+            min-width: 120px !important;
         }
         
         button { 
@@ -719,6 +731,143 @@
         .title-rarity-rare .title-name { color: #4EA5FF; }
         .title-rarity-epic .title-name { color: #a335ee; }
         .title-rarity-legendary .title-name { color: #FFD700; }
+        
+        /* ==================== 快捷按鈕區樣式 ==================== */
+        .quick-access-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            padding: 10px;
+            background: rgba(0, 217, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 217, 255, 0.2);
+        }
+        
+        .quick-access-buttons button {
+            padding: 10px 20px;
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-radius: 8px;
+            color: #00d9ff;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        .quick-access-buttons button:hover {
+            background: rgba(0, 217, 255, 0.2);
+            border-color: rgba(0, 217, 255, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 217, 255, 0.3);
+        }
+        
+        .quick-access-buttons button:active {
+            transform: translateY(0);
+        }
+        
+        #equipment-submenu {
+            display: none;
+            width: 100%;
+            padding: 10px;
+            background: rgba(0, 217, 255, 0.03);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 217, 255, 0.15);
+            margin-top: 5px;
+        }
+        
+        #equipment-submenu button {
+            margin: 5px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+        
+        /* ==================== 模態視窗樣式 ==================== */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            animation: fadeIn 0.3s;
+            overflow-y: auto;
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #1a1f35 0%, #2a2f45 100%);
+            margin: 5% auto;
+            padding: 30px;
+            border: 2px solid rgba(0, 217, 255, 0.3);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content h2 {
+            color: #00d9ff;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 20px;
+            transition: all 0.3s;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: #00d9ff;
+            text-shadow: 0 0 10px rgba(0, 217, 255, 0.8);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { 
+                transform: translateY(-50px); 
+                opacity: 0; 
+            }
+            to { 
+                transform: translateY(0); 
+                opacity: 1; 
+            }
+        }
+        
+        /* 手機端優化 */
+        @media (max-width: 767px) {
+            .quick-access-buttons {
+                flex-direction: column;
+            }
+            
+            .quick-access-buttons button {
+                width: 100%;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10px auto;
+                padding: 20px;
+                max-height: 90vh;
+            }
+        }
     </style>
 </head>
 <body>
@@ -780,7 +929,7 @@
             
             <div class="game-layout">
                 <!-- 左側面板：角色狀態 -->
-                <div class="panel" style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.03) 0%, rgba(78, 165, 255, 0.03) 100%); border: 2px solid rgba(0, 217, 255, 0.2);">
+                <div id="original-left-panel" class="panel" style="display: none;" style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.03) 0%, rgba(78, 165, 255, 0.03) 100%); border: 2px solid rgba(0, 217, 255, 0.2);">
                     <h2 style="background: linear-gradient(135deg, #00d9ff 0%, #4EA5FF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 1.2rem; margin-bottom: 15px;">👤 角色狀態</h2>
                     
                     <!-- 角色資訊卡片 -->
@@ -995,18 +1144,52 @@
                     <h2>📜 戰鬥日誌</h2>
                     
                     <!-- 快捷操作欄 -->
-                    <div style="display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap;">
-                        <button onclick="openBagModal()" style="flex: 1; min-width: 80px; padding: 8px; font-size: 0.9rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">🎒 背包</button>
-                        <button onclick="openShopModal()" style="flex: 1; min-width: 80px; padding: 8px; font-size: 0.9rem; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">🏪 商店</button>
-                        <button onclick="openDailyQuestsModal()" style="flex: 1; min-width: 80px; padding: 8px; font-size: 0.9rem; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">📋 任務</button>
-                        <button onclick="openTalentsModal()" style="flex: 1; min-width: 80px; padding: 8px; font-size: 0.9rem; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">✨ 天賦</button>
-                        <button onclick="openCompanionModal()" style="flex: 1; min-width: 80px; padding: 8px; font-size: 0.9rem; background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%);">🐾 隨從</button>
-                        <button onclick="openPetModal()" style="flex: 1; min-width: 80px; padding: 8px; font-size: 0.9rem; background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">🐲 寵物</button>
-                        <button onclick="openCardModal()" style="flex: 1; min-width: 80px; padding: 8px; font-size: 0.9rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">🎴 卡牌</button>
-                        <button onclick="openCodexModal()" style="flex: 1; min-width: 80px; padding: 8px; font-size: 0.9rem; background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);">📖 圖鑑</button>
-                        <button onclick="openIterationModal()" id="quick-iteration-btn" style="flex: 1; min-width: 80px; padding: 8px; font-size: 0.9rem; background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); display: none;">🔄 迭代</button>
-                        <button id="auto-equip-btn" style="flex: 1; min-width: 80px; padding: 8px; font-size: 0.9rem; background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">⚙️ 自動</button>
+                    <div class="quick-actions-container">
+                        <!-- 第1行：角色相關 -->
+                        <div class="quick-actions-row">
+                            <button onclick="openCharacterModal()" class="quick-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">👤 角色</button>
+                            <button onclick="openStatsModal()" class="quick-btn" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">📊 屬性</button>
+                            <button onclick="toggleEquipmentMenu()" id="equipment-menu-btn" class="quick-btn" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">🎒 裝備▼</button>
+                        </div>
+                        
+                        <!-- 第2行：物品管理 -->
+                        <div class="quick-actions-row">
+                            <button onclick="openBagModal()" class="quick-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">🎒 背包</button>
+                            <button onclick="openShopModal()" class="quick-btn" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">🏪 商店</button>
+                            <button onclick="openShardShopModal()" class="quick-btn" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">🔷 碎片商店</button>
+                            <button onclick="openSalvageModal()" class="quick-btn" style="background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%);">⚙️ 分解</button>
+                        </div>
+                        
+                        <!-- 第3行：系統功能 -->
+                        <div class="quick-actions-row">
+                            <button onclick="openDailyQuestsModal()" class="quick-btn" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">📋 任務</button>
+                            <button onclick="openTalentsModal()" class="quick-btn" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">✨ 天賦</button>
+                            <button onclick="openTitlesModal()" class="quick-btn" style="background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);">🏆 稱號</button>
+                            <button onclick="openCodexModal()" class="quick-btn" style="background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);">📖 圖鑑</button>
+                        </div>
+                        
+                        <!-- 第4行：戰鬥相關 -->
+                        <div class="quick-actions-row">
+                            <button onclick="openCompanionModal()" class="quick-btn" style="background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%);">🐾 隨從</button>
+                            <button onclick="openPetModal()" class="quick-btn" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">🐲 寵物</button>
+                            <button onclick="openCardModal()" class="quick-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">🎴 卡牌</button>
+                            <button id="auto-equip-btn" class="quick-btn" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">⚙️ 自動</button>
+                        </div>
+                        
+                        <!-- 迭代按鈕（條件顯示） -->
+                        <div class="quick-actions-row" id="iteration-row" style="display: none;">
+                            <button onclick="openIterationModal()" id="quick-iteration-btn" class="quick-btn" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">🔄 迭代</button>
+                        </div>
                     </div>
+                    
+                    <!-- 裝備子選單 -->
+                    <div id="equipment-submenu" class="equipment-submenu">
+                        <button onclick="openEquipmentModal(); closeEquipmentMenu();" class="submenu-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">⚔️ 裝備類</button>
+                        <button onclick="openCompanionDisplayModal(); closeEquipmentMenu();" class="submenu-btn" style="background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%);">🐾 隨從類</button>
+                        <button onclick="openCardDisplayModal(); closeEquipmentMenu();" class="submenu-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">🎴 卡牌類</button>
+                        <button onclick="openPetDisplayModal(); closeEquipmentMenu();" class="submenu-btn" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">🐉 寵物類</button>
+                    </div>
+
                     
                     <!-- 區域資訊（頂部） -->
                     <div style="background: rgba(0, 217, 255, 0.08); padding: 10px; border-radius: 8px; border: 1px solid rgba(0, 217, 255, 0.3); margin-bottom: 15px; text-align: center;">
@@ -1040,12 +1223,7 @@
                             <button onclick="toggleAutoExplore()" id="auto-explore-btn" style="flex: 1; min-width: 120px;">▶️ 自動戰鬥</button>
                         </div>
                         
-                        <!-- 其他功能 -->
-                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                            <button onclick="openShardShopModal()" style="flex: 1; min-width: 90px;">🔷 碎片商店</button>
-                            <button onclick="openSalvageModal()" style="flex: 1; min-width: 90px;">⚙️ 分解</button>
-                        </div>
-                        
+                        <!-- 探索功能 -->
                         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                             <button onclick="openRegionModal()" style="flex: 1; min-width: 90px;">🗺️ 切換區域</button>
                             <button onclick="openDungeonsModal()" style="flex: 1; min-width: 90px;">🏰 副本</button>
@@ -1056,7 +1234,6 @@
                         </div>
                         
                         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                            <button onclick="openTitlesModal()" style="flex: 1; min-width: 90px;">🏆 稱號</button>
                             <button onclick="openHowToPlay()" style="flex: 1; min-width: 90px;">❓ 說明</button>
                         </div>
                         
@@ -18053,7 +18230,7 @@ const REGION_CONSUMABLES = {
             }
             
             const rarityColor = getRarityColor(equippedPet.rarity);
-            const skillsHtml = equippedPet.skills.map(skill => {
+            const skillsHtml = (equippedPet.skills || []).map(skill => {
                 const chancePercent = Math.round(skill.chance * 100);
                 return `<div style="font-size: 0.75rem; color: #7a8fb8; margin-top: 3px;">• ${skill.name} (${chancePercent}%)</div>`;
             }).join('');
@@ -21310,6 +21487,26 @@ const REGION_CONSUMABLES = {
             
             // v2.0 遷移代碼已移除
             
+            // 寵物系統遷移（版本 3.3+）
+            if (!loadedState.pets) {
+                loadedState.pets = {
+                    owned: [],
+                    equipped: null
+                };
+            }
+            // 確保寵物系統子屬性存在
+            if (!loadedState.pets.owned) loadedState.pets.owned = [];
+            if (loadedState.pets.equipped === undefined) loadedState.pets.equipped = null;
+            
+            // 修復寵物資料中缺少的 skills 屬性
+            if (loadedState.pets.owned && Array.isArray(loadedState.pets.owned)) {
+                loadedState.pets.owned.forEach(pet => {
+                    if (!pet.skills) {
+                        pet.skills = [];
+                    }
+                });
+            }
+            
             // ========== 卡牌 UUID 遷移 (v3.0) ==========
             // 為舊存檔中沒有 UUID 的卡牌添加 UUID
             if (loadedState.cards && loadedState.cards.collection) {
@@ -23785,6 +23982,7 @@ function openAutoEquipSettings() {
         // 更新分解品質選擇
         const qualities = gameState.autoEquipment.salvageQuality || ['common'];
         document.getElementById('salvage-common').checked = qualities.includes('common');
+        document.getElementById('salvage-uncommon').checked = qualities.includes('uncommon');
         document.getElementById('salvage-fine').checked = qualities.includes('fine');
         document.getElementById('salvage-rare').checked = qualities.includes('rare');
         document.getElementById('salvage-epic').checked = qualities.includes('epic');
@@ -23951,6 +24149,7 @@ function manualSalvageSelected() {
     // 獲取勾選的品質
     const selectedQualities = [];
     if (document.getElementById('salvage-common')?.checked) selectedQualities.push('common');
+    if (document.getElementById('salvage-uncommon')?.checked) selectedQualities.push('uncommon');
     if (document.getElementById('salvage-fine')?.checked) selectedQualities.push('fine');
     if (document.getElementById('salvage-rare')?.checked) selectedQualities.push('rare');
     if (document.getElementById('salvage-epic')?.checked) selectedQualities.push('epic');
@@ -23967,6 +24166,7 @@ function manualSalvageSelected() {
     // 品質名稱對照
     const qualityNames = {
         'common': '破舊',
+        'uncommon': '優質',
         'fine': '精良',
         'rare': '稀有',
         'epic': '史詩',
@@ -24110,4 +24310,476 @@ input:checked + .slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
-</style>
+
+        /* ==================== 快捷操作欄響應式設計 ==================== */
+        .quick-actions-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .quick-actions-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .quick-btn {
+            flex: 0 0 auto;
+            width: 120px;
+            min-width: 80px;
+            padding: 8px;
+            font-size: 0.9rem;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        .quick-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .quick-btn:active {
+            transform: translateY(0);
+        }
+        
+        .equipment-submenu {
+            display: none;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .equipment-submenu {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .submenu-btn {
+            flex: 1;
+            min-width: 80px;
+            padding: 8px;
+            font-size: 0.9rem;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        .submenu-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .submenu-btn:active {
+            transform: translateY(0);
+        }
+        
+        /* 平板端（768px-1024px） */
+        @media (max-width: 1024px) and (min-width: 768px) {
+            .quick-btn {
+                min-width: 70px;
+                padding: 7px;
+                font-size: 0.85rem;
+            }
+            
+            .submenu-btn {
+                min-width: 70px;
+                padding: 7px;
+                font-size: 0.85rem;
+            }
+        }
+        
+        /* 手機端（<768px） */
+        @media (max-width: 767px) {
+            .quick-actions-row {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+            }
+            
+            .quick-btn {
+                min-width: 0;
+                padding: 10px 6px;
+                font-size: 0.8rem;
+            }
+            
+            .equipment-submenu {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+            }
+            
+            .submenu-btn {
+                min-width: 0;
+                padding: 10px 6px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+    <!-- ==================== 模態視窗 V4 ==================== -->
+    
+    <!-- 角色狀態模態視窗 -->
+    <div id="character-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('character-modal')">&times;</span>
+            <h2>👤 角色狀態</h2>
+            <div id="character-modal-content">
+                <!-- 由JavaScript動態填充 -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- 屬性面板模態視窗 -->
+    <div id="stats-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('stats-modal')">&times;</span>
+            <h2>📊 屬性面板</h2>
+            <div id="stats-modal-content">
+                <!-- 由JavaScript動態填充 -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- 裝備管理模態視窗 -->
+    <div id="equipment-display-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('equipment-display-modal')">&times;</span>
+            <h2>⚔️ 裝備</h2>
+            <div id="equipment-display-modal-content">
+                <!-- 由JavaScript動態填充 -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- 隨從顯示模態視窗 -->
+    <div id="companion-display-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('companion-display-modal')">&times;</span>
+            <h2>🐾 隨從</h2>
+            <div id="companion-display-modal-content">
+                <!-- 由JavaScript動態填充 -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- 卡牌顯示模態視窗 -->
+    <div id="card-display-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('card-display-modal')">&times;</span>
+            <h2>🎴 卡牌</h2>
+            <div id="card-display-modal-content">
+                <!-- 由JavaScript動態填充 -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- 寵物顯示模態視窗 -->
+    <div id="pet-display-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('pet-display-modal')">&times;</span>
+            <h2>🐉 寵物</h2>
+            <div id="pet-display-modal-content">
+                <!-- 由JavaScript動態填充 -->
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    // ==================== 模態視窗控制函數 V4 ====================
+    
+    // 打開角色狀態模態視窗
+    function openCharacterModal() {
+        const modal = document.getElementById('character-modal');
+        const content = document.getElementById('character-modal-content');
+        const originalPanel = document.getElementById('original-left-panel');
+        
+        if (!originalPanel) {
+            console.error('找不到原始面板');
+            return;
+        }
+        
+        // 提取角色資訊卡片和資源
+        const characterInfo = originalPanel.querySelector('div[style*="角色資訊"]') || 
+                            originalPanel.querySelectorAll('div[style*="background: rgba(0, 217, 255"]')[0];
+        const resources = originalPanel.querySelector('.resources');
+        const buffs = originalPanel.querySelector('#buffs-container');
+        
+        // 清空並填充內容
+        content.innerHTML = '';
+        
+        if (characterInfo) {
+            content.appendChild(characterInfo.cloneNode(true));
+        }
+        
+        // 添加HP/AP/EXP血條
+        const bars = originalPanel.querySelectorAll('div[style*="margin-bottom: 12px"]');
+        bars.forEach(bar => {
+            if (bar.textContent.includes('生命值') || bar.textContent.includes('體力') || bar.textContent.includes('經驗值')) {
+                content.appendChild(bar.cloneNode(true));
+            }
+        });
+        
+        if (resources) {
+            content.appendChild(resources.cloneNode(true));
+        }
+        
+        if (buffs && buffs.style.display !== 'none') {
+            content.appendChild(buffs.cloneNode(true));
+        }
+        
+        modal.style.display = 'block';
+    }
+    
+    // 打開屬性面板模態視窗
+    function openStatsModal() {
+        const modal = document.getElementById('stats-modal');
+        const content = document.getElementById('stats-modal-content');
+        const originalPanel = document.getElementById('original-left-panel');
+        
+        if (!originalPanel) {
+            console.error('找不到原始面板');
+            return;
+        }
+        
+        // 查找屬性標題
+        const headers = originalPanel.querySelectorAll('h2');
+        let statsHeader = null;
+        let statsGrid = null;
+        
+        for (let header of headers) {
+            if (header.textContent.includes('⚔️ 屬性')) {
+                statsHeader = header;
+                // 找到下一個元素（stats-grid）
+                statsGrid = header.nextElementSibling;
+                break;
+            }
+        }
+        
+        // 清空並填充內容
+        content.innerHTML = '';
+        
+        if (statsHeader) {
+            content.appendChild(statsHeader.cloneNode(true));
+        }
+        
+        if (statsGrid) {
+            content.appendChild(statsGrid.cloneNode(true));
+        }
+        
+        modal.style.display = 'block';
+    }
+    
+    // 打開裝備顯示模態視窗
+    function openEquipmentModal() {
+        const modal = document.getElementById('equipment-display-modal');
+        const content = document.getElementById('equipment-display-modal-content');
+        const originalPanel = document.getElementById('original-left-panel');
+        
+        if (!originalPanel) {
+            console.error('找不到原始面板');
+            return;
+        }
+        
+        // 查找裝備標題
+        const headers = originalPanel.querySelectorAll('h2');
+        let equipHeader = null;
+        let equipElements = [];
+        
+        for (let header of headers) {
+            if (header.textContent.includes('🎲 裝備')) {
+                equipHeader = header;
+                // 找到裝備相關的所有內容（直到下一個h2）
+                let next = header.nextElementSibling;
+                while (next && next.tagName !== 'H2') {
+                    equipElements.push(next);
+                    next = next.nextElementSibling;
+                }
+                break;
+            }
+        }
+        
+        // 清空並填充內容
+        content.innerHTML = '';
+        
+        if (equipHeader) {
+            content.appendChild(equipHeader.cloneNode(true));
+        }
+        
+        equipElements.forEach(elem => {
+            content.appendChild(elem.cloneNode(true));
+        });
+        
+        modal.style.display = 'block';
+    }
+    
+    // 打開隨從顯示模態視窗
+    function openCompanionDisplayModal() {
+        const modal = document.getElementById('companion-display-modal');
+        const content = document.getElementById('companion-display-modal-content');
+        const originalPanel = document.getElementById('original-left-panel');
+        
+        if (!originalPanel) {
+            console.error('找不到原始面板');
+            return;
+        }
+        
+        // 查找隨從標題
+        const headers = originalPanel.querySelectorAll('h2');
+        let companionHeader = null;
+        let companionDisplay = null;
+        
+        for (let header of headers) {
+            if (header.textContent.includes('🐾 隨從')) {
+                companionHeader = header;
+                // 找到隨從顯示區
+                companionDisplay = header.nextElementSibling;
+                break;
+            }
+        }
+        
+        // 清空並填充內容
+        content.innerHTML = '';
+        
+        if (companionHeader) {
+            content.appendChild(companionHeader.cloneNode(true));
+        }
+        
+        if (companionDisplay) {
+            content.appendChild(companionDisplay.cloneNode(true));
+        }
+        
+        modal.style.display = 'block';
+    }
+    
+    // 打開卡牌顯示模態視窗
+    function openCardDisplayModal() {
+        const modal = document.getElementById('card-display-modal');
+        const content = document.getElementById('card-display-modal-content');
+        const originalPanel = document.getElementById('original-left-panel');
+        
+        if (!originalPanel) {
+            console.error('找不到原始面板');
+            return;
+        }
+        
+        // 查找卡牌標題
+        const headers = originalPanel.querySelectorAll('h2');
+        let cardHeader = null;
+        let cardDisplay = null;
+        
+        for (let header of headers) {
+            if (header.textContent.includes('🎴 卡牌')) {
+                cardHeader = header;
+                // 找到卡牌顯示區
+                cardDisplay = header.nextElementSibling;
+                break;
+            }
+        }
+        
+        // 清空並填充內容
+        content.innerHTML = '';
+        
+        if (cardHeader) {
+            content.appendChild(cardHeader.cloneNode(true));
+        }
+        
+        if (cardDisplay) {
+            content.appendChild(cardDisplay.cloneNode(true));
+        }
+        
+        modal.style.display = 'block';
+    }
+    
+    // 打開寵物顯示模態視窗
+    function openPetDisplayModal() {
+        const modal = document.getElementById('pet-display-modal');
+        const content = document.getElementById('pet-display-modal-content');
+        
+        // 直接顯示提示，因為左側欄沒有寵物顯示區
+        content.innerHTML = '<p style="color: #7a8fb8; text-align: center; padding: 20px;">寵物資訊請通過「🐲 寵物」按鈕查看完整模態框</p>';
+        
+        modal.style.display = 'block';
+    }
+    
+    // 切換裝備子選單
+    function toggleEquipmentMenu() {
+        const submenu = document.getElementById('equipment-submenu');
+        const btn = document.getElementById('equipment-menu-btn');
+        
+        if (submenu.style.display === 'none' || submenu.style.display === '') {
+            submenu.style.display = 'flex';
+            btn.textContent = '🎒 裝備▲';
+        } else {
+            submenu.style.display = 'none';
+            btn.textContent = '🎒 裝備▼';
+        }
+    }
+    
+    // 關閉裝備子選單
+    function closeEquipmentMenu() {
+        const submenu = document.getElementById('equipment-submenu');
+        const btn = document.getElementById('equipment-menu-btn');
+        if (submenu) submenu.style.display = 'none';
+        if (btn) btn.textContent = '🎒 裝備▼';
+    }
+    
+    // 關閉模態視窗
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'none';
+        }
+        // 同時關閉裝備子選單
+        closeEquipmentMenu();
+    }
+    
+    // 點擊外部關閉模態視窗
+    window.onclick = function(event) {
+        const modals = ['character-modal', 'stats-modal', 'equipment-display-modal', 'companion-display-modal', 'card-display-modal', 'pet-display-modal'];
+        modals.forEach(modalId => {
+            const modal = document.getElementById(modalId);
+            if (modal && event.target === modal) {
+                closeModal(modalId);
+            }
+        });
+    }
+    
+    // ESC鍵關閉模態視窗
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            const modals = ['character-modal', 'stats-modal', 'equipment-display-modal', 'companion-display-modal', 'card-display-modal', 'pet-display-modal'];
+            modals.forEach(modalId => {
+                const modal = document.getElementById(modalId);
+                if (modal && modal.style.display === 'block') {
+                    closeModal(modalId);
+                }
+            });
+        }
+    });
+    
+    // 顯示迭代按鈕（如果需要）
+    function showIterationButton() {
+        const iterationRow = document.getElementById('iteration-row');
+        const iterationBtn = document.getElementById('quick-iteration-btn');
+        if (iterationRow && iterationBtn) {
+            iterationRow.style.display = 'flex';
+            iterationBtn.style.display = 'block';
+        }
+    }
+    
+    </script>
+    
