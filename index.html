@@ -2964,6 +2964,250 @@ input:checked + .slider:before {
         target: 5,
         difficulty: 'easy',
         rewards: { gold: 150, shards: 2, exp: 0 }
+    },
+    
+    // 卡牌系統任務（8個）
+    {
+        id: 'fuse_card_3',
+        name: '卡牌融合師',
+        desc: '融合3張卡牌',
+        type: 'fuse_card',
+        target: 3,
+        difficulty: 'normal',
+        rewards: { gold: 300, shards: 4, exp: 0 }
+    },
+    {
+        id: 'fuse_card_5',
+        name: '融合大師',
+        desc: '融合5張卡牌',
+        type: 'fuse_card',
+        target: 5,
+        difficulty: 'hard',
+        rewards: { gold: 500, shards: 6, exp: 0 }
+    },
+    {
+        id: 'salvage_card_5',
+        name: '卡牌回收者',
+        desc: '回收5張卡牌',
+        type: 'salvage_card',
+        target: 5,
+        difficulty: 'easy',
+        rewards: { gold: 200, shards: 3, exp: 0 }
+    },
+    {
+        id: 'salvage_card_10',
+        name: '回收專家',
+        desc: '回收10張卡牌',
+        type: 'salvage_card',
+        target: 10,
+        difficulty: 'normal',
+        rewards: { gold: 350, shards: 5, exp: 0 }
+    },
+    {
+        id: 'collect_rare_card',
+        name: '稀有卡牌獵人',
+        desc: '獲得1張稀有以上卡牌',
+        type: 'collect_rare_card',
+        target: 1,
+        difficulty: 'normal',
+        rewards: { gold: 400, shards: 5, exp: 0 }
+    },
+    {
+        id: 'level_up_card_3',
+        name: '卡牌訓練師',
+        desc: '卡牌升級3次',
+        type: 'level_up_card',
+        target: 3,
+        difficulty: 'normal',
+        rewards: { gold: 250, shards: 3, exp: 0 }
+    },
+    {
+        id: 'equip_card_5',
+        name: '卡牌裝備者',
+        desc: '裝備卡牌5次',
+        type: 'equip_card',
+        target: 5,
+        difficulty: 'easy',
+        rewards: { gold: 150, shards: 2, exp: 0 }
+    },
+    {
+        id: 'collect_card_3',
+        name: '卡牌收集者',
+        desc: '獲得3張卡牌',
+        type: 'collect_card',
+        target: 3,
+        difficulty: 'easy',
+        rewards: { gold: 200, shards: 2, exp: 0 }
+    },
+    
+    // 隨從系統任務（6個）
+    {
+        id: 'collect_companion_equipment_3',
+        name: '隨從裝備收集者',
+        desc: '獲得3件隨從裝備',
+        type: 'collect_companion_equipment',
+        target: 3,
+        difficulty: 'normal',
+        rewards: { gold: 300, shards: 4, exp: 0 }
+    },
+    {
+        id: 'upgrade_companion_equipment_3',
+        name: '裝備強化者',
+        desc: '升級隨從裝備3次',
+        type: 'upgrade_companion_equipment',
+        target: 3,
+        difficulty: 'normal',
+        rewards: { gold: 250, shards: 3, exp: 0 }
+    },
+    {
+        id: 'trigger_combo_5',
+        name: '組合大師',
+        desc: '觸發組合效果5次',
+        type: 'trigger_combo',
+        target: 5,
+        difficulty: 'hard',
+        rewards: { gold: 400, shards: 5, exp: 0 }
+    },
+    {
+        id: 'battle_with_companion_10',
+        name: '隨從搭檔',
+        desc: '與隨從一起戰鬥10次',
+        type: 'battle_with_companion',
+        target: 10,
+        difficulty: 'easy',
+        rewards: { gold: 200, shards: 2, exp: 0 }
+    },
+    {
+        id: 'collect_companion_shard_20',
+        name: '隨從碎片收集者',
+        desc: '獲得20個隨從碎片',
+        type: 'collect_companion_shard',
+        target: 20,
+        difficulty: 'normal',
+        rewards: { gold: 250, shards: 3, exp: 0 }
+    },
+    {
+        id: 'summon_companion_1',
+        name: '隨從召喚者',
+        desc: '召喚1個隨從',
+        type: 'summon_companion',
+        target: 1,
+        difficulty: 'hard',
+        rewards: { gold: 500, shards: 6, exp: 0 }
+    },
+    
+    // 寵物系統任務（5個）
+    {
+        id: 'feed_pet_5',
+        name: '寵物飼養員',
+        desc: '餵養寵物5次',
+        type: 'feed_pet',
+        target: 5,
+        difficulty: 'easy',
+        rewards: { gold: 150, shards: 2, exp: 0 }
+    },
+    {
+        id: 'level_up_pet_2',
+        name: '寵物訓練師',
+        desc: '寵物升級2次',
+        type: 'level_up_pet',
+        target: 2,
+        difficulty: 'normal',
+        rewards: { gold: 300, shards: 4, exp: 0 }
+    },
+    {
+        id: 'collect_pet_material_10',
+        name: '材料收集者',
+        desc: '收集10個寵物材料',
+        type: 'collect_pet_material',
+        target: 10,
+        difficulty: 'normal',
+        rewards: { gold: 250, shards: 3, exp: 0 }
+    },
+    {
+        id: 'evolve_pet_1',
+        name: '寵物進化者',
+        desc: '進化寵物1次',
+        type: 'evolve_pet',
+        target: 1,
+        difficulty: 'hard',
+        rewards: { gold: 500, shards: 6, exp: 0 }
+    },
+    {
+        id: 'battle_with_pet_10',
+        name: '寵物戰鬥夥伴',
+        desc: '與寵物一起戰鬥10次',
+        type: 'battle_with_pet',
+        target: 10,
+        difficulty: 'easy',
+        rewards: { gold: 200, shards: 2, exp: 0 }
+    },
+    
+    // 副本系統任務（4個）
+    {
+        id: 'complete_dungeon_3',
+        name: '副本挑戰者',
+        desc: '完成3次副本',
+        type: 'complete_dungeon',
+        target: 3,
+        difficulty: 'easy',
+        rewards: { gold: 300, shards: 4, exp: 0 }
+    },
+    {
+        id: 'complete_dungeon_5',
+        name: '副本征服者',
+        desc: '完成5次副本',
+        type: 'complete_dungeon',
+        target: 5,
+        difficulty: 'normal',
+        rewards: { gold: 500, shards: 6, exp: 0 }
+    },
+    {
+        id: 'complete_hard_dungeon_2',
+        name: '困難挑戰者',
+        desc: '完成2次困難以上副本',
+        type: 'complete_hard_dungeon',
+        target: 2,
+        difficulty: 'hard',
+        rewards: { gold: 500, shards: 6, exp: 0 }
+    },
+    {
+        id: 'complete_different_dungeons_3',
+        name: '副本探索者',
+        desc: '完成3種不同類型副本',
+        type: 'complete_different_dungeons',
+        target: 3,
+        difficulty: 'normal',
+        rewards: { gold: 400, shards: 5, exp: 0 }
+    },
+    
+    // 其他系統任務（3個）
+    {
+        id: 'salvage_equipment_10',
+        name: '分解專家',
+        desc: '分解10件裝備',
+        type: 'salvage_equipment',
+        target: 10,
+        difficulty: 'easy',
+        rewards: { gold: 200, shards: 3, exp: 0 }
+    },
+    {
+        id: 'endless_10_floors',
+        name: '無盡挑戰者',
+        desc: '在無盡模式達到第10層',
+        type: 'endless_floors',
+        target: 10,
+        difficulty: 'hard',
+        rewards: { gold: 600, shards: 8, exp: 0 }
+    },
+    {
+        id: 'endless_20_floors',
+        name: '無盡勇者',
+        desc: '在無盡模式達到第20層',
+        type: 'endless_floors',
+        target: 20,
+        difficulty: 'hard',
+        rewards: { gold: 1000, shards: 12, exp: 0 }
     }
 ];
 
@@ -7001,6 +7245,9 @@ const REGION_CONSUMABLES = {
                 item.quantity--;
             } else {
                 gameState.inventory = gameState.inventory.filter(i => i.id != itemId);
+            
+            // 更新任務進度：分解裝備
+            updateQuestProgress('salvage_equipment', 1);
             }
             
             // 重置選擇器
@@ -8762,6 +9009,14 @@ const REGION_CONSUMABLES = {
         function battle(enemy) {
             // 教學系統已移除
             
+            // 更新任務進度：與隨從/寵物戰鬥
+            if (gameState.companions && gameState.companions.active) {
+                updateQuestProgress('battle_with_companion', 1);
+            }
+            if (gameState.pets && gameState.pets.active) {
+                updateQuestProgress('battle_with_pet', 1);
+            }
+            
             // 設定戰鬥進行中標記
             isBattleInProgress = true;
             
@@ -10217,6 +10472,9 @@ const REGION_CONSUMABLES = {
                     
                     const enemyType = enemy.isSpecialBoss ? '特殊Boss' : (enemy.isBoss ? 'Boss' : (enemy.isElite ? '菁英' : '普通怪物'));
                     addLog('寵物', `🥚 ${enemyType}掉落！獲得 ${familyNames[randomFamily]} 寵物蛋！`, enemy.isSpecialBoss || enemy.isBoss);
+                    
+                    // 更新任務進度：收集寵物材料（寵物蛋視為材料）
+                    updateQuestProgress('collect_pet_material', 1);
                 }
             }
             
@@ -11552,6 +11810,9 @@ const REGION_CONSUMABLES = {
             gameState.player.equipment[currentEquipSlot] = item;
             gameState.inventory = gameState.inventory.filter(i => i.id != itemId);
             
+            // 更新任務進度：分解裝備
+            updateQuestProgress('salvage_equipment', 1);
+            
             // 重新計算屬性
             recalculateStats();
             calculateSetEffects(); // 計算套裝效果
@@ -11580,6 +11841,9 @@ const REGION_CONSUMABLES = {
             // 裝備新裝備
             gameState.player.equipment[targetSlot] = item;
             gameState.inventory = gameState.inventory.filter(i => i.id != itemId);
+            
+            // 更新任務進度：分解裝備
+            updateQuestProgress('salvage_equipment', 1);
             
             // 重新計算屬性
             recalculateStats();
@@ -13534,6 +13798,9 @@ const REGION_CONSUMABLES = {
                 item.quantity--;
             } else {
                 gameState.inventory = gameState.inventory.filter(i => i.id != itemId);
+            
+            // 更新任務進度：分解裝備
+            updateQuestProgress('salvage_equipment', 1);
             }
             
             // 更新UI
@@ -13963,6 +14230,9 @@ const REGION_CONSUMABLES = {
             if (reward.shards > 0) {
                 gameState.companions.shards += reward.shards;
                 addLog('獎勵', `💎 獲得隨從碎片 ${reward.shards}`);
+                
+                // 更新任務進度：獲得隨從碎片
+                updateQuestProgress('collect_companion_shard', reward.shards);
             }
             
             // 發放裝備
@@ -14145,6 +14415,10 @@ const REGION_CONSUMABLES = {
                 const shardAmount = getCompanionShardAmount(companion.rarity);
                 gameState.companions.shards += shardAmount;
                 addLog('隨從', `已擁有 ${companion.name}，轉換為 ${shardAmount} 個隨從碎片！（總計: ${gameState.companions.shards}）`);
+                
+                // 更新任務進度：獲得隨從碎片
+                updateQuestProgress('collect_companion_shard', shardAmount);
+                
                 saveGame();
                 return false;
             }
@@ -14159,6 +14433,10 @@ const REGION_CONSUMABLES = {
             recordCompanionObtained(companionId);
             
             addLog('隨從', `🎉 獲得新隨從：${companion.name}！`);
+            
+            // 更新任務進度：召喚隨從
+            updateQuestProgress('summon_companion', 1);
+            
             playSound('levelup');
             saveGame();
             return true;
@@ -14191,6 +14469,10 @@ const REGION_CONSUMABLES = {
                 const shardAmount = getEquipmentShardAmount(equipment.rarity);
                 gameState.companions.shards += shardAmount;
                 addLog('隨從', `已擁有 ${equipment.icon}${equipment.name}，轉換為 ${shardAmount} 個隨從碎片！（總計: ${gameState.companions.shards}）`);
+                
+                // 更新任務進度：獲得隨從碎片
+                updateQuestProgress('collect_companion_shard', shardAmount);
+                
                 saveGame();
                 return false;
             }
@@ -14199,6 +14481,10 @@ const REGION_CONSUMABLES = {
                 level: 1
             });
             addLog('隨從', `🎉 獲得新裝備：${equipment.icon}${equipment.name}！`);
+            
+            // 更新任務進度：獲得隨從裝備
+            updateQuestProgress('collect_companion_equipment', 1);
+            
             playSound('levelup');
             saveGame();
             return true;
@@ -14263,6 +14549,10 @@ const REGION_CONSUMABLES = {
             owned.level++;
             const equipment = COMPANION_EQUIPMENT[equipmentId];
             addLog('隨從', `✨ ${equipment.icon}${equipment.name} 升級到 Lv.${owned.level}！`);
+            
+            // 更新任務進度：升級隨從裝備
+            updateQuestProgress('upgrade_companion_equipment', 1);
+            
             playSound('levelup');
             saveGame();
             return true;
@@ -15656,6 +15946,12 @@ const REGION_CONSUMABLES = {
             };
             
             gameState.cards.collection.push(newCard);
+            
+            // 更新任務進度：獲得卡牌
+            updateQuestProgress('collect_card', 1);
+            if (card.rarity === 'Rare' || card.rarity === 'Epic' || card.rarity === 'Legendary' || card.rarity === 'Mythic' || card.rarity === 'Eternal') {
+                updateQuestProgress('collect_rare_card', 1);
+            }
             gameState.cards.stats.totalCardsObtained++;
             
             // 記錄卡牌圖鑑
@@ -15692,6 +15988,9 @@ const REGION_CONSUMABLES = {
             // 裝備卡牌（儲存 UUID）
             gameState.cards[slotKey] = cardUuid;
             addLog(`裝備卡牌：${card.name} 到槽位${slotNum}`, 'info');
+            
+            // 更新任務進度：裝備卡牌
+            updateQuestProgress('equip_card', 1);
             
             // 重新計算屬性
             recalculateStats();
@@ -15906,6 +16205,9 @@ const REGION_CONSUMABLES = {
                 addLog('卡牌', `🏆 ${card.icon} ${card.name} 達到最高等級 Lv.10，效果大幅提升！`);
             }
             
+            // 更新任務進度：卡牌升級
+            updateQuestProgress('level_up_card', 1);
+            
             // 重新計算屬性
             recalculateStats();
             updateCardModal();
@@ -15940,6 +16242,9 @@ const REGION_CONSUMABLES = {
             
             const rarityColor = getRarityColor(cardData.rarity);
             addLog('分解', `分解 ${cardData.icon} ${card.name}，獲得 <span style="color: ${rarityColor}">${shardAmount}</span> 個碎片！`);
+            
+            // 更新任務進度：回收卡牌
+            updateQuestProgress('salvage_card', 1);
             
             recalculateStats();
             saveGame();
@@ -16147,6 +16452,9 @@ const REGION_CONSUMABLES = {
             }
             
             addLog('融合', `融合成功！獲得卡牌：${nextCard.icon} <span style="color: ${rarityColor}">${nextCard.name}</span> (${rarityLabel})${affixText}！`);
+            
+            // 更新任務進度：融合卡牌
+            updateQuestProgress('fuse_card', 1);
             
             recalculateStats();
             updateCardModal();
@@ -17403,6 +17711,9 @@ const REGION_CONSUMABLES = {
             const pet = gameState.pets.collection.find(p => p.instanceId === instanceId);
             if (!pet) return false;
             
+            // 更新任務進度：餵養寵物（每次給經驗視為一次餵養）
+            updateQuestProgress('feed_pet', 1);
+            
             pet.exp += expAmount;
             
             // 檢查升級
@@ -17423,6 +17734,9 @@ const REGION_CONSUMABLES = {
                 pet.expToNext = Math.floor(100 * Math.pow(1.15, pet.level - 1));
                 
                 addLog('寵物', `⭐ ${pet.icon} ${pet.name} 升級至 Lv.${pet.level}！`);
+                
+                // 更新任務進度：寵物升級
+                updateQuestProgress('level_up_pet', 1);
             }
             
             saveGame();
@@ -17510,6 +17824,9 @@ const REGION_CONSUMABLES = {
             
             const rarityColor = getRarityColor(nextPetData.rarity);
             addLog('寵物', `✨ ${oldName} 進化成 <span style="color: ${rarityColor}">${nextPetData.rarity}</span> ${pet.icon} ${pet.name}！`, true);
+            
+            // 更新任務進度：寵物進化
+            updateQuestProgress('evolve_pet', 1);
             
             saveGame();
             return true;
@@ -19058,6 +19375,9 @@ const REGION_CONSUMABLES = {
             gameState.player.shards += rarity.shards;
             gameState.inventory = gameState.inventory.filter(i => i.id != itemId);
             
+            // 更新任務進度：分解裝備
+            updateQuestProgress('salvage_equipment', 1);
+            
             addLog('分解', `分解了 ${item.name}，獲得 ${rarity.shards} 碎片`);
             updateUI();
             openSalvageModal(); // 重新打開以更新列表
@@ -20178,25 +20498,27 @@ const REGION_CONSUMABLES = {
         }
         
         // 更新任務進度
-        function updateQuestProgress(type, value = 1) {
+        function updateQuestProgress(type, value = 1, replaceMode = false) {
             if (!gameState.dailyQuests || !gameState.dailyQuests.quests) return;
             
             let updated = false;
             gameState.dailyQuests.quests.forEach(quest => {
                 // 跳過已完成的任務
-                if (gameState.dailyQuests.completed.includes(quest.id)) return;
-                
-                // 只追蹤已接取的任務
-                if (quest.accepted !== true) return;
+                if (gameState.dailyQuests.completed && gameState.dailyQuests.completed.includes(quest.id)) return;
                 
                 // 檢查任務類型是否匹配
                 if (quest.type === type) {
                     const oldProgress = quest.progress || 0;
                     
-                    // 連勝任務特殊處理：直接設定為當前連勝數，不累加
-                    if (type === 'win_streak') {
+                    // 根據模式更新進度
+                    if (replaceMode) {
+                        // 替換模式：用於記錄最大值（如無盡模式層數）
+                        quest.progress = Math.max(oldProgress, Math.min(value, quest.target));
+                    } else if (type === 'win_streak') {
+                        // 連勝任務特殊處理：直接設定為當前連勝數，不累加
                         quest.progress = Math.min(value, quest.target);
                     } else {
+                        // 累加模式：正常累加進度
                         quest.progress = Math.min(oldProgress + value, quest.target);
                     }
                     
@@ -22214,6 +22536,24 @@ function startDungeonBattle(dungeonId, difficulty, difficultyData, record) {
                 record.cleared = true;
             }
             
+            // 更新任務進度：完成副本
+            updateQuestProgress('complete_dungeon', 1);
+            
+            // 更新任務進度：完成困難副本
+            if (difficulty === 'hard' || difficulty === 'hell' || difficulty === 'abyss') {
+                updateQuestProgress('complete_hard_dungeon', 1);
+            }
+            
+            // 更新任務進度：完成不同類型副本
+            if (!gameState.dailyQuests) gameState.dailyQuests = {};
+            if (!gameState.dailyQuests.completedDungeonTypes) {
+                gameState.dailyQuests.completedDungeonTypes = [];
+            }
+            if (!gameState.dailyQuests.completedDungeonTypes.includes(dungeonId)) {
+                gameState.dailyQuests.completedDungeonTypes.push(dungeonId);
+                updateQuestProgress('complete_different_dungeons', 1);
+            }
+            
             // 計算並發放獎勵
             const rewards = calculateDungeonRewards(difficultyData, isFirstClear);
             applyDungeonRewards(rewards);
@@ -22959,6 +23299,9 @@ function generateEquipmentByRarity(rarity) {
                 gameState.endlessMode.highestFloor = floor;
                 addLog('無盡模式', `🏆 新記錄！最高層數：${floor}`);
             }
+            
+            // 更新任務進度：無盡模式層數（只記錄最高層）
+            updateQuestProgress('endless_floors', gameState.endlessMode.highestFloor, true);
             
             // 檢查升級
             if (gameState.player.exp >= gameState.player.expToNext) {
