@@ -815,6 +815,10 @@
           <label>👨‍👩‍👧‍👦 健保眷屬人數</label>
           <input type="number" id="dependents" placeholder="請輸入眷屬人數">
         </div>
+        <div class="form-group">
+          <label>💊 補充保費</label>
+          <input type="number" id="supplementaryPremium" placeholder="自行填寫第二頁獎金">
+        </div>
       </div>
 
       <!-- 加班時數明細 -->
@@ -882,10 +886,10 @@
   <script>
     // 內嵌設定資料 (解決 CORS 問題)
     const popupConfig = {
-      "content": "<b>9/18~10/20</b> 月份結算,請依日期填寫自己的加班時數,會自動對應到下方表格。或者自己手動輸入也可以。",
+      "content": "<b>8/21~9/17</b> 月份結算,請依日期填寫自己的加班時數,會自動對應到下方表格。或者自己手動輸入也可以。",
       "range": {
-        "start": "2025-09-18",
-        "end": "2025-10-20"
+        "start": "2025-08-21",
+        "end": "2025-09-17"
       },
       "backgroundImage": "https://raw.githubusercontent.com/polo1364/overtime-calculator/refs/heads/main/63EDD52C-F584-4A5A-823A-6F210850519E.png"
     };
@@ -1131,7 +1135,11 @@
       const pension = Math.round(ins.salary * pensionRate);
       const welfare = Math.round((base + bonus + extra) * 0.005);
 
-      const net = totalBase - labor - health - pension - welfare - leaveDeduct + 
+      // 補充保費計算
+      const supplementaryPremiumBase = parse("supplementaryPremium");
+      const supplementaryPremiumFee = Math.round(supplementaryPremiumBase * 0.0211);
+
+      const net = totalBase - labor - health - pension - welfare - leaveDeduct - supplementaryPremiumFee + 
                   fee1 + fee2 + fee3 + feeSat1 + feeSat2 + feeSat3 + feeHoliday + 
                   mealWD + mealSat + mealH + otBonus;
 
@@ -1180,16 +1188,21 @@
             <div class="label">節日誤餐費</div>
             <div class="value">${mealH} 元</div>
           </div>
+          <div class="result-item">
+            <div class="label">補充保費</div>
+            <div class="value">${supplementaryPremiumFee.toLocaleString()} 元</div>
+          </div>
           ${bonusHtml}
         </div>
 
         <div class="result-detail">
-          <strong>扣款明細：</strong>${(labor + health + welfare + pension + leaveDeduct).toFixed(0).toLocaleString()} 元<br>
+          <strong>扣款明細：</strong>${(labor + health + welfare + pension + leaveDeduct + supplementaryPremiumFee).toFixed(0).toLocaleString()} 元<br>
           • 勞保：${labor.toLocaleString()} 元<br>
           • 健保本人：${personalHealth.toLocaleString()} 元<br>
           • 健保眷屬：${dependentHealth.toLocaleString()} 元<br>
           • 福利金：${welfare.toLocaleString()} 元<br>
           • 勞退：${pension.toLocaleString()} 元<br>
+          • 補充保費：${supplementaryPremiumFee.toLocaleString()} 元<br>
           • 請假扣款：${leaveDeduct.toFixed(0).toLocaleString()} 元
         </div>
 
