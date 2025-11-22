@@ -2,974 +2,669 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>大瑞科技薪資計算系統</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>大瑞科技 | 薪資管理系統</title>
+  
+  <!-- 引入 Google Fonts 字型 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
   <style>
+    :root {
+      --primary-color: #2563eb;       /* 專業藍 */
+      --primary-dark: #1e40af;
+      --secondary-color: #64748b;     /* 次要灰 */
+      --accent-color: #0ea5e9;        /* 亮藍強調 */
+      --success-color: #10b981;       /* 成功綠 */
+      --warning-color: #f59e0b;       /* 警告橘 */
+      --danger-color: #ef4444;        /* 危險紅 */
+      --bg-color: #f8fafc;            /* 背景色 */
+      --card-bg: #ffffff;
+      --text-main: #1e293b;
+      --text-sub: #475569;
+      --border-radius: 12px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      font-family: 'Noto Sans TC', sans-serif;
     }
 
     body {
-      font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      padding: 20px;
-      color: #1a202c;
-      min-height: 100vh;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding-bottom: 40px;
+      background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+      background-size: 20px 20px;
     }
 
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.95);
-      z-index: -1;
+    /* Header */
+    .header-banner {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+      color: white;
+      padding: 2rem 1rem 3rem;
+      text-align: center;
+      border-radius: 0 0 30px 30px;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: -2rem;
+    }
+
+    .header-banner h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: 1px;
+    }
+
+    .header-banner p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      font-weight: 300;
     }
 
     .main-container {
-      max-width: 1400px;
+      max-width: 1200px;
       margin: 0 auto;
+      padding: 0 1rem;
     }
 
-    /* 頁面標題 */
-    .page-header {
-      text-align: center;
-      margin-bottom: 2.5rem;
-      padding: 2rem 1rem;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-    }
-
-    .page-header h1 {
-      color: white;
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .page-header p {
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 1.1rem;
-      font-weight: 400;
-    }
-
-    /* 卡片樣式 */
+    /* 卡片通用樣式 */
     .card {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-md);
       padding: 2rem;
       margin-bottom: 2rem;
-      transition: all 0.3s ease;
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .card:hover {
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
       transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
     }
 
-    .card-header {
+    .card-title {
       display: flex;
       align-items: center;
+      gap: 0.8rem;
       margin-bottom: 1.5rem;
       padding-bottom: 1rem;
-      border-bottom: 2px solid #e2e8f0;
+      border-bottom: 1px solid #e2e8f0;
     }
 
-    .card-header-icon {
+    .card-title-icon {
+      background: #eff6ff;
+      color: var(--primary-color);
       width: 40px;
       height: 40px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-right: 1rem;
-      font-size: 1.5rem;
-    }
-
-    .card-header h2 {
-      color: #2d3748;
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin: 0;
-    }
-
-    /* 日期選擇區 */
-    .date-section {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .input-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .input-group label {
-      font-weight: 600;
-      color: #4a5568;
-      font-size: 0.95rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .input-group label::before {
-      content: "📅";
       font-size: 1.2rem;
     }
 
-    .input-group input[type="date"] {
-      padding: 0.875rem 1rem;
-      border: 2px solid #e2e8f0;
-      border-radius: 10px;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-      background: #f7fafc;
-    }
-
-    .input-group input[type="date"]:focus {
-      outline: none;
-      border-color: #667eea;
-      background: white;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    }
-
-    /* 按鈕樣式 */
-    .btn {
-      padding: 0.875rem 2rem;
-      font-size: 1rem;
+    .card-title h2 {
+      font-size: 1.25rem;
+      color: var(--text-main);
       font-weight: 600;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.3s ease;
+    }
+
+    /* 網格佈局 */
+    .grid-cols-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .grid-cols-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* 表單元素 */
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-sub);
+      margin-bottom: 0.4rem;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+      background: #fff;
+    }
+
+    .input-wrapper input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .input-wrapper input[readonly] {
+      background-color: #f1f5f9;
+      border-color: #e2e8f0;
+      color: #64748b;
+      cursor: not-allowed;
+    }
+    
+    /* 唯讀圖示 */
+    .readonly-icon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 0.8rem;
+    }
+
+    /* 按鈕 */
+    .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
-      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      font-size: 1rem;
+      width: 100%;
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: var(--primary-color);
       color: white;
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-      width: 100%;
+      box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
     }
 
     .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+      background: var(--primary-dark);
+      transform: translateY(-1px);
     }
 
-    .btn-primary:active {
-      transform: translateY(0);
-    }
-
-    /* 日曆表格 */
-    .calendar-wrapper {
-      overflow-x: auto;
-      margin: 1.5rem 0;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
+    .btn-secondary {
       background: white;
+      border: 1px solid #cbd5e1;
+      color: var(--text-sub);
+    }
+
+    /* 日曆樣式優化 */
+    .calendar-container {
+      overflow-x: auto;
+      border: 1px solid #e2e8f0;
       border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    table.calendar-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 800px; /* 強制最小寬度，避免手機擠壓 */
     }
 
     th {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
+      background: #f8fafc;
+      color: var(--text-sub);
       font-weight: 600;
-      text-align: center;
-      padding: 1rem 0.5rem;
-      font-size: 1rem;
-      position: sticky;
-      top: 0;
-      z-index: 10;
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 2px solid #e2e8f0;
     }
 
     td {
-      border: 1px solid #e2e8f0;
       padding: 0.75rem;
+      border-bottom: 1px solid #e2e8f0;
+      border-right: 1px solid #f1f5f9;
       vertical-align: top;
-      min-height: 100px;
       background: white;
-      transition: all 0.2s ease;
+      position: relative;
     }
+    
+    td:last-child { border-right: none; }
 
-    td:hover {
-      background-color: #f7fafc;
-      box-shadow: inset 0 0 0 2px #667eea;
-    }
-
-    .cell-date {
-      font-weight: 700;
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-      display: block;
-    }
-
-    .cell-label {
-      font-size: 0.85rem;
-      font-weight: 500;
-      margin-bottom: 0.5rem;
-      padding: 0.25rem 0.5rem;
-      border-radius: 6px;
+    /* 日期標籤 */
+    .date-badge {
       display: inline-block;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text-main);
     }
 
-    .holiday {
-      color: #e53e3e;
+    .type-badge {
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+      margin-left: 5px;
     }
 
-    .holiday .cell-label {
-      background: #fed7d7;
-      color: #c53030;
-    }
+    /* 週末與假日配色 */
+    .cell-weekday input { border-color: #cbd5e1; }
+    
+    .cell-weekend { background-color: #fafafa; }
+    .cell-weekend .date-badge { color: var(--danger-color); }
+    .cell-weekend .type-badge { background: #fee2e2; color: #991b1b; }
 
-    .festival {
-      color: #dd6b20;
-    }
-
-    .festival .cell-label {
-      background: #feebc8;
-      color: #c05621;
-    }
-
-    .weekday {
-      color: #3182ce;
-    }
-
-    .weekday .cell-label {
-      background: #bee3f8;
-      color: #2c5282;
-    }
+    .cell-festival { background-color: #fff7ed; }
+    .cell-festival .date-badge { color: var(--warning-color); }
+    .cell-festival .type-badge { background: #ffedd5; color: #9a3412; }
 
     td input[type="number"] {
       width: 100%;
-      margin-top: 0.5rem;
-      padding: 0.5rem;
-      border: 2px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      transition: all 0.2s ease;
-      background: #f7fafc;
+      padding: 6px;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 14px;
+      text-align: center;
     }
-
+    
     td input[type="number"]:focus {
-      outline: none;
-      border-color: #667eea;
-      background: white;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      border-color: var(--primary-color);
+      background: #fff;
     }
 
-    /* 總計顯示 */
-    .total-display {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 1.5rem;
+    /* 薪資單結果樣式 */
+    .payslip {
+      background: white;
+      border: 1px solid #e2e8f0;
       border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .payslip-header {
+      background: #f8fafc;
+      padding: 1.5rem;
       text-align: center;
-      margin-top: 1.5rem;
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      border-bottom: 1px solid #e2e8f0;
     }
 
-    .total-display .label {
-      font-size: 1rem;
-      font-weight: 500;
-      opacity: 0.95;
-      margin-bottom: 0.5rem;
-    }
+    .payslip-header h3 { color: var(--text-main); font-size: 1.2rem; }
+    .payslip-header .amount { font-size: 2.5rem; font-weight: 700; color: var(--primary-color); margin-top: 0.5rem; }
 
-    .total-display .value {
-      font-size: 2.5rem;
-      font-weight: 700;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    /* 計算器區域 */
-    .calculator-grid {
+    .payslip-body {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 1.5rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
     }
 
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .form-group label {
-      font-weight: 600;
-      color: #4a5568;
-      font-size: 0.95rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .form-group input[type="number"] {
-      padding: 0.875rem 1rem;
-      font-size: 1rem;
-      border: 2px solid #e2e8f0;
-      border-radius: 10px;
-      transition: all 0.3s ease;
-      background: #f7fafc;
-    }
-
-    .form-group input[type="number"]:focus {
-      outline: none;
-      border-color: #667eea;
-      background: white;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    }
-
-    .form-group input[readonly] {
-      background-color: #edf2f7;
-      cursor: not-allowed;
-      color: #718096;
-    }
-
-    /* 加班時數區塊 */
-    .overtime-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .overtime-card {
-      background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
-      padding: 1.5rem;
-      border-radius: 12px;
-      border-left: 4px solid #667eea;
-    }
-
-    .overtime-card h3 {
-      color: #2d3748;
-      margin-bottom: 1rem;
-      font-size: 1.2rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .overtime-card h3::before {
-      content: "⏰";
-      font-size: 1.3rem;
-    }
-
-    .overtime-card .form-group {
-      margin-bottom: 0.75rem;
-    }
-
-    .overtime-card .form-group:last-child {
-      margin-bottom: 0;
-    }
-
-    .overtime-card label {
-      font-size: 0.9rem;
-      color: #4a5568;
-    }
-
-    /* 結果顯示 */
-    .result-box {
-      background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
-      border-left: 5px solid #38a169;
-      padding: 2rem;
-      border-radius: 12px;
-      margin-top: 1.5rem;
-      box-shadow: 0 4px 15px rgba(56, 161, 105, 0.15);
-    }
-
-    .result-box h3 {
-      color: #22543d;
-      margin-bottom: 1.5rem;
-      font-size: 1.5rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .result-box h3::before {
-      content: "💰";
-      font-size: 1.8rem;
-    }
-
-    .result-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .result-item {
-      background: white;
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    }
-
-    .result-item .label {
-      font-size: 0.9rem;
-      color: #718096;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-    }
-
-    .result-item .value {
-      font-size: 1.5rem;
-      color: #2d3748;
-      font-weight: 700;
-    }
-
-    .result-detail {
-      background: white;
-      padding: 1.25rem;
-      border-radius: 8px;
-      margin-bottom: 1rem;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-      font-size: 0.95rem;
-      line-height: 1.8;
-      color: #4a5568;
-    }
-
-    .result-final {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 1.5rem;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-    }
-
-    .result-final .label {
-      font-size: 1.2rem;
-      font-weight: 500;
-      opacity: 0.95;
-      margin-bottom: 0.5rem;
-    }
-
-    .result-final .value {
-      font-size: 3rem;
-      font-weight: 700;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    /* 彈窗樣式 */
-    #popupModal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      backdrop-filter: blur(8px);
-      animation: fadeIn 0.3s ease;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-
-    .popup-content {
-      background: white;
-      padding: 2.5rem;
-      max-width: 90%;
-      width: 500px;
-      border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      animation: slideUp 0.3s ease;
-    }
-
-    @keyframes slideUp {
-      from {
-        transform: translateY(30px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    .popup-content h3 {
-      margin: 0 0 1.5rem 0;
-      color: #667eea;
-      font-size: 1.8rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .popup-content h3::before {
-      content: "📢";
-      font-size: 2rem;
-    }
-
-    #popupText {
-      font-size: 1.1rem;
-      line-height: 1.8;
-      color: #4a5568;
-      margin-bottom: 2rem;
-    }
-
-    .popup-btn {
-      width: 100%;
-      padding: 1rem;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border: none;
-      border-radius: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 1.1rem;
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-    }
-
-    .popup-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-    }
-
-    /* 載入動畫 */
-    .loading {
-      display: inline-block;
-      width: 24px;
-      height: 24px;
-      border: 3px solid rgba(102, 126, 234, 0.3);
-      border-radius: 50%;
-      border-top-color: #667eea;
-      animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    /* 響應式設計 */
     @media (max-width: 768px) {
-      .page-header h1 {
-        font-size: 1.8rem;
-      }
-
-      .page-header p {
-        font-size: 1rem;
-      }
-
-      .card {
-        padding: 1.5rem;
-      }
-
-      .card-header h2 {
-        font-size: 1.25rem;
-      }
-
-      .date-section {
-        grid-template-columns: 1fr;
-      }
-
-      .calculator-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .overtime-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .result-grid {
-        grid-template-columns: 1fr;
-      }
-
-      table {
-        font-size: 0.85rem;
-      }
-
-      th {
-        padding: 0.75rem 0.3rem;
-        font-size: 0.85rem;
-      }
-
-      td {
-        padding: 0.5rem;
-      }
-
-      .cell-date {
-        font-size: 1rem;
-      }
-
-      .total-display .value {
-        font-size: 2rem;
-      }
-
-      .result-final .value {
-        font-size: 2.25rem;
-      }
-
-      .popup-content {
-        padding: 2rem;
-        width: 95%;
-      }
-
-      .popup-content h3 {
-        font-size: 1.5rem;
-      }
-
-      #popupText {
-        font-size: 1rem;
-      }
+      .payslip-body { grid-template-columns: 1fr; }
     }
 
-    @media (max-width: 480px) {
-      body {
-        padding: 10px;
-      }
-
-      .page-header {
-        padding: 1.5rem 1rem;
-        margin-bottom: 1.5rem;
-      }
-
-      .page-header h1 {
-        font-size: 1.5rem;
-      }
-
-      .card {
-        padding: 1.25rem;
-        margin-bottom: 1.5rem;
-      }
-
-      .card-header-icon {
-        width: 35px;
-        height: 35px;
-        font-size: 1.2rem;
-      }
-
-      table {
-        font-size: 0.75rem;
-      }
-
-      th {
-        padding: 0.6rem 0.2rem;
-        font-size: 0.75rem;
-      }
-
-      td {
-        padding: 0.4rem;
-        min-height: 80px;
-      }
-
-      .cell-date {
-        font-size: 0.9rem;
-      }
-
-      td input[type="number"] {
-        font-size: 0.85rem;
-        padding: 0.4rem;
-      }
-
-      .total-display {
-        padding: 1.25rem;
-      }
-
-      .total-display .value {
-        font-size: 1.75rem;
-      }
-
-      .result-final .value {
-        font-size: 2rem;
-      }
+    .payslip-section {
+      padding: 1.5rem;
     }
+    
+    .payslip-section.income { border-right: 1px solid #f1f5f9; }
+    .payslip-section h4 { 
+      font-size: 0.9rem; 
+      text-transform: uppercase; 
+      letter-spacing: 1px; 
+      color: var(--text-sub); 
+      margin-bottom: 1rem; 
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #f1f5f9;
+    }
+
+    .payslip-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.8rem;
+      font-size: 0.95rem;
+    }
+
+    .payslip-row.total {
+      margin-top: 1rem;
+      padding-top: 0.8rem;
+      border-top: 1px dashed #cbd5e1;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .payslip-row .val { font-family: 'Consolas', monospace; font-weight: 600; }
+    .text-green { color: var(--success-color); }
+    .text-red { color: var(--danger-color); }
+
+    /* 彈窗優化 */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      background: white;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: translateY(0);
+    }
+
+    /* 區塊標題 */
+    .section-header {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-sub);
+      margin: 1.5rem 0 1rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .section-header::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+
   </style>
 </head>
 <body>
-  <div class="main-container">
-    <!-- 頁面標題 -->
-    <div class="page-header">
-      <h1>大瑞科技薪資計算系統</h1>
-      <p>Salary Calculation System</p>
-    </div>
 
-    <!-- 日期選擇卡片 -->
-    <div class="card">
-      <div class="card-header">
-        <div class="card-header-icon">📆</div>
-        <h2>結算期間設定</h2>
+  <!-- 頭部 -->
+  <div class="header-banner">
+    <h1>大瑞科技</h1>
+    <p>薪資計算管理系統 | Salary Management System</p>
+  </div>
+
+  <div class="main-container">
+    
+    <!-- 1. 設定區塊 -->
+    <div class="card" style="margin-top: 4rem;">
+      <div class="card-title">
+        <div class="card-title-icon">📅</div>
+        <h2>結算週期設定</h2>
       </div>
-      <div class="date-section">
-        <div class="input-group">
-          <label>開始日期</label>
-          <input type="date" id="startDate">
+      
+      <div class="grid-cols-2">
+        <div class="form-group">
+          <label class="form-label">開始日期</label>
+          <div class="input-wrapper">
+            <input type="date" id="startDate">
+          </div>
         </div>
-        <div class="input-group">
-          <label>結束日期</label>
-          <input type="date" id="endDate">
+        <div class="form-group">
+          <label class="form-label">結束日期</label>
+          <div class="input-wrapper">
+            <input type="date" id="endDate">
+          </div>
         </div>
       </div>
+      
       <button class="btn btn-primary" onclick="generateCalendar()">
-        <span>🔄</span>
-        生成結算日期
+        生成加班填寫表
       </button>
     </div>
 
-    <!-- 日曆卡片 -->
+    <!-- 2. 加班填寫區 (預設隱藏) -->
     <div class="card" id="calendarCard" style="display: none;">
-      <div class="card-header">
-        <div class="card-header-icon">📋</div>
+      <div class="card-title">
+        <div class="card-title-icon">⏰</div>
         <h2>加班時數登記</h2>
       </div>
-      <div class="calendar-wrapper">
-        <table id="calendar">
+      
+      <p style="margin-bottom: 1rem; color: var(--text-sub); font-size: 0.9rem;">
+        ※ 請依照每日實際狀況填寫加班時數，系統將自動判斷平日、假日與節日費率。
+      </p>
+
+      <div class="calendar-container">
+        <table class="calendar-table" id="calendar">
           <thead>
             <tr>
-              <th>週日</th>
-              <th>週一</th>
-              <th>週二</th>
-              <th>週三</th>
-              <th>週四</th>
-              <th>週五</th>
-              <th>週六</th>
+              <th>週日</th><th>週一</th><th>週二</th><th>週三</th><th>週四</th><th>週五</th><th>週六</th>
             </tr>
           </thead>
           <tbody></tbody>
         </table>
       </div>
-      <div class="total-display" id="totalBox">
-        <div class="label">加班時數總計</div>
-        <div class="value"><span id="otTotalHours">0</span> 小時</div>
+
+      <div style="margin-top: 1.5rem; text-align: right;">
+        <span style="color: var(--text-sub); font-weight: 500;">目前登記總時數：</span>
+        <span id="otTotalHours" style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color);">0.0</span>
+        <span style="font-size: 0.9rem;">小時</span>
       </div>
     </div>
 
-    <!-- 薪資計算卡片 -->
+    <!-- 3. 薪資參數區 -->
     <div class="card">
-      <div class="card-header">
-        <div class="card-header-icon">💵</div>
-        <h2>薪資計算</h2>
+      <div class="card-title">
+        <div class="card-title-icon">⚙️</div>
+        <h2>薪資參數配置</h2>
       </div>
 
-      <!-- 基本薪資 -->
-      <div class="calculator-grid">
-        <div class="form-group">
-          <label>💼 本薪（月薪）</label>
-          <input type="number" id="baseSalary" placeholder="請輸入本薪">
-        </div>
-        <div class="form-group">
-          <label>🎁 全勤獎金</label>
-          <input type="number" id="bonus" value="2000" readonly>
-        </div>
-        <div class="form-group">
-          <label>🍱 伙食費</label>
-          <input type="number" id="meal" value="1800" readonly>
-        </div>
-        <div class="form-group">
-          <label>➕ 其他津貼</label>
-          <input type="number" id="extraPay" placeholder="請輸入其他津貼">
-        </div>
-        <div class="form-group">
-          <label>🏖️ 請假時數</label>
-          <input type="number" id="leaveHours" placeholder="請輸入請假時數">
-        </div>
-        <div class="form-group">
-          <label>💰 勞退自扣 (%)</label>
-          <input type="number" id="pensionRate" placeholder="請輸入勞退自扣百分比">
-        </div>
-        <div class="form-group">
-          <label>👨‍👩‍👧‍👦 健保眷屬人數</label>
-          <input type="number" id="dependents" placeholder="請輸入眷屬人數">
-        </div>
-        <div class="form-group">
-          <label>💊 補充保費</label>
-          <input type="number" id="supplementaryPremium" placeholder="自行填寫第二頁獎金">
-        </div>
-      </div>
-
-      <!-- 加班時數明細 -->
-      <div class="overtime-grid">
-        <div class="overtime-card">
-          <h3>平日加班</h3>
+      <div class="grid-cols-2">
+        <!-- 左側：收入相關 -->
+        <div>
+          <div class="section-header">💰 收入參數</div>
           <div class="form-group">
-            <label>前2小時 (x2.00)</label>
-            <input type="number" id="ot2h" placeholder="自動計算" readonly>
+            <label class="form-label">本薪 (月薪)</label>
+            <div class="input-wrapper">
+              <input type="number" id="baseSalary" placeholder="輸入本薪">
+            </div>
+          </div>
+          <div class="grid-cols-2" style="gap: 10px;">
+            <div class="form-group">
+              <label class="form-label">全勤獎金 (固定)</label>
+              <div class="input-wrapper">
+                <input type="number" id="bonus" value="2000" readonly>
+                <span class="readonly-icon">🔒</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">伙食費 (固定)</label>
+              <div class="input-wrapper">
+                <input type="number" id="meal" value="1800" readonly>
+                <span class="readonly-icon">🔒</span>
+              </div>
+            </div>
           </div>
           <div class="form-group">
-            <label>第3-4小時 (x2.33)</label>
-            <input type="number" id="ot3to4h" placeholder="自動計算" readonly>
-          </div>
-          <div class="form-group">
-            <label>第5-6小時 (x2.66)</label>
-            <input type="number" id="ot5to6h" placeholder="自動計算" readonly>
+            <label class="form-label">其他津貼</label>
+            <div class="input-wrapper">
+              <input type="number" id="extraPay" placeholder="例如：職務加給">
+            </div>
           </div>
         </div>
 
-        <div class="overtime-card">
-          <h3>週六加班</h3>
+        <!-- 右側：扣款與保險 -->
+        <div>
+          <div class="section-header">🛡️ 扣款與保險</div>
           <div class="form-group">
-            <label>前2小時 (x2.00)</label>
-            <input type="number" id="sat2h" placeholder="自動計算" readonly>
+            <label class="form-label">請假時數 (小時)</label>
+            <div class="input-wrapper">
+              <input type="number" id="leaveHours" placeholder="0">
+            </div>
+          </div>
+          <div class="grid-cols-2" style="gap: 10px;">
+            <div class="form-group">
+              <label class="form-label">勞退自扣 (%)</label>
+              <div class="input-wrapper">
+                <input type="number" id="pensionRate" placeholder="例如：6">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">健保眷屬人數</label>
+              <div class="input-wrapper">
+                <input type="number" id="dependents" placeholder="0">
+              </div>
+            </div>
           </div>
           <div class="form-group">
-            <label>第3-8小時 (x2.33)</label>
-            <input type="number" id="sat3to8h" placeholder="自動計算" readonly>
-          </div>
-          <div class="form-group">
-            <label>第9-12小時 (x3.32)</label>
-            <input type="number" id="sat9to12h" placeholder="自動計算" readonly>
-          </div>
-        </div>
-
-        <div class="overtime-card">
-          <h3>節日加班</h3>
-          <div class="form-group">
-            <label>節日加班時數 (x2.16)</label>
-            <input type="number" id="holidayHours" placeholder="自動計算" readonly>
+            <label class="form-label">補充保費計算基數</label>
+            <div class="input-wrapper">
+              <input type="number" id="supplementaryPremium" placeholder="填寫第二頁獎金總額">
+            </div>
           </div>
         </div>
       </div>
 
-      <button class="btn btn-primary" onclick="calculate()">
-        <span>🧮</span>
-        開始計算薪資
-      </button>
+      <!-- 隱藏的計算欄位 (保留邏輯但不顯示給使用者看太雜) -->
+      <div style="display:none;">
+        <input id="ot2h"><input id="ot3to4h"><input id="ot5to6h">
+        <input id="sat2h"><input id="sat3to8h"><input id="sat9to12h">
+        <input id="holidayHours">
+      </div>
 
-      <!-- 結果顯示 -->
-      <div class="result-box" id="result" style="display: none;"></div>
+      <div style="margin-top: 2rem;">
+        <button class="btn btn-primary" onclick="calculate()">
+          <span style="font-size: 1.2rem;">🧮</span> 立即計算薪資
+        </button>
+      </div>
     </div>
+
+    <!-- 4. 結果顯示區 -->
+    <div id="resultArea" style="display: none;">
+      <div class="payslip">
+        <div class="payslip-header">
+          <h3>本月實領薪資</h3>
+          <div class="amount" id="finalNetPay">NT$ 0</div>
+          <p style="color: var(--text-sub); font-size: 0.9rem;">含加班費與各項扣款</p>
+        </div>
+        
+        <div class="payslip-body">
+          <!-- 應發項目 -->
+          <div class="payslip-section income">
+            <h4>應發項目 (Income)</h4>
+            <div class="payslip-row"><span class="key">時薪基準</span><span class="val" id="resHourly">0</span></div>
+            <div class="payslip-row"><span class="key">平日加班費</span><span class="val text-green" id="resWD">0</span></div>
+            <div class="payslip-row"><span class="key">週六加班費</span><span class="val text-green" id="resSat">0</span></div>
+            <div class="payslip-row"><span class="key">節日加班費</span><span class="val text-green" id="resHoliday">0</span></div>
+            <div class="payslip-row"><span class="key">平日誤餐費</span><span class="val" id="resMealWD">0</span></div>
+            <div class="payslip-row"><span class="key">週六誤餐費</span><span class="val" id="resMealSat">0</span></div>
+            <div class="payslip-row"><span class="key">節日誤餐費</span><span class="val" id="resMealHoliday">0</span></div>
+            <div id="bonusRow"></div>
+            
+            <div class="payslip-row total">
+              <span class="key">加班總計</span>
+              <span class="val" id="resTotalAdd">0</span>
+            </div>
+          </div>
+
+          <!-- 應扣項目 -->
+          <div class="payslip-section">
+            <h4>應扣項目 (Deductions)</h4>
+            <div class="payslip-row"><span class="key">勞保費</span><span class="val text-red" id="dedLabor">0</span></div>
+            <div class="payslip-row"><span class="key">健保費 (本人)</span><span class="val text-red" id="dedHealthP">0</span></div>
+            <div class="payslip-row"><span class="key">健保費 (眷屬)</span><span class="val text-red" id="dedHealthD">0</span></div>
+            <div class="payslip-row"><span class="key">福利金</span><span class="val text-red" id="dedWelfare">0</span></div>
+            <div class="payslip-row"><span class="key">勞退自提</span><span class="val text-red" id="dedPension">0</span></div>
+            <div class="payslip-row"><span class="key">二代健保補充保費</span><span class="val text-red" id="dedSup">0</span></div>
+            <div class="payslip-row"><span class="key">請假扣款</span><span class="val text-red" id="dedLeave">0</span></div>
+            
+            <div class="payslip-row total">
+              <span class="key">扣款總計</span>
+              <span class="val text-red" id="resTotalDed">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- 彈窗 -->
-  <div id="popupModal">
-    <div class="popup-content">
-      <h3>溫馨提醒</h3>
-      <p id="popupText"></p>
-      <button class="popup-btn" onclick="closePopup()">知道了</button>
+  <div class="modal-overlay" id="popupModal">
+    <div class="modal-content">
+      <div style="text-align: center; margin-bottom: 1.5rem;">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">📢</div>
+        <h3 style="font-size: 1.5rem; color: var(--text-main);">系統公告</h3>
+      </div>
+      <p id="popupText" style="color: var(--text-sub); margin-bottom: 2rem; line-height: 1.8; text-align: left;"></p>
+      <button class="btn btn-primary" onclick="closePopup()">我瞭解了</button>
     </div>
   </div>
 
   <script>
-    // 內嵌設定資料 (解決 CORS 問題)
+    /* --- 設定與資料 --- */
     const popupConfig = {
-      "content": "<b>10/21~11/20</b> 月份結算,請依日期填寫自己的加班時數,會自動對應到下方表格。或者自己手動輸入也可以。",
-      "range": {
-        "start": "2025-10-21",
-        "end": "2025-11-20"
-      },
-      "backgroundImage": "https://raw.githubusercontent.com/polo1364/overtime-calculator/refs/heads/main/63EDD52C-F584-4A5A-823A-6F210850519E.png"
+      "content": "<b>10/21~11/20</b> 月份薪資結算。\n請依實際日期填寫加班時數，系統會自動對應費率。\n如有特殊狀況請手動備註。",
+      "range": { "start": "2025-10-21", "end": "2025-11-20" }
     };
 
-    // 假日資料
-    // 國定假日（節日）- 使用 2.16 倍節日費率
     const holidays = {
-      "2025-01-01": "元旦",
-      "2025-01-25": "彈性放假（春節）",
-      "2025-01-27": "彈性放假（春節）",
-      "2025-01-28": "除夕",
-      "2025-01-29": "春節",
-      "2025-01-30": "春節",
-      "2025-01-31": "春節",
-      "2025-02-28": "和平紀念日",
-      "2025-04-03": "彈性放假（清明節）",
-      "2025-04-04": "兒童節與清明節",
-      "2025-05-01": "勞動節",
-      "2025-05-30": "彈性放假（端午節）",
-      "2025-05-31": "端午節",
-      "2025-09-28": "孔子誕辰紀念日",
-      "2025-09-29": "彈性放假（孔子誕辰）",
-      "2025-10-05": "彈性放假（中秋節）",
-      "2025-10-06": "中秋節",
-      "2025-10-10": "國慶日",
-      "2025-10-24": "彈性放假（光復節）",
-      "2025-10-25": "台灣光復節",
+      "2025-01-01": "元旦", "2025-01-25": "彈性放假", "2025-01-27": "彈性放假", "2025-01-28": "除夕",
+      "2025-01-29": "春節", "2025-01-30": "春節", "2025-01-31": "春節", "2025-02-28": "和平紀念日",
+      "2025-04-03": "彈性放假", "2025-04-04": "兒童節/清明", "2025-05-01": "勞動節", "2025-05-30": "彈性放假",
+      "2025-05-31": "端午節", "2025-09-28": "孔子誕辰", "2025-09-29": "彈性放假", "2025-10-05": "彈性放假",
+      "2025-10-06": "中秋節", "2025-10-10": "國慶日", "2025-10-24": "彈性放假", "2025-10-25": "光復節",
       "2025-12-25": "行憲紀念日"
     };
-
-    // 高雄市颱風假（假日）- 使用假日費率（2.00/2.33/3.32 倍）
+    
     const typhoonHolidays = {
-      "2025-07-06": "颱風假（丹娜絲颱風）",
-      "2025-07-07": "颱風假（丹娜絲颱風）",
-      "2025-08-13": "颱風假（楊柳颱風）",
-      "2025-11-12": "颱風假（鳳凰颱風）"
+      "2025-07-06": "颱風假", "2025-07-07": "颱風假", "2025-08-13": "颱風假", "2025-11-12": "颱風假"
     };
 
-    const makeupWorkdays = ["2025-02-08"];
+    const makeupWorkdays = ["2025-02-08"]; // 補班日
 
-    // 保險費率表
     const insuranceTable = [
-      { salary: 28590, labor: 715, health: 444 },
-      { salary: 28800, labor: 720, health: 447 },
-      { salary: 30300, labor: 758, health: 470 },
-      { salary: 31800, labor: 795, health: 493 },
-      { salary: 33300, labor: 833, health: 516 },
-      { salary: 34800, labor: 870, health: 540 },
-      { salary: 36300, labor: 908, health: 563 },
-      { salary: 38200, labor: 955, health: 592 },
-      { salary: 40100, labor: 1003, health: 622 },
-      { salary: 42000, labor: 1050, health: 651 },
-      { salary: 43900, labor: 1098, health: 681 },
-      { salary: 45800, labor: 1145, health: 710 },
-      { salary: 47700, labor: 1193, health: 740 },
-      { salary: 49600, labor: 1240, health: 769 },
-      { salary: 51500, labor: 1288, health: 799 },
-      { salary: 53400, labor: 1335, health: 828 },
-      { salary: 55300, labor: 1383, health: 858 },
-      { salary: 57200, labor: 1430, health: 887 },
-      { salary: 59100, labor: 1478, health: 917 },
-      { salary: 61000, labor: 1525, health: 946 },
-      { salary: 62900, labor: 1573, health: 976 },
-      { salary: 64800, labor: 1620, health: 1005 },
-      { salary: 66700, labor: 1668, health: 1035 },
-      { salary: 68600, labor: 1715, health: 1064 },
-      { salary: 70500, labor: 1763, health: 1094 },
-      { salary: 72400, labor: 1810, health: 1123 },
-      { salary: 74300, labor: 1858, health: 1153 },
-      { salary: 76200, labor: 1905, health: 1182 },
-      { salary: 78100, labor: 1953, health: 1212 },
-      { salary: 80000, labor: 2000, health: 1241 },
-      { salary: 81900, labor: 2048, health: 1271 },
-      { salary: 83800, labor: 2095, health: 1300 },
-      { salary: 85700, labor: 2143, health: 1330 },
-      { salary: 87600, labor: 2190, health: 1359 },
+      { salary: 28590, labor: 715, health: 444 }, { salary: 28800, labor: 720, health: 447 },
+      { salary: 30300, labor: 758, health: 470 }, { salary: 31800, labor: 795, health: 493 },
+      { salary: 33300, labor: 833, health: 516 }, { salary: 34800, labor: 870, health: 540 },
+      { salary: 36300, labor: 908, health: 563 }, { salary: 38200, labor: 955, health: 592 },
+      { salary: 40100, labor: 1003, health: 622 }, { salary: 42000, labor: 1050, health: 651 },
+      { salary: 43900, labor: 1098, health: 681 }, { salary: 45800, labor: 1145, health: 710 },
+      { salary: 47700, labor: 1193, health: 740 }, { salary: 49600, labor: 1240, health: 769 },
+      { salary: 51500, labor: 1288, health: 799 }, { salary: 53400, labor: 1335, health: 828 },
+      { salary: 55300, labor: 1383, health: 858 }, { salary: 57200, labor: 1430, health: 887 },
+      { salary: 59100, labor: 1478, health: 917 }, { salary: 61000, labor: 1525, health: 946 },
+      { salary: 62900, labor: 1573, health: 976 }, { salary: 64800, labor: 1620, health: 1005 },
+      { salary: 66700, labor: 1668, health: 1035 }, { salary: 68600, labor: 1715, health: 1064 },
+      { salary: 70500, labor: 1763, health: 1094 }, { salary: 72400, labor: 1810, health: 1123 },
+      { salary: 74300, labor: 1858, health: 1153 }, { salary: 76200, labor: 1905, health: 1182 },
+      { salary: 78100, labor: 1953, health: 1212 }, { salary: 80000, labor: 2000, health: 1241 },
+      { salary: 81900, labor: 2048, health: 1271 }, { salary: 83800, labor: 2095, health: 1300 },
+      { salary: 85700, labor: 2143, health: 1330 }, { salary: 87600, labor: 2190, health: 1359 },
       { salary: 89500, labor: 2238, health: 1389 }
     ];
 
-    // 生成日曆
+    /* --- 核心邏輯 --- */
+    
     function generateCalendar() {
       const start = new Date(document.getElementById("startDate").value);
       const end = new Date(document.getElementById("endDate").value);
@@ -977,19 +672,18 @@
       tbody.innerHTML = "";
 
       if (isNaN(start) || isNaN(end) || start > end) {
-        alert("請選擇有效的起訖日期");
+        alert("請確認日期範圍是否正確");
         return;
       }
 
       let currentRow = document.createElement("tr");
       let d = new Date(start);
 
-      // 填充開始日期前的空白
+      // 補白
       for (let i = 0; i < d.getDay(); i++) {
         currentRow.appendChild(document.createElement("td"));
       }
 
-      // 生成日期格子
       for (; d <= end; d.setDate(d.getDate() + 1)) {
         const yyyy = d.getFullYear();
         const mm = String(d.getMonth() + 1).padStart(2, '0');
@@ -998,76 +692,67 @@
         const weekday = d.getDay();
 
         let label = "平日";
-        let className = "weekday";
+        let className = "cell-weekday";
         let dayType = "weekday";
 
-        // 判斷週末
         if ((weekday === 0 || weekday === 6) && !makeupWorkdays.includes(key)) {
-          label = "假日";
-          className = "holiday";
+          label = "週末";
+          className = "cell-weekend";
           dayType = "weekend";
         }
 
-        // 判斷補班日（使用節日費率）
         if (makeupWorkdays.includes(key)) {
-          label = "補班日";
-          className = "festival";
-          dayType = "holiday";
+          label = "補班";
+          className = "cell-festival"; // 補班視同節日費率算法? 原code邏輯看起來補班是"festival"
+          dayType = "holiday"; 
         }
 
-        // 判斷節日
         if (holidays[key]) {
           label = holidays[key];
-          className = (weekday === 0 || weekday === 6) && !makeupWorkdays.includes(key) ? "holiday" : "festival";
+          className = (weekday === 0 || weekday === 6) && !makeupWorkdays.includes(key) ? "cell-weekend" : "cell-festival";
           dayType = "holiday";
         }
 
-        // 判斷颱風假（使用假日費率）
         if (typhoonHolidays[key]) {
           label = typhoonHolidays[key];
-          className = "holiday";
+          className = "cell-weekend";
           dayType = "weekend";
         }
 
         const cell = document.createElement("td");
-        cell.classList.add(className);
+        cell.className = className;
         cell.innerHTML = `
-          <span class="cell-date">${mm}/${dd}</span>
-          <span class="cell-label">${label}</span>
-          <input type="number" min="0" step="0.5" placeholder="時數" data-daytype="${dayType}" onchange="updateTotal()" />
+          <span class="date-badge">${mm}/${dd}</span>
+          <span class="type-badge">${label}</span>
+          <input type="number" min="0" step="0.5" placeholder="-" data-daytype="${dayType}" onchange="updateTotal()" onkeyup="updateTotal()">
         `;
         currentRow.appendChild(cell);
 
-        // 每週六換行
         if (weekday === 6) {
           tbody.appendChild(currentRow);
           currentRow = document.createElement("tr");
         }
       }
 
-      // 填充結束日期後的空白
       if (currentRow.children.length > 0) {
-        while (currentRow.children.length < 7) {
-          currentRow.appendChild(document.createElement("td"));
-        }
+        while (currentRow.children.length < 7) currentRow.appendChild(document.createElement("td"));
         tbody.appendChild(currentRow);
       }
 
       document.getElementById("calendarCard").style.display = "block";
+      // 平滑滾動
+      document.getElementById("calendarCard").scrollIntoView({ behavior: 'smooth', block: 'start' });
       updateTotal();
     }
 
-    // 更新加班時數總計
     function updateTotal() {
       const inputs = document.querySelectorAll("td input[type='number']");
-      let w2 = 0, w233 = 0, w266 = 0;
-      let s2 = 0, s233 = 0, s332 = 0;
-      let holiday = 0;
+      let w2=0, w233=0, w266=0, s2=0, s233=0, s332=0, holiday=0;
 
       inputs.forEach(i => {
-        const v = parseFloat(i.value);
-        if (isNaN(v)) return;
+        const v = parseFloat(i.value) || 0;
         const type = i.dataset.daytype;
+        if(v === 0) return;
 
         if (type === "weekday") {
           w2 += Math.min(v, 2);
@@ -1082,55 +767,47 @@
         }
       });
 
-      document.getElementById("ot2h").value = w2 ? w2.toFixed(1) : "";
-      document.getElementById("ot3to4h").value = w233 ? w233.toFixed(1) : "";
-      document.getElementById("ot5to6h").value = w266 ? w266.toFixed(1) : "";
-
-      document.getElementById("sat2h").value = s2 ? s2.toFixed(1) : "";
-      document.getElementById("sat3to8h").value = s233 ? s233.toFixed(1) : "";
-      document.getElementById("sat9to12h").value = s332 ? s332.toFixed(1) : "";
-
-      document.getElementById("holidayHours").value = holiday ? holiday.toFixed(1) : "";
+      // 寫入隱藏欄位
+      document.getElementById("ot2h").value = w2;
+      document.getElementById("ot3to4h").value = w233;
+      document.getElementById("ot5to6h").value = w266;
+      document.getElementById("sat2h").value = s2;
+      document.getElementById("sat3to8h").value = s233;
+      document.getElementById("sat9to12h").value = s332;
+      document.getElementById("holidayHours").value = holiday;
 
       const total = w2 + w233 + w266 + s2 + s233 + s332 + holiday;
       document.getElementById("otTotalHours").textContent = total.toFixed(1);
     }
 
-    // 輔助函式
-    function parse(id) {
-      return parseFloat(document.getElementById(id).value) || 0;
-    }
+    function parse(id) { return parseFloat(document.getElementById(id).value) || 0; }
+    function formatCurrency(num) { return Math.round(num).toLocaleString(); }
 
-    function getInsurance(salary) {
-      return insuranceTable.find(row => salary <= row.salary) || insuranceTable[insuranceTable.length - 1];
-    }
-
-    // 計算薪資
     function calculate() {
       const base = parse("baseSalary");
-      
-      if (base === 0) {
-        alert("請輸入本薪");
-        return;
-      }
+      if (base === 0) { alert("請輸入本薪"); return; }
 
+      // 1. 基礎參數
       const bonus = 2000;
       const meal = 1800;
       const extra = parse("extraPay");
       const totalBase = base + bonus + meal + extra;
+      const hourly = totalBase / 30 / 8;
 
-      const ins = getInsurance(totalBase);
+      // 2. 保險
+      const ins = insuranceTable.find(row => totalBase <= row.salary) || insuranceTable[insuranceTable.length - 1];
       const labor = ins.labor;
       const personalHealth = ins.health;
       const dependents = parse("dependents");
       const dependentHealth = personalHealth * dependents;
-      const health = personalHealth + dependentHealth;
+      
+      // 3. 扣項
+      const pension = Math.round(ins.salary * (parse("pensionRate")/100));
+      const welfare = Math.round((base + bonus + extra) * 0.005);
+      const supPremium = Math.round(parse("supplementaryPremium") * 0.0211);
+      const leaveDeduct = parse("leaveHours") * hourly;
 
-      const hourly = totalBase / 30 / 8;
-      const leave = parse("leaveHours");
-      const pensionRate = parse("pensionRate") / 100;
-      const leaveDeduct = leave * hourly;
-
+      // 4. 加班費
       const ot1 = parse("ot2h");
       const ot2 = parse("ot3to4h");
       const ot3 = parse("ot5to6h");
@@ -1139,122 +816,74 @@
       const s3 = parse("sat9to12h");
       const h1 = parse("holidayHours");
 
-      const fee1 = ot1 * 2 * hourly;
-      const fee2 = ot2 * 2.33 * hourly;
-      const fee3 = ot3 * 2.66 * hourly;
-      const feeSat1 = s1 * 2 * hourly;
-      const feeSat2 = s2 * 2.33 * hourly;
-      const feeSat3 = s3 * 3.32 * hourly;
-      const feeHoliday = h1 * 2.16 * hourly;
+      const payWD = (ot1 * 2 + ot2 * 2.33 + ot3 * 2.66) * hourly;
+      const paySat = (s1 * 2 + s2 * 2.33 + s3 * 3.32) * hourly;
+      const payHoliday = h1 * 2.16 * hourly;
 
+      // 5. 誤餐費與獎金
       const mealWD = Math.ceil(ot1 % 2 === 0 ? ot1 / 2 : (Math.floor(ot1) + 1) / 2) * 60;
       const mealSat = Math.floor((s1 + s2) / 8) * 60;
       const mealH = Math.ceil(h1 / 8) * 60;
-
+      
       const otTotal = ot1 + ot2 + ot3 + s1 + s2 + s3 + h1;
-      const otBonus = otTotal >= 50 ? 3000 : otTotal >= 40 ? 2000 : otTotal >= 30 ? 1500 : 0;
+      let otBonus = 0;
+      if (otTotal >= 50) otBonus = 3000;
+      else if (otTotal >= 40) otBonus = 2000;
+      else if (otTotal >= 30) otBonus = 1500;
 
-      const pension = Math.round(ins.salary * pensionRate);
-      const welfare = Math.round((base + bonus + extra) * 0.005);
+      // 6. 總計
+      const totalAdd = payWD + paySat + payHoliday + mealWD + mealSat + mealH + otBonus;
+      const totalDed = labor + personalHealth + dependentHealth + welfare + pension + supPremium + leaveDeduct;
+      const net = totalBase + totalAdd - totalDed;
 
-      // 補充保費計算
-      const supplementaryPremiumBase = parse("supplementaryPremium");
-      const supplementaryPremiumFee = Math.round(supplementaryPremiumBase * 0.0211);
+      // 7. 更新 UI
+      document.getElementById("resHourly").textContent = hourly.toFixed(2);
+      document.getElementById("resWD").textContent = formatCurrency(payWD);
+      document.getElementById("resSat").textContent = formatCurrency(paySat);
+      document.getElementById("resHoliday").textContent = formatCurrency(payHoliday);
+      document.getElementById("resMealWD").textContent = mealWD;
+      document.getElementById("resMealSat").textContent = mealSat;
+      document.getElementById("resMealHoliday").textContent = mealH;
+      document.getElementById("resTotalAdd").textContent = formatCurrency(totalAdd);
 
-      const net = totalBase - labor - health - pension - welfare - leaveDeduct - supplementaryPremiumFee + 
-                  fee1 + fee2 + fee3 + feeSat1 + feeSat2 + feeSat3 + feeHoliday + 
-                  mealWD + mealSat + mealH + otBonus;
-
-      const resultDiv = document.getElementById("result");
-      resultDiv.style.display = "block";
-      
-      let bonusHtml = "";
-      if (otTotal >= 30) {
-        bonusHtml = `
-          <div class="result-item">
-            <div class="label">加班時數獎金（${otTotal.toFixed(1)} 小時）</div>
-            <div class="value">${otBonus.toLocaleString()} 元</div>
-          </div>
-        `;
+      // 獎金顯示
+      const bonusRow = document.getElementById("bonusRow");
+      if(otBonus > 0) {
+        bonusRow.innerHTML = `<div class="payslip-row"><span class="key">加班時數獎金</span><span class="val text-green">${formatCurrency(otBonus)}</span></div>`;
+      } else {
+        bonusRow.innerHTML = "";
       }
-      
-      resultDiv.innerHTML = `
-        <h3>計算結果</h3>
-        
-        <div class="result-grid">
-          <div class="result-item">
-            <div class="label">時薪</div>
-            <div class="value">${hourly.toFixed(2)} 元</div>
-          </div>
-          <div class="result-item">
-            <div class="label">平日加班費</div>
-            <div class="value">${(fee1 + fee2 + fee3).toFixed(0).toLocaleString()} 元</div>
-          </div>
-          <div class="result-item">
-            <div class="label">平日誤餐費</div>
-            <div class="value">${mealWD} 元</div>
-          </div>
-          <div class="result-item">
-            <div class="label">週六加班費</div>
-            <div class="value">${(feeSat1 + feeSat2 + feeSat3).toFixed(0).toLocaleString()} 元</div>
-          </div>
-          <div class="result-item">
-            <div class="label">週六誤餐費</div>
-            <div class="value">${mealSat} 元</div>
-          </div>
-          <div class="result-item">
-            <div class="label">節日加班費</div>
-            <div class="value">${feeHoliday.toFixed(0).toLocaleString()} 元</div>
-          </div>
-          <div class="result-item">
-            <div class="label">節日誤餐費</div>
-            <div class="value">${mealH} 元</div>
-          </div>
-          <div class="result-item">
-            <div class="label">補充保費</div>
-            <div class="value">${supplementaryPremiumFee.toLocaleString()} 元</div>
-          </div>
-          ${bonusHtml}
-        </div>
 
-        <div class="result-detail">
-          <strong>扣款明細：</strong>${(labor + health + welfare + pension + leaveDeduct + supplementaryPremiumFee).toFixed(0).toLocaleString()} 元<br>
-          • 勞保：${labor.toLocaleString()} 元<br>
-          • 健保本人：${personalHealth.toLocaleString()} 元<br>
-          • 健保眷屬：${dependentHealth.toLocaleString()} 元<br>
-          • 福利金：${welfare.toLocaleString()} 元<br>
-          • 勞退：${pension.toLocaleString()} 元<br>
-          • 補充保費：${supplementaryPremiumFee.toLocaleString()} 元<br>
-          • 請假扣款：${leaveDeduct.toFixed(0).toLocaleString()} 元
-        </div>
+      document.getElementById("dedLabor").textContent = formatCurrency(labor);
+      document.getElementById("dedHealthP").textContent = formatCurrency(personalHealth);
+      document.getElementById("dedHealthD").textContent = formatCurrency(dependentHealth);
+      document.getElementById("dedWelfare").textContent = formatCurrency(welfare);
+      document.getElementById("dedPension").textContent = formatCurrency(pension);
+      document.getElementById("dedSup").textContent = formatCurrency(supPremium);
+      document.getElementById("dedLeave").textContent = formatCurrency(leaveDeduct);
+      document.getElementById("resTotalDed").textContent = formatCurrency(totalDed);
 
-        <div class="result-final">
-          <div class="label">實領薪資</div>
-          <div class="value">NT$ ${net.toFixed(0).toLocaleString()}</div>
-        </div>
-      `;
-      
-      // 滾動到結果區
-      resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      document.getElementById("finalNetPay").textContent = "NT$ " + formatCurrency(net);
+
+      // 顯示結果區
+      const resArea = document.getElementById("resultArea");
+      resArea.style.display = "block";
+      resArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    // 關閉彈窗
+    /* --- 彈窗邏輯 --- */
     function closePopup() {
-      document.getElementById("popupModal").style.display = "none";
+      document.getElementById("popupModal").classList.remove("active");
     }
 
-    // 初始化彈窗資料 (使用內嵌資料)
     window.addEventListener('DOMContentLoaded', function() {
-      document.getElementById("popupText").innerHTML = popupConfig.content.replace(/\\n/g, "<br>");
-
-      if (popupConfig.range) {
-        document.getElementById("startDate").value = popupConfig.range.start || "";
-        document.getElementById("endDate").value = popupConfig.range.end || "";
-      }
-
-      if (popupConfig.backgroundImage) {
-        document.body.style.backgroundImage = `url('${popupConfig.backgroundImage}')`;
-      }
+      document.getElementById("popupText").innerHTML = popupConfig.content.replace(/\n/g, "<br>");
+      document.getElementById("startDate").value = popupConfig.range.start;
+      document.getElementById("endDate").value = popupConfig.range.end;
+      
+      setTimeout(() => {
+        document.getElementById("popupModal").classList.add("active");
+      }, 500);
     });
   </script>
 </body>
