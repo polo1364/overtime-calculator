@@ -12,42 +12,41 @@
 
   <style>
     :root {
-      /* 主色調 - 深邃科技藍 */
-      --primary: #0066ff;
-      --primary-light: #3385ff;
-      --primary-dark: #0052cc;
-      --primary-glow: rgba(0, 102, 255, 0.15);
+      /* 主色調 - 專業企業藍 */
+      --primary: #2563eb;
+      --primary-light: #3b82f6;
+      --primary-dark: #1e40af;
+      --primary-glow: rgba(37, 99, 235, 0.1);
       
       /* 輔助色 */
-      --success: #00c48c;
-      --success-light: #e6faf4;
-      --warning: #ff9f43;
-      --warning-light: #fff4e6;
-      --danger: #ff5252;
-      --danger-light: #ffebee;
+      --success: #10b981;
+      --success-light: #d1fae5;
+      --warning: #f59e0b;
+      --warning-light: #fef3c7;
+      --danger: #ef4444;
+      --danger-light: #fee2e2;
       
-      /* 中性色 */
-      --bg-primary: #f7f9fc;
+      /* 中性色 - 專業灰階 */
+      --bg-primary: #f8fafc;
       --bg-secondary: #ffffff;
-      --bg-tertiary: #eef2f7;
-      --text-primary: #1a2b4a;
-      --text-secondary: #5a6b8a;
-      --text-tertiary: #8a9ab8;
+      --bg-tertiary: #f1f5f9;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-tertiary: #94a3b8;
       --border: #e2e8f0;
       --border-light: #f1f5f9;
       
       /* 尺寸與圓角 */
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 16px;
-      --radius-xl: 24px;
+      --radius-sm: 6px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-xl: 16px;
       
-      /* 陰影 */
-      --shadow-sm: 0 1px 3px rgba(26, 43, 74, 0.04), 0 1px 2px rgba(26, 43, 74, 0.06);
-      --shadow-md: 0 4px 6px rgba(26, 43, 74, 0.04), 0 2px 4px rgba(26, 43, 74, 0.06);
-      --shadow-lg: 0 10px 20px rgba(26, 43, 74, 0.06), 0 6px 6px rgba(26, 43, 74, 0.04);
-      --shadow-xl: 0 20px 40px rgba(26, 43, 74, 0.08), 0 10px 15px rgba(26, 43, 74, 0.04);
-      --shadow-glow: 0 0 40px rgba(0, 102, 255, 0.12);
+      /* 陰影 - 更精緻 */
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
       
       /* 動畫 */
       --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -65,33 +64,36 @@
     }
 
     body {
-      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: var(--bg-primary);
       color: var(--text-primary);
       line-height: 1.6;
       min-height: 100vh;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* 背景裝飾 */
+    /* 背景裝飾 - 更簡潔 */
     body::before {
       content: '';
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      height: 400px;
-      background: linear-gradient(180deg, rgba(0, 102, 255, 0.03) 0%, transparent 100%);
+      height: 320px;
+      background: linear-gradient(180deg, rgba(37, 99, 235, 0.02) 0%, transparent 100%);
       pointer-events: none;
       z-index: -1;
     }
 
     /* ===== Header ===== */
     .header {
-      background: linear-gradient(135deg, #0a1628 0%, #162850 50%, #1e3a6e 100%);
-      padding: 3rem 1.5rem 4rem;
+      background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
+      padding: 2.5rem 1.5rem 3.5rem;
       position: relative;
       overflow: hidden;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .header::before {
@@ -102,8 +104,8 @@
       right: 0;
       bottom: 0;
       background: 
-        radial-gradient(ellipse 80% 50% at 20% 40%, rgba(0, 102, 255, 0.15) 0%, transparent 50%),
-        radial-gradient(ellipse 60% 40% at 80% 60%, rgba(0, 200, 140, 0.08) 0%, transparent 50%);
+        radial-gradient(ellipse 60% 40% at 20% 30%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 30% at 80% 70%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
       pointer-events: none;
     }
 
@@ -129,25 +131,27 @@
     .header-badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 6px 14px;
-      border-radius: 100px;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 8px 16px;
+      border-radius: 20px;
       font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.7);
-      letter-spacing: 0.5px;
-      margin-bottom: 1.25rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.9);
+      letter-spacing: 0.3px;
+      margin-bottom: 1rem;
       animation: fadeInDown 0.6s var(--ease-out);
     }
 
     .header-badge::before {
       content: '';
-      width: 6px;
-      height: 6px;
-      background: var(--success);
+      width: 8px;
+      height: 8px;
+      background: #10b981;
       border-radius: 50%;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
       animation: pulse 2s infinite;
     }
 
@@ -157,17 +161,17 @@
     }
 
     .header h1 {
-      font-size: clamp(2rem, 5vw, 2.75rem);
+      font-size: clamp(1.875rem, 4vw, 2.5rem);
       font-weight: 700;
-      color: #fff;
-      letter-spacing: -0.5px;
+      color: #ffffff;
+      letter-spacing: -0.02em;
       margin-bottom: 0.5rem;
       animation: fadeInDown 0.6s var(--ease-out) 0.1s both;
     }
 
     .header p {
-      font-size: 1rem;
-      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9375rem;
+      color: rgba(255, 255, 255, 0.75);
       font-weight: 400;
       animation: fadeInDown 0.6s var(--ease-out) 0.2s both;
     }
@@ -190,15 +194,17 @@
     .card {
       background: var(--bg-secondary);
       border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-md);
+      box-shadow: var(--shadow-sm);
       border: 1px solid var(--border);
       margin-bottom: 1.5rem;
       animation: fadeInUp 0.5s var(--ease-out) both;
-      transition: box-shadow 0.3s ease, transform 0.3s ease;
+      transition: all 0.3s ease;
+      overflow: hidden;
     }
 
     .card:hover {
-      box-shadow: var(--shadow-lg);
+      box-shadow: var(--shadow-md);
+      border-color: var(--border);
     }
 
     @keyframes fadeInUp {
@@ -210,50 +216,60 @@
       display: flex;
       align-items: center;
       gap: 1rem;
-      padding: 1.5rem 1.75rem;
+      padding: 1.25rem 1.5rem;
       border-bottom: 1px solid var(--border-light);
+      background: linear-gradient(to bottom, rgba(248, 250, 252, 0.5), transparent);
     }
 
     .card-icon {
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       border-radius: var(--radius-md);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.25rem;
+      font-size: 1.125rem;
       flex-shrink: 0;
+      background: var(--bg-tertiary);
     }
 
     .card-icon.blue {
-      background: linear-gradient(135deg, #e6f0ff 0%, #cce0ff 100%);
+      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
       color: var(--primary);
     }
 
     .card-icon.green {
-      background: linear-gradient(135deg, #e6faf4 0%, #ccf5e8 100%);
+      background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
       color: var(--success);
     }
 
     .card-icon.orange {
-      background: linear-gradient(135deg, #fff4e6 0%, #ffe8cc 100%);
+      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
       color: var(--warning);
     }
 
     .card-title {
-      font-size: 1.125rem;
+      font-size: 1rem;
       font-weight: 600;
       color: var(--text-primary);
+      letter-spacing: -0.01em;
     }
 
     .card-subtitle {
-      font-size: 0.8rem;
-      color: var(--text-tertiary);
-      margin-top: 2px;
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      font-weight: 400;
     }
 
     .card-body {
-      padding: 1.75rem;
+      padding: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .card-body {
+        padding: 1.25rem;
+      }
     }
 
     /* ===== Grid ===== */
@@ -269,42 +285,49 @@
 
     /* ===== Form Elements ===== */
     .form-group {
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
     }
 
     .form-group:last-child {
       margin-bottom: 0;
     }
 
+    .form-group.compact {
+      margin-bottom: 1rem;
+    }
+
     .form-label {
       display: block;
       font-size: 0.8125rem;
       font-weight: 500;
-      color: var(--text-secondary);
+      color: var(--text-primary);
       margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
     }
 
     .form-input {
       width: 100%;
-      padding: 0.75rem 1rem;
-      font-size: 0.9375rem;
+      padding: 0.625rem 0.875rem;
+      font-size: 0.875rem;
       font-family: inherit;
       color: var(--text-primary);
       background: var(--bg-secondary);
-      border: 1.5px solid var(--border);
+      border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       transition: all 0.2s ease;
       appearance: none;
     }
 
     .form-input:hover {
-      border-color: #c8d4e5;
+      border-color: #cbd5e1;
+      background: #fafbfc;
     }
 
     .form-input:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 3px var(--primary-glow);
+      background: var(--bg-secondary);
     }
 
     .form-input::placeholder {
@@ -340,9 +363,9 @@
       font-size: 0.75rem;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--text-tertiary);
-      margin-bottom: 1.25rem;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
     }
 
     .section-label::after {
@@ -370,18 +393,19 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      background: var(--primary);
       color: #fff;
-      box-shadow: 0 4px 12px rgba(0, 102, 255, 0.25);
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      font-weight: 500;
     }
 
     .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 102, 255, 0.35);
+      background: var(--primary-dark);
+      box-shadow: var(--shadow-md);
     }
 
     .btn-primary:active {
-      transform: translateY(0);
+      transform: scale(0.98);
     }
 
     .btn-icon {
@@ -566,7 +590,7 @@
     .payslip {
       background: var(--bg-secondary);
       border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-xl), var(--shadow-glow);
+      box-shadow: var(--shadow-lg);
       border: 1px solid var(--border);
       overflow: hidden;
       animation: scaleIn 0.4s var(--ease-spring);
@@ -578,11 +602,12 @@
     }
 
     .payslip-header {
-      background: linear-gradient(135deg, #0a1628 0%, #162850 100%);
+      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
       padding: 2rem 1.75rem;
       text-align: center;
       position: relative;
       overflow: hidden;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .payslip-header::before {
@@ -592,7 +617,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: radial-gradient(ellipse 100% 100% at 50% 0%, rgba(0, 102, 255, 0.2) 0%, transparent 60%);
+      background: radial-gradient(ellipse 100% 100% at 50% 0%, rgba(37, 99, 235, 0.15) 0%, transparent 60%);
       pointer-events: none;
     }
 
@@ -777,6 +802,73 @@
       }
     }
 
+    /* ===== Leave Types Grid ===== */
+    .leave-types-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      padding: 1rem;
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-sm);
+      margin-top: 0.5rem;
+      border: 1px solid var(--border);
+    }
+
+    @media (max-width: 768px) {
+      .leave-types-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .leave-types-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .leave-type-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .leave-type-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 0.375rem;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .leave-type-badge {
+      font-size: 0.625rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .leave-type-badge.full {
+      background: var(--success-light);
+      color: var(--success);
+    }
+
+    .leave-type-badge.half {
+      background: var(--warning-light);
+      color: var(--warning);
+    }
+
+    .leave-type-input {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.875rem;
+      border: 1px solid var(--border);
+    }
+
+    .leave-type-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-glow);
+    }
+
     /* ===== Utility ===== */
     .mt-sm { margin-top: 0.75rem; }
     .mt-md { margin-top: 1.5rem; }
@@ -915,15 +1007,65 @@
             
             <div class="form-group">
               <label class="form-label">請假時數（小時）</label>
-              <input type="number" id="leaveHours" class="form-input" placeholder="0">
+              <div class="leave-types-grid">
+                <div class="leave-type-item">
+                  <div class="leave-type-label">
+                    事假
+                    <span class="leave-type-badge full">全薪</span>
+                  </div>
+                  <input type="number" id="leavePersonal" class="form-input leave-type-input" placeholder="0" min="0" step="0.5">
+                </div>
+                <div class="leave-type-item">
+                  <div class="leave-type-label">
+                    病假
+                    <span class="leave-type-badge half">半薪</span>
+                  </div>
+                  <input type="number" id="leaveSick" class="form-input leave-type-input" placeholder="0" min="0" step="0.5">
+                </div>
+                <div class="leave-type-item">
+                  <div class="leave-type-label">
+                    婚假
+                    <span class="leave-type-badge full">全薪</span>
+                  </div>
+                  <input type="number" id="leaveMarriage" class="form-input leave-type-input" placeholder="0" min="0" step="0.5">
+                </div>
+                <div class="leave-type-item">
+                  <div class="leave-type-label">
+                    喪假
+                    <span class="leave-type-badge full">全薪</span>
+                  </div>
+                  <input type="number" id="leaveBereavement" class="form-input leave-type-input" placeholder="0" min="0" step="0.5">
+                </div>
+                <div class="leave-type-item">
+                  <div class="leave-type-label">
+                    產假
+                    <span class="leave-type-badge full">全薪</span>
+                  </div>
+                  <input type="number" id="leaveMaternity" class="form-input leave-type-input" placeholder="0" min="0" step="0.5">
+                </div>
+                <div class="leave-type-item">
+                  <div class="leave-type-label">
+                    陪產假
+                    <span class="leave-type-badge full">全薪</span>
+                  </div>
+                  <input type="number" id="leavePaternity" class="form-input leave-type-input" placeholder="0" min="0" step="0.5">
+                </div>
+                <div class="leave-type-item">
+                  <div class="leave-type-label">
+                    家庭照顧假
+                    <span class="leave-type-badge full">全薪</span>
+                  </div>
+                  <input type="number" id="leaveFamilyCare" class="form-input leave-type-input" placeholder="0" min="0" step="0.5">
+                </div>
+              </div>
             </div>
             
             <div class="grid-2" style="gap: 0.75rem;">
-              <div class="form-group">
+              <div class="form-group compact">
                 <label class="form-label">勞退自提（%）</label>
                 <input type="number" id="pensionRate" class="form-input" placeholder="0 ~ 6">
               </div>
-              <div class="form-group">
+              <div class="form-group compact">
                 <label class="form-label">健保眷屬人數</label>
                 <input type="number" id="dependents" class="form-input" placeholder="0">
               </div>
@@ -1031,6 +1173,10 @@
               <span class="key">請假扣款</span>
               <span class="val text-danger" id="dedLeave">0</span>
             </div>
+            <div class="payslip-row" id="dedBonusRow" style="display: none;">
+              <span class="key">全勤獎金扣除</span>
+              <span class="val text-danger" id="dedBonus">0</span>
+            </div>
             <div class="payslip-row total">
               <span class="key">扣款總計</span>
               <span class="val text-danger" id="resTotalDed">0</span>
@@ -1060,19 +1206,34 @@
     };
 
     const holidays = {
-      "2025-01-01": "元旦", "2025-01-25": "彈性放假", "2025-01-27": "彈性放假", "2025-01-28": "除夕",
-      "2025-01-29": "春節", "2025-01-30": "春節", "2025-01-31": "春節", "2025-02-28": "和平紀念日",
-      "2025-04-03": "彈性放假", "2025-04-04": "兒童節/清明", "2025-05-01": "勞動節", "2025-05-30": "彈性放假",
-      "2025-05-31": "端午節", "2025-09-28": "孔子誕辰", "2025-09-29": "彈性放假", "2025-10-05": "彈性放假",
-      "2025-10-06": "中秋節", "2025-10-10": "國慶日", "2025-10-24": "彈性放假", "2025-10-25": "光復節",
-      "2025-12-25": "行憲紀念日"
+      // 2026年國定假日
+      "2026-01-01": "元旦",
+      // 春節連假：2/14(六) ~ 2/22(日)
+      "2026-02-14": "春節", "2026-02-15": "春節", "2026-02-16": "春節", "2026-02-17": "春節",
+      "2026-02-18": "春節", "2026-02-19": "春節", "2026-02-20": "春節", "2026-02-21": "春節", "2026-02-22": "春節",
+      // 228和平紀念日連假：2/27(五) ~ 3/1(日)
+      "2026-02-27": "和平紀念日", "2026-02-28": "和平紀念日", "2026-03-01": "和平紀念日",
+      // 兒童節/清明節連假：4/3(五) ~ 4/6(一)
+      "2026-04-03": "兒童節/清明", "2026-04-04": "兒童節/清明", "2026-04-05": "兒童節/清明", "2026-04-06": "兒童節/清明",
+      // 勞動節連假：5/1(五) ~ 5/3(日)
+      "2026-05-01": "勞動節", "2026-05-02": "勞動節", "2026-05-03": "勞動節",
+      // 端午節連假：6/19(五) ~ 6/21(日)
+      "2026-06-19": "端午節", "2026-06-20": "端午節", "2026-06-21": "端午節",
+      // 中秋節/教師節連假：9/25(五) ~ 9/28(一)
+      "2026-09-25": "中秋節", "2026-09-26": "中秋節", "2026-09-27": "中秋節", "2026-09-28": "中秋節/教師節",
+      // 國慶日連假：10/9(五) ~ 10/11(日)
+      "2026-10-09": "國慶日", "2026-10-10": "國慶日", "2026-10-11": "國慶日",
+      // 光復節連假：10/24(六) ~ 10/26(一)
+      "2026-10-24": "光復節", "2026-10-25": "光復節", "2026-10-26": "光復節",
+      // 行憲紀念日連假：12/25(五) ~ 12/27(日)
+      "2026-12-25": "行憲紀念日", "2026-12-26": "行憲紀念日", "2026-12-27": "行憲紀念日"
     };
     
     const typhoonHolidays = {
-      "2025-07-06": "颱風假", "2025-07-07": "颱風假", "2025-08-13": "颱風假", "2025-11-12": "颱風假"
+      // 2026年颱風假（如有需要可自行新增）
     };
 
-    const makeupWorkdays = ["2025-02-08"];
+    const makeupWorkdays = [];
 
     const insuranceTable = [
       { salary: 28590, labor: 715, health: 444 }, { salary: 28800, labor: 720, health: 447 },
@@ -1227,9 +1388,25 @@
       if (base === 0) { alert("請輸入本薪"); return; }
 
       // 1. 基礎參數
-      const bonus = 2000;
+      const bonusBase = 2000;
       const meal = 1800;
       const extra = parse("extraPay");
+      
+      // 計算請假時數
+      const leavePersonal = parse("leavePersonal");
+      const leaveSick = parse("leaveSick");
+      const leaveMarriage = parse("leaveMarriage");
+      const leaveBereavement = parse("leaveBereavement");
+      const leaveMaternity = parse("leaveMaternity");
+      const leavePaternity = parse("leavePaternity");
+      const leaveFamilyCare = parse("leaveFamilyCare");
+      
+      // 全勤獎金扣除（只有事假才扣，依比例）
+      const monthlyWorkHours = 30 * 8;
+      const leaveRatio = Math.min(leavePersonal / monthlyWorkHours, 1);
+      const bonusDeduct = Math.round(bonusBase * leaveRatio);
+      const bonus = bonusBase - bonusDeduct;
+      
       const totalBase = base + bonus + meal + extra;
       const hourly = totalBase / 30 / 8;
 
@@ -1244,7 +1421,11 @@
       const pension = Math.round(ins.salary * (parse("pensionRate")/100));
       const welfare = Math.round((base + bonus + extra) * 0.005);
       const supPremium = Math.round(parse("supplementaryPremium") * 0.0211);
-      const leaveDeduct = parse("leaveHours") * hourly;
+      
+      // 請假扣款計算：病假半薪，其他全薪
+      const leaveDeduct = (leavePersonal + leaveMarriage + leaveBereavement + 
+                          leaveMaternity + leavePaternity + leaveFamilyCare) * hourly +
+                          leaveSick * hourly * 0.5;
 
       // 4. 加班費
       const ot1 = parse("ot2h");
@@ -1272,7 +1453,7 @@
 
       // 6. 總計
       const totalAdd = payWD + paySat + payHoliday + mealWD + mealSat + mealH + otBonus;
-      const totalDed = labor + personalHealth + dependentHealth + welfare + pension + supPremium + leaveDeduct;
+      const totalDed = labor + personalHealth + dependentHealth + welfare + pension + supPremium + leaveDeduct + bonusDeduct;
       const net = totalBase + totalAdd - totalDed;
 
       // 7. 更新 UI
@@ -1300,6 +1481,17 @@
       document.getElementById("dedPension").textContent = formatCurrency(pension);
       document.getElementById("dedSup").textContent = formatCurrency(supPremium);
       document.getElementById("dedLeave").textContent = formatCurrency(leaveDeduct);
+      
+      // 全勤獎金扣除顯示
+      const dedBonusRow = document.getElementById("dedBonusRow");
+      const dedBonus = document.getElementById("dedBonus");
+      if (bonusDeduct > 0) {
+        dedBonusRow.style.display = "flex";
+        dedBonus.textContent = formatCurrency(bonusDeduct);
+      } else {
+        dedBonusRow.style.display = "none";
+      }
+      
       document.getElementById("resTotalDed").textContent = formatCurrency(totalDed);
 
       document.getElementById("finalNetPay").textContent = "NT$ " + formatCurrency(net);
@@ -1310,15 +1502,145 @@
       resArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
+    /* === 自動判別區間邏輯 === */
+    function getAutoDateRange() {
+      const today = new Date();
+      const dayOfWeek = today.getDay();
+      const day = today.getDate();
+      
+      // 判斷是否應該觸發自動填入
+      let shouldTrigger = false;
+      let checkDate = new Date(today);
+      
+      if (day === 7) {
+        // 如果今天是7號
+        shouldTrigger = true;
+        // 如果7號是週六或週日，往前找到週五（但還是用7號的月份計算）
+        if (dayOfWeek === 0) { // 週日
+          checkDate.setDate(checkDate.getDate() - 2); // 往前2天到週五
+        } else if (dayOfWeek === 6) { // 週六
+          checkDate.setDate(checkDate.getDate() - 1); // 往前1天到週五
+        }
+        // checkDate現在是週五，但我們需要恢復到7號的月份
+        // 所以重新設置為7號
+        checkDate = new Date(today);
+      } else if (dayOfWeek === 5) {
+        // 如果今天是週五，檢查明天或後天是否是7號
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const dayAfter = new Date(today);
+        dayAfter.setDate(dayAfter.getDate() + 2);
+        
+        if (tomorrow.getDate() === 7 || dayAfter.getDate() === 7) {
+          shouldTrigger = true;
+          // 使用明天或後天的月份（都是7號）
+          if (tomorrow.getDate() === 7) {
+            checkDate = tomorrow;
+          } else {
+            checkDate = dayAfter;
+          }
+        }
+      }
+      
+      if (shouldTrigger) {
+        const currentMonth = checkDate.getMonth(); // 0-11
+        const currentYear = checkDate.getFullYear();
+        
+        // 計算結束日期：(當前月份-1)月20號
+        let endMonth = currentMonth - 1;
+        let endYear = currentYear;
+        if (endMonth < 0) {
+          endMonth += 12;
+          endYear -= 1;
+        }
+        const endDate = new Date(endYear, endMonth, 20);
+        
+        // 計算開始日期：(當前月份-2)月21號
+        let startMonth = currentMonth - 2;
+        let startYear = currentYear;
+        if (startMonth < 0) {
+          startMonth += 12;
+          startYear -= 1;
+        }
+        const startDate = new Date(startYear, startMonth, 21);
+        
+        // 格式化為 YYYY-MM-DD
+        function formatDate(date) {
+          const yyyy = date.getFullYear();
+          const mm = String(date.getMonth() + 1).padStart(2, '0');
+          const dd = String(date.getDate()).padStart(2, '0');
+          return `${yyyy}-${mm}-${dd}`;
+        }
+        
+        return {
+          start: formatDate(startDate),
+          end: formatDate(endDate)
+        };
+      }
+      
+      return null; // 不是7號，返回null使用預設值
+    }
+
     /* === 彈窗邏輯 === */
     function closePopup() {
       document.getElementById("popupModal").classList.remove("active");
     }
 
     window.addEventListener('DOMContentLoaded', function() {
+      const startDateInput = document.getElementById("startDate");
+      const endDateInput = document.getElementById("endDate");
+      
+      // 檢查是否已手動修改過日期（使用 localStorage）
+      const hasManualEdit = localStorage.getItem('dateRangeManualEdit') === 'true';
+      const savedStartDate = localStorage.getItem('savedStartDate');
+      const savedEndDate = localStorage.getItem('savedEndDate');
+      
+      // 自動判別區間（只有在未手動修改時才自動填入）
+      let dateRange = popupConfig.range;
+      
+      if (hasManualEdit && savedStartDate && savedEndDate) {
+        // 如果已手動修改過，使用保存的值
+        dateRange = {
+          start: savedStartDate,
+          end: savedEndDate
+        };
+      } else if (!hasManualEdit) {
+        // 如果未手動修改過，嘗試自動判別
+        const autoRange = getAutoDateRange();
+        if (autoRange) {
+          dateRange = autoRange;
+          // 更新彈窗內容
+          const startStr = autoRange.start.split('-');
+          const endStr = autoRange.end.split('-');
+          popupConfig.content = `<b>${startStr[1]}/${startStr[2]}~${endStr[1]}/${endStr[2]}</b> 月份薪資結算。\n請依實際日期填寫加班時數，系統會自動對應費率。\n如有特殊狀況請手動備註。`;
+        }
+      }
+      
       document.getElementById("popupText").innerHTML = popupConfig.content.replace(/\n/g, "<br>");
-      document.getElementById("startDate").value = popupConfig.range.start;
-      document.getElementById("endDate").value = popupConfig.range.end;
+      startDateInput.value = dateRange.start;
+      endDateInput.value = dateRange.end;
+      
+      // 監聽手動修改事件
+      let initialStartDate = dateRange.start;
+      let initialEndDate = dateRange.end;
+      
+      startDateInput.addEventListener('change', function() {
+        if (this.value !== initialStartDate) {
+          localStorage.setItem('dateRangeManualEdit', 'true');
+          localStorage.setItem('savedStartDate', this.value);
+          localStorage.setItem('savedEndDate', endDateInput.value);
+          initialStartDate = this.value;
+        }
+      });
+      
+      endDateInput.addEventListener('change', function() {
+        if (this.value !== initialEndDate) {
+          localStorage.setItem('dateRangeManualEdit', 'true');
+          localStorage.setItem('savedStartDate', startDateInput.value);
+          localStorage.setItem('savedEndDate', this.value);
+          initialEndDate = this.value;
+        }
+      });
       
       setTimeout(() => {
         document.getElementById("popupModal").classList.add("active");
