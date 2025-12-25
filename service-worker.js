@@ -1,10 +1,11 @@
 const CACHE_NAME = 'salary-calculator-v1';
+const BASE_PATH = '/overtime-calculator/';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/icon-192.png',
-  '/icon-512.png'
+  BASE_PATH,
+  BASE_PATH + 'index.html',
+  BASE_PATH + 'manifest.json',
+  BASE_PATH + 'icon-192.png',
+  BASE_PATH + 'icon-512.png'
 ];
 
 // 安裝 Service Worker
@@ -61,7 +62,7 @@ self.addEventListener('fetch', (event) => {
       .catch(() => {
         // 如果網絡請求失敗，可以返回離線頁面
         if (event.request.destination === 'document') {
-          return caches.match('/index.html');
+          return caches.match(BASE_PATH + 'index.html');
         }
       })
   );
