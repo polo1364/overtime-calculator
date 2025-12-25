@@ -12,12 +12,12 @@
   <title>大瑞科技 | 薪資管理系統</title>
   
   <!-- PWA Manifest -->
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="./manifest.json">
   
   <!-- Icons -->
-  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
-  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
+  <link rel="apple-touch-icon" href="./icon-192.png">
   
   <!-- Google Fonts - 精選字體組合 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1664,26 +1664,32 @@
     /* === PWA Service Worker Registration === */
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/overtime-calculator/service-worker.js')
+        // 使用相對路徑，自動適應部署路徑
+        const swPath = './service-worker.js';
+        
+        navigator.serviceWorker.register(swPath, { scope: './' })
           .then((registration) => {
             console.log('Service Worker registered successfully:', registration.scope);
             
             // 檢查更新
             registration.addEventListener('updatefound', () => {
               const newWorker = registration.installing;
-              newWorker.addEventListener('statechange', () => {
-                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                  // 有新版本可用
-                  if (confirm('發現新版本，是否立即更新？')) {
-                    newWorker.postMessage({ action: 'skipWaiting' });
-                    window.location.reload();
+              if (newWorker) {
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    // 有新版本可用
+                    if (confirm('發現新版本，是否立即更新？')) {
+                      newWorker.postMessage({ action: 'skipWaiting' });
+                      window.location.reload();
+                    }
                   }
-                }
-              });
+                });
+              }
             });
           })
           .catch((error) => {
-            console.log('Service Worker registration failed:', error);
+            console.error('Service Worker registration failed:', error);
+            // 如果註冊失敗，不影響應用正常使用
           });
       });
 
