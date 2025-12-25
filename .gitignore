@@ -1,0 +1,30 @@
+# 系統文件
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 編輯器文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 臨時文件
+*.tmp
+*.log
+*.cache
+
+# 環境變數
+.env
+.env.local
+
+# 測試文件（如果有）
+node_modules/
+package-lock.json
+yarn.lock
+
+# 備份文件
+*.bak
+*.backup
+
