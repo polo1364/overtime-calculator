@@ -1679,13 +1679,23 @@
               if (newWorker) {
                 newWorker.addEventListener('statechange', () => {
                   if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                    // 有新版本可用
-                    if (confirm('發現新版本，是否立即更新？')) {
-                      newWorker.postMessage({ action: 'skipWaiting' });
-                      window.location.reload();
-                    }
+                    // 有新版本可用，自動更新
+                    console.log('New service worker available, updating...');
+                    newWorker.postMessage({ action: 'skipWaiting' });
                   }
                 });
+              }
+            });
+
+            // 定期檢查更新（每小時檢查一次）
+            setInterval(() => {
+              registration.update();
+            }, 60 * 60 * 1000);
+
+            // 當頁面獲得焦點時檢查更新
+            document.addEventListener('visibilitychange', () => {
+              if (!document.hidden) {
+                registration.update();
               }
             });
           })

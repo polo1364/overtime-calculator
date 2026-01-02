@@ -1,4 +1,4 @@
-const CACHE_NAME = 'salary-calculator-v1';
+const CACHE_NAME = 'salary-calculator-v2';
 // 動態獲取 Service Worker 所在路徑
 const BASE_PATH = self.location.pathname.replace('/service-worker.js', '');
 
@@ -52,28 +52,20 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// 攔截請求並使用緩存
+// 攔截請求並使用緩存（網絡優先策略）
 self.addEventListener('fetch', (event) => {
   // 只處理同源請求
   if (!event.request.url.startsWith(self.location.origin)) {
     return;
   }
 
-  event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // 如果在緩存中找到，返回緩存版本
-        if (response) {
-          return response;
-        }
-        // 否則從網絡獲取
-        return fetch(event.request)
-          .then((response) => {
-            // 檢查響應是否有效
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
-            // 克隆響應
+  // 對於 HTML 文件，使用網絡優先策略以確保獲取最新版本
+  if (event.request.destination === 'document' || event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          // 如果網絡請求成功，更新緩存並返回響應
+          if (response && response.status === 200) {
             const responseToCache = response.clone();
             caches.open(CACHE_NAME)
               .then((cache) => {
@@ -83,26 +75,63 @@ self.addEventListener('fetch', (event) => {
                 console.warn('Failed to cache response:', err);
               });
             return response;
-          })
-          .catch((error) => {
-            console.warn('Fetch failed:', error);
-            // 如果網絡請求失敗，嘗試返回緩存的 index.html
-            if (event.request.destination === 'document' || 
-                event.request.mode === 'navigate') {
+          }
+          // 如果網絡請求失敗，嘗試從緩存獲取
+          return caches.match(event.request)
+            .then((cachedResponse) => {
+              if (cachedResponse) {
+                return cachedResponse;
+              }
+              // 最後嘗試返回 index.html
               return caches.match(BASE_PATH + '/index.html');
-            }
-            throw error;
-          });
-      })
-      .catch((error) => {
-        console.error('Cache match failed:', error);
-        // 最後嘗試返回 index.html
-        if (event.request.destination === 'document' || 
-            event.request.mode === 'navigate') {
-          return caches.match(BASE_PATH + '/index.html');
-        }
-        return new Response('Offline', { status: 503 });
-      })
-  );
+            });
+        })
+        .catch((error) => {
+          console.warn('Fetch failed, using cache:', error);
+          // 網絡失敗時，從緩存獲取
+          return caches.match(event.request)
+            .then((cachedResponse) => {
+              if (cachedResponse) {
+                return cachedResponse;
+              }
+              // 最後嘗試返回 index.html
+              return caches.match(BASE_PATH + '/index.html');
+            });
+        })
+    );
+  } else {
+    // 對於其他資源（圖片、JSON等），使用緩存優先策略
+    event.respondWith(
+      caches.match(event.request)
+        .then((response) => {
+          // 如果在緩存中找到，返回緩存版本
+          if (response) {
+            return response;
+          }
+          // 否則從網絡獲取
+          return fetch(event.request)
+            .then((response) => {
+              // 檢查響應是否有效
+              if (!response || response.status !== 200 || response.type !== 'basic') {
+                return response;
+              }
+              // 克隆響應並更新緩存
+              const responseToCache = response.clone();
+              caches.open(CACHE_NAME)
+                .then((cache) => {
+                  cache.put(event.request, responseToCache);
+                })
+                .catch(err => {
+                  console.warn('Failed to cache response:', err);
+                });
+              return response;
+            })
+            .catch((error) => {
+              console.warn('Fetch failed:', error);
+              throw error;
+            });
+        })
+    );
+  }
 });
 
