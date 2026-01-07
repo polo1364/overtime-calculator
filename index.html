@@ -1611,25 +1611,48 @@
       const savedStartDate = localStorage.getItem('savedStartDate');
       const savedEndDate = localStorage.getItem('savedEndDate');
       
-      // 自動判別區間（只有在未手動修改時才自動填入）
+      // 先嘗試自動判別區間
+      const autoRange = getAutoDateRange();
       let dateRange = popupConfig.range;
+      let useAutoRange = false;
       
-      if (hasManualEdit && savedStartDate && savedEndDate) {
-        // 如果已手動修改過，使用保存的值
+      if (autoRange) {
+        // 如果有自動判別的區間（表示今天是7號或週五），優先使用自動區間
+        // 檢查保存的區間是否已經過期
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        if (savedEndDate) {
+          const savedEnd = new Date(savedEndDate);
+          savedEnd.setHours(0, 0, 0, 0);
+          // 如果保存的結束日期已經過去，使用新的自動區間
+          if (savedEnd < today) {
+            useAutoRange = true;
+            dateRange = autoRange;
+          } else {
+            // 即使保存的區間還沒過期，如果自動判別有新的區間，也使用新的
+            // 這表示到了新的月份（7號），應該更新區間
+            useAutoRange = true;
+            dateRange = autoRange;
+          }
+        } else {
+          // 沒有保存的值，使用自動區間
+          useAutoRange = true;
+          dateRange = autoRange;
+        }
+      } else if (hasManualEdit && savedStartDate && savedEndDate) {
+        // 如果沒有自動判別區間（不是7號也不是週五），但之前手動修改過，使用保存的值
         dateRange = {
           start: savedStartDate,
           end: savedEndDate
         };
-      } else if (!hasManualEdit) {
-        // 如果未手動修改過，嘗試自動判別
-        const autoRange = getAutoDateRange();
-        if (autoRange) {
-          dateRange = autoRange;
-          // 更新彈窗內容
-          const startStr = autoRange.start.split('-');
-          const endStr = autoRange.end.split('-');
-          popupConfig.content = `<b>${startStr[1]}/${startStr[2]}~${endStr[1]}/${endStr[2]}</b> 月份薪資結算。\n請依實際日期填寫加班時數，系統會自動對應費率。\n如有特殊狀況請手動備註。`;
-        }
+      }
+      
+      // 如果使用自動區間，更新彈窗內容
+      if (useAutoRange && autoRange) {
+        const startStr = autoRange.start.split('-');
+        const endStr = autoRange.end.split('-');
+        popupConfig.content = `<b>${startStr[1]}/${startStr[2]}~${endStr[1]}/${endStr[2]}</b> 月份薪資結算。\n請依實際日期填寫加班時數，系統會自動對應費率。\n如有特殊狀況請手動備註。`;
       }
       
       document.getElementById("popupText").innerHTML = popupConfig.content.replace(/\n/g, "<br>");
