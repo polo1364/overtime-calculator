@@ -1222,24 +1222,6 @@
       const currentMonth = today.getMonth(); // 0-11
       const currentYear = today.getFullYear();
       
-      // 計算下個月7號是星期幾（用來判斷下個月的結算日）
-      let nextMonth = currentMonth + 1;
-      let nextYear = currentYear;
-      if (nextMonth > 11) {
-        nextMonth = 0;
-        nextYear += 1;
-      }
-      const nextDay7 = new Date(nextYear, nextMonth, 7);
-      const nextDay7WeekDay = nextDay7.getDay();
-      
-      // 計算下個月的實際結算日（7號若是六日，自動改成週五）
-      let nextSettlementDay = 7;
-      if (nextDay7WeekDay === 6) {
-        nextSettlementDay = 5;
-      } else if (nextDay7WeekDay === 0) {
-        nextSettlementDay = 6;
-      }
-      
       // 計算當月7號是星期幾
       const day7 = new Date(currentYear, currentMonth, 7);
       const day7WeekDay = day7.getDay();
@@ -1247,29 +1229,52 @@
       // 計算當月的實際結算日（7號若是六日，自動改成週五）
       let settlementDay = 7;
       if (day7WeekDay === 6) {
-        settlementDay = 5;
-      } else if (day7WeekDay === 0) {
+        // 7號是週六 → 往前1天到週五（6號）
         settlementDay = 6;
+      } else if (day7WeekDay === 0) {
+        // 7號是週日 → 往前2天到週五（5號）
+        settlementDay = 5;
       }
       
       let startYear, startMonth, endYear, endMonth;
       
-      // 結算日前（含結算日）：顯示「上上個月21日～上個月20日」（本月要結算的）
-      // 結算日後到下個月結算日前：仍顯示本月結算的區間
-      // 結束日期：上個月20日
-      endMonth = currentMonth - 1;
-      endYear = currentYear;
-      if (endMonth < 0) {
-        endMonth += 12;
-        endYear -= 1;
-      }
-      
-      // 開始日期：上上個月21日
-      startMonth = currentMonth - 2;
-      startYear = currentYear;
-      if (startMonth < 0) {
-        startMonth += 12;
-        startYear -= 1;
+      // 以結算日為切換基準：
+      // >= 結算日：顯示本月結算的區間（上上個月21日～上個月20日）
+      // < 結算日：顯示上個月結算的區間（上上上個月21日～上上個月20日）
+      if (currentDay >= settlementDay) {
+        // 已過結算日，顯示本月結算的區間
+        // 結束日期：上個月20日
+        endMonth = currentMonth - 1;
+        endYear = currentYear;
+        if (endMonth < 0) {
+          endMonth += 12;
+          endYear -= 1;
+        }
+        
+        // 開始日期：上上個月21日
+        startMonth = currentMonth - 2;
+        startYear = currentYear;
+        if (startMonth < 0) {
+          startMonth += 12;
+          startYear -= 1;
+        }
+      } else {
+        // 還沒到結算日，顯示上個月結算的區間
+        // 結束日期：上上個月20日
+        endMonth = currentMonth - 2;
+        endYear = currentYear;
+        if (endMonth < 0) {
+          endMonth += 12;
+          endYear -= 1;
+        }
+        
+        // 開始日期：上上上個月21日
+        startMonth = currentMonth - 3;
+        startYear = currentYear;
+        if (startMonth < 0) {
+          startMonth += 12;
+          startYear -= 1;
+        }
       }
       
       const startDate = new Date(startYear, startMonth, 21);
