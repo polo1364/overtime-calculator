@@ -1214,9 +1214,96 @@
 
   <script>
     /* === 設定與資料 === */
+    
+    // 自動計算結算區間的函數
+    function calculateSettlementPeriod() {
+      const today = new Date();
+      const currentDay = today.getDate();
+      const currentMonth = today.getMonth(); // 0-11
+      const currentYear = today.getFullYear();
+      
+      // 計算下個月7號是星期幾（用來判斷下個月的結算日）
+      let nextMonth = currentMonth + 1;
+      let nextYear = currentYear;
+      if (nextMonth > 11) {
+        nextMonth = 0;
+        nextYear += 1;
+      }
+      const nextDay7 = new Date(nextYear, nextMonth, 7);
+      const nextDay7WeekDay = nextDay7.getDay();
+      
+      // 計算下個月的實際結算日（7號若是六日，自動改成週五）
+      let nextSettlementDay = 7;
+      if (nextDay7WeekDay === 6) {
+        nextSettlementDay = 5;
+      } else if (nextDay7WeekDay === 0) {
+        nextSettlementDay = 6;
+      }
+      
+      // 計算當月7號是星期幾
+      const day7 = new Date(currentYear, currentMonth, 7);
+      const day7WeekDay = day7.getDay();
+      
+      // 計算當月的實際結算日（7號若是六日，自動改成週五）
+      let settlementDay = 7;
+      if (day7WeekDay === 6) {
+        settlementDay = 5;
+      } else if (day7WeekDay === 0) {
+        settlementDay = 6;
+      }
+      
+      let startYear, startMonth, endYear, endMonth;
+      
+      // 結算日前（含結算日）：顯示「上上個月21日～上個月20日」（本月要結算的）
+      // 結算日後到下個月結算日前：仍顯示本月結算的區間
+      // 結束日期：上個月20日
+      endMonth = currentMonth - 1;
+      endYear = currentYear;
+      if (endMonth < 0) {
+        endMonth += 12;
+        endYear -= 1;
+      }
+      
+      // 開始日期：上上個月21日
+      startMonth = currentMonth - 2;
+      startYear = currentYear;
+      if (startMonth < 0) {
+        startMonth += 12;
+        startYear -= 1;
+      }
+      
+      const startDate = new Date(startYear, startMonth, 21);
+      const endDate = new Date(endYear, endMonth, 20);
+      
+      // 格式化為 YYYY-MM-DD
+      function formatDate(date) {
+        const yyyy = date.getFullYear();
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const dd = String(date.getDate()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}`;
+      }
+      
+      // 格式化為 MM/DD 顯示用
+      function formatDisplay(date) {
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const dd = String(date.getDate()).padStart(2, '0');
+        return `${mm}/${dd}`;
+      }
+      
+      return {
+        start: formatDate(startDate),
+        end: formatDate(endDate),
+        displayStart: formatDisplay(startDate),
+        displayEnd: formatDisplay(endDate)
+      };
+    }
+    
+    // 根據當前日期自動計算結算區間
+    const settlementPeriod = calculateSettlementPeriod();
+    
     const popupConfig = {
-      content: "<b>11/21~12/19</b> 月份薪資結算。\n請依實際日期填寫加班時數，系統會自動對應費率。\n如有特殊狀況請手動備註。",
-      range: { start: "2025-11-21", end: "2025-12-19" }
+      content: `<b>${settlementPeriod.displayStart}~${settlementPeriod.displayEnd}</b> 月份薪資結算。\n請依實際日期填寫加班時數，系統會自動對應費率。\n如有特殊狀況請手動備註。\n\n<span style="display:inline-block;background:#fef3c7;color:#92400e;padding:6px 12px;border-radius:6px;font-size:0.875rem;font-weight:500;">⚠️ 若結算日期有變請手動調整日期區間</span>`,
+      range: { start: settlementPeriod.start, end: settlementPeriod.end }
     };
 
     const holidays = {
@@ -1518,85 +1605,6 @@
       resArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    /* === 自動判別區間邏輯 === */
-    function getAutoDateRange() {
-      const today = new Date();
-      const dayOfWeek = today.getDay();
-      const day = today.getDate();
-      
-      // 判斷是否應該觸發自動填入
-      let shouldTrigger = false;
-      let checkDate = new Date(today);
-      
-      if (day === 7) {
-        // 如果今天是7號
-        shouldTrigger = true;
-        // 如果7號是週六或週日，往前找到週五（但還是用7號的月份計算）
-        if (dayOfWeek === 0) { // 週日
-          checkDate.setDate(checkDate.getDate() - 2); // 往前2天到週五
-        } else if (dayOfWeek === 6) { // 週六
-          checkDate.setDate(checkDate.getDate() - 1); // 往前1天到週五
-        }
-        // checkDate現在是週五，但我們需要恢復到7號的月份
-        // 所以重新設置為7號
-        checkDate = new Date(today);
-      } else if (dayOfWeek === 5) {
-        // 如果今天是週五，檢查明天或後天是否是7號
-        const tomorrow = new Date(today);
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        const dayAfter = new Date(today);
-        dayAfter.setDate(dayAfter.getDate() + 2);
-        
-        if (tomorrow.getDate() === 7 || dayAfter.getDate() === 7) {
-          shouldTrigger = true;
-          // 使用明天或後天的月份（都是7號）
-          if (tomorrow.getDate() === 7) {
-            checkDate = tomorrow;
-          } else {
-            checkDate = dayAfter;
-          }
-        }
-      }
-      
-      if (shouldTrigger) {
-        const currentMonth = checkDate.getMonth(); // 0-11
-        const currentYear = checkDate.getFullYear();
-        
-        // 計算結束日期：(當前月份-1)月20號
-        let endMonth = currentMonth - 1;
-        let endYear = currentYear;
-        if (endMonth < 0) {
-          endMonth += 12;
-          endYear -= 1;
-        }
-        const endDate = new Date(endYear, endMonth, 20);
-        
-        // 計算開始日期：(當前月份-2)月21號
-        let startMonth = currentMonth - 2;
-        let startYear = currentYear;
-        if (startMonth < 0) {
-          startMonth += 12;
-          startYear -= 1;
-        }
-        const startDate = new Date(startYear, startMonth, 21);
-        
-        // 格式化為 YYYY-MM-DD
-        function formatDate(date) {
-          const yyyy = date.getFullYear();
-          const mm = String(date.getMonth() + 1).padStart(2, '0');
-          const dd = String(date.getDate()).padStart(2, '0');
-          return `${yyyy}-${mm}-${dd}`;
-        }
-        
-        return {
-          start: formatDate(startDate),
-          end: formatDate(endDate)
-        };
-      }
-      
-      return null; // 不是7號，返回null使用預設值
-    }
-
     /* === 彈窗邏輯 === */
     function closePopup() {
       document.getElementById("popupModal").classList.remove("active");
@@ -1606,80 +1614,10 @@
       const startDateInput = document.getElementById("startDate");
       const endDateInput = document.getElementById("endDate");
       
-      // 檢查是否已手動修改過日期（使用 localStorage）
-      const hasManualEdit = localStorage.getItem('dateRangeManualEdit') === 'true';
-      const savedStartDate = localStorage.getItem('savedStartDate');
-      const savedEndDate = localStorage.getItem('savedEndDate');
-      
-      // 先嘗試自動判別區間
-      const autoRange = getAutoDateRange();
-      let dateRange = popupConfig.range;
-      let useAutoRange = false;
-      
-      if (autoRange) {
-        // 如果有自動判別的區間（表示今天是7號或週五），優先使用自動區間
-        // 檢查保存的區間是否已經過期
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        
-        if (savedEndDate) {
-          const savedEnd = new Date(savedEndDate);
-          savedEnd.setHours(0, 0, 0, 0);
-          // 如果保存的結束日期已經過去，使用新的自動區間
-          if (savedEnd < today) {
-            useAutoRange = true;
-            dateRange = autoRange;
-          } else {
-            // 即使保存的區間還沒過期，如果自動判別有新的區間，也使用新的
-            // 這表示到了新的月份（7號），應該更新區間
-            useAutoRange = true;
-            dateRange = autoRange;
-          }
-        } else {
-          // 沒有保存的值，使用自動區間
-          useAutoRange = true;
-          dateRange = autoRange;
-        }
-      } else if (hasManualEdit && savedStartDate && savedEndDate) {
-        // 如果沒有自動判別區間（不是7號也不是週五），但之前手動修改過，使用保存的值
-        dateRange = {
-          start: savedStartDate,
-          end: savedEndDate
-        };
-      }
-      
-      // 如果使用自動區間，更新彈窗內容
-      if (useAutoRange && autoRange) {
-        const startStr = autoRange.start.split('-');
-        const endStr = autoRange.end.split('-');
-        popupConfig.content = `<b>${startStr[1]}/${startStr[2]}~${endStr[1]}/${endStr[2]}</b> 月份薪資結算。\n請依實際日期填寫加班時數，系統會自動對應費率。\n如有特殊狀況請手動備註。`;
-      }
-      
+      // 使用自動計算的結算區間
       document.getElementById("popupText").innerHTML = popupConfig.content.replace(/\n/g, "<br>");
-      startDateInput.value = dateRange.start;
-      endDateInput.value = dateRange.end;
-      
-      // 監聽手動修改事件
-      let initialStartDate = dateRange.start;
-      let initialEndDate = dateRange.end;
-      
-      startDateInput.addEventListener('change', function() {
-        if (this.value !== initialStartDate) {
-          localStorage.setItem('dateRangeManualEdit', 'true');
-          localStorage.setItem('savedStartDate', this.value);
-          localStorage.setItem('savedEndDate', endDateInput.value);
-          initialStartDate = this.value;
-        }
-      });
-      
-      endDateInput.addEventListener('change', function() {
-        if (this.value !== initialEndDate) {
-          localStorage.setItem('dateRangeManualEdit', 'true');
-          localStorage.setItem('savedStartDate', startDateInput.value);
-          localStorage.setItem('savedEndDate', this.value);
-          initialEndDate = this.value;
-        }
-      });
+      startDateInput.value = popupConfig.range.start;
+      endDateInput.value = popupConfig.range.end;
       
       setTimeout(() => {
         document.getElementById("popupModal").classList.add("active");
