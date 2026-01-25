@@ -11,8 +11,15 @@
   
   <title>大瑞科技 | 薪資管理系統</title>
   
-  <!-- PWA Manifest -->
-  <link rel="manifest" href="./manifest.json">
+  <!-- PWA Manifest (透過 JS 動態載入，避免 file:// 協議錯誤) -->
+  <script>
+    if (location.protocol !== 'file:') {
+      const link = document.createElement('link');
+      link.rel = 'manifest';
+      link.href = './manifest.json';
+      document.head.appendChild(link);
+    }
+  </script>
   
   <!-- Icons -->
   <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
@@ -1004,6 +1011,327 @@
     .quick-btn-c:hover {
       background: #fecaca;
     }
+
+    /* ===== 浮動按鈕 ===== */
+    .fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+      cursor: pointer;
+      z-index: 999;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .fab:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+    }
+
+    .fab-icon {
+      font-size: 1.5rem;
+    }
+
+    .fab-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      min-width: 22px;
+      height: 22px;
+      background: #ef4444;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 6px;
+    }
+
+    .fab-badge:empty, .fab-badge[data-count="0"] {
+      display: none;
+    }
+
+    /* ===== 記錄面板 ===== */
+    .record-panel {
+      position: fixed;
+      bottom: 100px;
+      right: 24px;
+      width: 360px;
+      max-height: 70vh;
+      background: white;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      z-index: 998;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px) scale(0.95);
+      transition: all 0.3s var(--ease-spring);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .record-panel.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+
+    .record-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+      color: white;
+    }
+
+    .record-panel-header h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .record-panel-close {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.7);
+      font-size: 1.25rem;
+      cursor: pointer;
+      padding: 4px;
+      line-height: 1;
+    }
+
+    .record-panel-close:hover {
+      color: white;
+    }
+
+    .record-panel-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+    }
+
+    /* 新增區塊 */
+    .record-add-section {
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .record-add-title {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+    }
+
+    .record-add-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-end;
+    }
+
+    .record-add-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .record-add-field label {
+      font-size: 0.7rem;
+      color: var(--text-tertiary);
+    }
+
+    .record-input {
+      padding: 0.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      font-family: inherit;
+    }
+
+    .record-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-glow);
+    }
+
+    .record-add-btn {
+      padding: 0.5rem 1rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .record-add-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    /* 帶入區塊 */
+    .record-import-section {
+      background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+      border: 1px solid #a7f3d0;
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .record-import-info {
+      font-size: 0.8125rem;
+      color: #047857;
+      margin-bottom: 0.75rem;
+    }
+
+    .record-import-info strong {
+      color: #065f46;
+    }
+
+    .record-import-btn {
+      width: 100%;
+      padding: 0.625rem 1rem;
+      background: #10b981;
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .record-import-btn:hover {
+      background: #059669;
+    }
+
+    /* 記錄列表 */
+    .record-list-section {
+      border-top: 1px solid var(--border-light);
+      padding-top: 1rem;
+    }
+
+    .record-list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .record-clear-btn {
+      background: none;
+      border: none;
+      color: var(--danger);
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
+    .record-clear-btn:hover {
+      text-decoration: underline;
+    }
+
+    .record-list {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .record-empty {
+      text-align: center;
+      padding: 1.5rem;
+      color: var(--text-tertiary);
+      font-size: 0.875rem;
+    }
+
+    .record-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.625rem 0.75rem;
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-sm);
+      margin-bottom: 0.5rem;
+    }
+
+    .record-item-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .record-item-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .record-item-hours {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--success);
+    }
+
+    .record-item-status {
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .record-item-status.in-range {
+      background: #d1fae5;
+      color: #047857;
+    }
+
+    .record-item-status.out-range {
+      background: var(--bg-tertiary);
+      color: var(--text-tertiary);
+    }
+
+    .record-item-delete {
+      background: none;
+      border: none;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      padding: 4px;
+      font-size: 0.875rem;
+    }
+
+    .record-item-delete:hover {
+      color: var(--danger);
+    }
+
+    @media (max-width: 480px) {
+      .record-panel {
+        right: 12px;
+        left: 12px;
+        width: auto;
+        bottom: 90px;
+      }
+      
+      .fab {
+        bottom: 16px;
+        right: 16px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1332,6 +1660,59 @@
 
   </main>
 
+  <!-- 浮動按鈕 + 加班記錄本 -->
+  <button class="fab" id="fabBtn" onclick="toggleRecordPanel()">
+    <span class="fab-icon">📝</span>
+    <span class="fab-badge" id="fabBadge">0</span>
+  </button>
+
+  <div class="record-panel" id="recordPanel">
+    <div class="record-panel-header">
+      <h3>📒 加班記錄本</h3>
+      <button class="record-panel-close" onclick="toggleRecordPanel()">✕</button>
+    </div>
+    
+    <div class="record-panel-body">
+      <!-- 新增記錄 -->
+      <div class="record-add-section">
+        <div class="record-add-title">新增加班記錄</div>
+        <div class="record-add-row">
+          <div class="record-add-field">
+            <label>日期</label>
+            <input type="date" id="recordDate" class="record-input">
+          </div>
+          <div class="record-add-field">
+            <label>時數</label>
+            <input type="number" id="recordHours" class="record-input" placeholder="0" min="0" step="0.5" style="width: 70px;">
+          </div>
+          <button class="record-add-btn" onclick="addRecord()">+ 新增</button>
+        </div>
+      </div>
+
+      <!-- 一鍵帶入 -->
+      <div class="record-import-section">
+        <div class="record-import-info">
+          <span>📅 當前結算區間：</span>
+          <strong id="currentRangeDisplay">-</strong>
+        </div>
+        <button class="record-import-btn" onclick="importRecordsToCalendar()">
+          📥 一鍵帶入月曆
+        </button>
+      </div>
+
+      <!-- 記錄列表 -->
+      <div class="record-list-section">
+        <div class="record-list-header">
+          <span>所有記錄</span>
+          <button class="record-clear-btn" onclick="clearAllRecords()">清除全部</button>
+        </div>
+        <div class="record-list" id="recordList">
+          <div class="record-empty">尚無加班記錄</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal -->
   <div class="modal-overlay" id="popupModal">
     <div class="modal">
@@ -1519,6 +1900,197 @@
       { salary: 85700, labor: 2143, health: 1330 }, { salary: 87600, labor: 2190, health: 1359 },
       { salary: 89500, labor: 2238, health: 1389 }
     ];
+
+    /* === 加班記錄本功能 === */
+    const STORAGE_KEY = 'overtimeRecords';
+
+    function getRecords() {
+      const data = localStorage.getItem(STORAGE_KEY);
+      return data ? JSON.parse(data) : [];
+    }
+
+    function saveRecords(records) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+      updateFabBadge();
+      renderRecordList();
+    }
+
+    function toggleRecordPanel() {
+      const panel = document.getElementById('recordPanel');
+      panel.classList.toggle('active');
+      
+      if (panel.classList.contains('active')) {
+        updateCurrentRangeDisplay();
+        renderRecordList();
+        // 預設日期為今天
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('recordDate').value = today;
+      }
+    }
+
+    function addRecord() {
+      const dateInput = document.getElementById('recordDate');
+      const hoursInput = document.getElementById('recordHours');
+      
+      const date = dateInput.value;
+      const hours = parseFloat(hoursInput.value) || 0;
+
+      if (!date) {
+        alert('請選擇日期');
+        return;
+      }
+      if (hours <= 0) {
+        alert('請輸入有效的時數');
+        return;
+      }
+
+      const records = getRecords();
+      
+      // 檢查是否已存在該日期的記錄
+      const existingIndex = records.findIndex(r => r.date === date);
+      if (existingIndex !== -1) {
+        if (confirm(`${date} 已有 ${records[existingIndex].hours} 小時的記錄，要覆蓋嗎？`)) {
+          records[existingIndex].hours = hours;
+        } else {
+          return;
+        }
+      } else {
+        records.push({ date, hours });
+      }
+
+      // 按日期排序
+      records.sort((a, b) => a.date.localeCompare(b.date));
+      
+      saveRecords(records);
+      
+      // 清空輸入
+      hoursInput.value = '';
+      
+      // 日期往後一天，方便連續輸入
+      const nextDate = new Date(date);
+      nextDate.setDate(nextDate.getDate() + 1);
+      dateInput.value = nextDate.toISOString().split('T')[0];
+    }
+
+    function deleteRecord(index) {
+      const records = getRecords();
+      records.splice(index, 1);
+      saveRecords(records);
+    }
+
+    function clearAllRecords() {
+      if (confirm('確定要清除所有加班記錄嗎？此操作無法復原。')) {
+        saveRecords([]);
+      }
+    }
+
+    function updateFabBadge() {
+      const records = getRecords();
+      const badge = document.getElementById('fabBadge');
+      badge.textContent = records.length;
+      badge.setAttribute('data-count', records.length);
+    }
+
+    function updateCurrentRangeDisplay() {
+      const startDate = document.getElementById('startDate').value;
+      const endDate = document.getElementById('endDate').value;
+      const display = document.getElementById('currentRangeDisplay');
+      
+      if (startDate && endDate) {
+        const start = startDate.split('-');
+        const end = endDate.split('-');
+        display.textContent = `${start[1]}/${start[2]} ~ ${end[1]}/${end[2]}`;
+      } else {
+        display.textContent = '請先設定結算區間';
+      }
+    }
+
+    function renderRecordList() {
+      const records = getRecords();
+      const listEl = document.getElementById('recordList');
+      const startDate = document.getElementById('startDate').value;
+      const endDate = document.getElementById('endDate').value;
+
+      if (records.length === 0) {
+        listEl.innerHTML = '<div class="record-empty">尚無加班記錄</div>';
+        return;
+      }
+
+      let html = '';
+      records.forEach((record, index) => {
+        const dateParts = record.date.split('-');
+        const displayDate = `${dateParts[1]}/${dateParts[2]}`;
+        
+        // 判斷是否在當前結算區間內
+        let inRange = false;
+        let statusClass = 'out-range';
+        let statusText = '';
+        
+        if (startDate && endDate) {
+          inRange = record.date >= startDate && record.date <= endDate;
+          statusClass = inRange ? 'in-range' : 'out-range';
+          statusText = inRange ? '在區間內' : '不在區間';
+        }
+
+        html += `
+          <div class="record-item">
+            <div class="record-item-info">
+              <span class="record-item-date">${displayDate}</span>
+              <span class="record-item-hours">${record.hours}h</span>
+              ${statusText ? `<span class="record-item-status ${statusClass}">${statusText}</span>` : ''}
+            </div>
+            <button class="record-item-delete" onclick="deleteRecord(${index})">🗑️</button>
+          </div>
+        `;
+      });
+
+      listEl.innerHTML = html;
+    }
+
+    function importRecordsToCalendar() {
+      const records = getRecords();
+      const startDate = document.getElementById('startDate').value;
+      const endDate = document.getElementById('endDate').value;
+
+      if (!startDate || !endDate) {
+        alert('請先設定結算區間並生成月曆');
+        return;
+      }
+
+      // 篩選在區間內的記錄
+      const inRangeRecords = records.filter(r => r.date >= startDate && r.date <= endDate);
+
+      if (inRangeRecords.length === 0) {
+        alert('沒有在當前結算區間內的加班記錄');
+        return;
+      }
+
+      // 取得所有日曆輸入框
+      let filledCount = 0;
+      inRangeRecords.forEach(record => {
+        const inputId = `input-${record.date}`;
+        const input = document.getElementById(inputId);
+        
+        if (input) {
+          input.value = record.hours;
+          input.classList.add('just-filled');
+          setTimeout(() => input.classList.remove('just-filled'), 500);
+          filledCount++;
+        }
+      });
+
+      updateTotal();
+      
+      // 關閉面板
+      toggleRecordPanel();
+
+      alert(`已成功帶入 ${filledCount} 筆加班記錄！`);
+    }
+
+    // 頁面載入時初始化
+    document.addEventListener('DOMContentLoaded', function() {
+      updateFabBadge();
+    });
 
     /* === 快速按鈕功能 === */
     function quickFill(inputId, value) {
@@ -1899,7 +2471,8 @@
     });
 
     /* === PWA Service Worker Registration === */
-    if ('serviceWorker' in navigator) {
+    // PWA Service Worker 只在 HTTP/HTTPS 環境下運作
+    if ('serviceWorker' in navigator && location.protocol !== 'file:') {
       window.addEventListener('load', () => {
         // 使用相對路徑，自動適應部署路徑
         const swPath = './service-worker.js';
