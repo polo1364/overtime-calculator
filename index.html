@@ -887,6 +887,123 @@
     .mt-sm { margin-top: 0.75rem; }
     .mt-md { margin-top: 1.5rem; }
     .mt-lg { margin-top: 2rem; }
+
+    /* ===== 快捷鍵提示 ===== */
+    .shortcut-hint {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.875rem 1rem;
+      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      border: 1px solid #93c5fd;
+      border-radius: var(--radius-md);
+      margin-bottom: 1rem;
+    }
+
+    .shortcut-hint-icon {
+      font-size: 1.25rem;
+    }
+
+    .shortcut-hint-text {
+      font-size: 0.8125rem;
+      color: #1e40af;
+      line-height: 1.5;
+    }
+
+    .shortcut-hint-text b {
+      color: #1e3a8a;
+    }
+
+    .shortcut-hint kbd {
+      display: inline-block;
+      padding: 2px 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: white;
+      border: 1px solid #93c5fd;
+      border-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      margin: 0 2px;
+    }
+
+    /* 輸入框聚焦時的高亮效果 */
+    .day-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+      background: #eff6ff;
+    }
+
+    .day-input.just-filled {
+      animation: flashGreen 0.3s ease;
+    }
+
+    @keyframes flashGreen {
+      0% { background: #d1fae5; }
+      100% { background: var(--bg-secondary); }
+    }
+
+    /* 快速按鈕 */
+    .quick-btns {
+      display: flex;
+      gap: 3px;
+      margin-top: 4px;
+      justify-content: center;
+    }
+
+    .quick-btn {
+      width: 24px;
+      height: 22px;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .quick-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .quick-btn:active {
+      transform: scale(0.95);
+    }
+
+    .quick-btn-2 {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+    .quick-btn-2:hover {
+      background: #bfdbfe;
+    }
+
+    .quick-btn-4 {
+      background: #fef3c7;
+      color: #b45309;
+    }
+    .quick-btn-4:hover {
+      background: #fde68a;
+    }
+
+    .quick-btn-8 {
+      background: #d1fae5;
+      color: #047857;
+    }
+    .quick-btn-8:hover {
+      background: #a7f3d0;
+    }
+
+    .quick-btn-c {
+      background: #fee2e2;
+      color: #dc2626;
+      font-size: 0.65rem;
+    }
+    .quick-btn-c:hover {
+      background: #fecaca;
+    }
   </style>
 </head>
 <body>
@@ -942,6 +1059,19 @@
         </div>
       </div>
       <div class="card-body">
+        <!-- 操作提示 -->
+        <div class="shortcut-hint">
+          <span class="shortcut-hint-icon">👆</span>
+          <span class="shortcut-hint-text">
+            <b>點擊按鈕快速填入：</b>
+            <span style="background:#dbeafe;padding:2px 6px;border-radius:4px;color:#1d4ed8;font-weight:600;">2</span>
+            <span style="background:#fef3c7;padding:2px 6px;border-radius:4px;color:#b45309;font-weight:600;">4</span>
+            <span style="background:#d1fae5;padding:2px 6px;border-radius:4px;color:#047857;font-weight:600;">8</span>
+            小時，
+            <span style="background:#fee2e2;padding:2px 6px;border-radius:4px;color:#dc2626;font-weight:600;">✕</span> 清除
+          </span>
+        </div>
+
         <div class="note">
           <span class="note-icon">💡</span>
           <span class="note-text">系統將自動判斷平日、假日與節日費率，請依照每日實際狀況填寫加班時數。</span>
@@ -1312,8 +1442,31 @@
     };
 
     const holidays = {
-      // 2025年國定假日
+      // 2025年國定假日（114年）
+      "2025-01-01": "元旦",
+      // 農曆春節連假：1/25(六)～2/2(日)，2/8補班
+      "2025-01-25": "春節", "2025-01-26": "春節", "2025-01-27": "春節（調整放假）", 
+      "2025-01-28": "小年夜", "2025-01-29": "除夕", "2025-01-30": "春節初一", 
+      "2025-01-31": "春節初二", "2025-02-01": "春節初三", "2025-02-02": "春節初四",
+      // 和平紀念日連假：2/28(五)～3/2(日)
+      "2025-02-28": "和平紀念日",
+      // 兒童節及清明節連假：4/3(四)～4/6(日)
+      "2025-04-03": "兒童節/清明（調整放假）", "2025-04-04": "兒童節/清明節",
+      // 勞動節：5/1(四)
+      "2025-05-01": "勞動節",
+      // 端午節連假：5/30(五)～6/1(日)
+      "2025-05-30": "端午節（補假）", "2025-05-31": "端午節",
+      // 教師節連假：9/27(六)～9/29(一)
+      "2025-09-27": "教師節", "2025-09-28": "教師節", "2025-09-29": "教師節（補假）",
+      // 中秋節連假：10/4(六)～10/6(一)
+      "2025-10-04": "中秋節", "2025-10-05": "中秋節", "2025-10-06": "中秋節",
+      // 國慶日連假：10/10(五)～10/12(日)
+      "2025-10-10": "國慶日", "2025-10-11": "國慶日", "2025-10-12": "國慶日",
+      // 台灣光復節連假：10/24(五)～10/26(日)
+      "2025-10-24": "光復節（補假）", "2025-10-25": "光復節", "2025-10-26": "光復節",
+      // 行憲紀念日：12/25(四)
       "2025-12-25": "行憲紀念日",
+      
       // 2026年國定假日
       "2026-01-01": "元旦",
       // 春節連假：2/14(六) ~ 2/22(日)
@@ -1341,7 +1494,10 @@
       // 2026年颱風假（如有需要可自行新增）
     };
 
-    const makeupWorkdays = [];
+    const makeupWorkdays = [
+      // 2025年補班日
+      "2025-02-08"  // 補1/27春節連假
+    ];
 
     const insuranceTable = [
       { salary: 28590, labor: 715, health: 444 }, { salary: 28800, labor: 720, health: 447 },
@@ -1363,6 +1519,111 @@
       { salary: 85700, labor: 2143, health: 1330 }, { salary: 87600, labor: 2190, health: 1359 },
       { salary: 89500, labor: 2238, health: 1389 }
     ];
+
+    /* === 快速按鈕功能 === */
+    function quickFill(inputId, value) {
+      const input = document.getElementById(inputId);
+      if (input) {
+        input.value = value === 0 ? '' : value;
+        input.classList.add('just-filled');
+        setTimeout(() => input.classList.remove('just-filled'), 300);
+        updateTotal();
+      }
+    }
+
+    /* === 快捷鍵功能 === */
+    function setupShortcutKeys() {
+      // 為所有日曆輸入框添加快捷鍵支援
+      const calendarInputs = document.querySelectorAll('#calendar .day-input');
+      
+      calendarInputs.forEach(input => {
+        input.addEventListener('keydown', function(e) {
+          const key = e.key;
+          
+          // 數字快捷鍵：2, 4, 8
+          if (key === '2' || key === '4' || key === '8') {
+            e.preventDefault();
+            this.value = key;
+            this.classList.add('just-filled');
+            setTimeout(() => this.classList.remove('just-filled'), 300);
+            updateTotal();
+            
+            // 自動跳到下一個輸入框
+            moveToNextInput(this);
+          }
+          
+          // 0 或 Delete 清除
+          if (key === '0' || key === 'Delete' || key === 'Backspace') {
+            if (key === '0' || this.value === '' || e.key === 'Delete') {
+              e.preventDefault();
+              this.value = '';
+              updateTotal();
+            }
+          }
+          
+          // 方向鍵導航
+          if (key === 'ArrowRight') {
+            e.preventDefault();
+            moveToNextInput(this);
+          }
+          if (key === 'ArrowLeft') {
+            e.preventDefault();
+            moveToPrevInput(this);
+          }
+          if (key === 'ArrowDown') {
+            e.preventDefault();
+            moveToInputBelow(this);
+          }
+          if (key === 'ArrowUp') {
+            e.preventDefault();
+            moveToInputAbove(this);
+          }
+        });
+        
+        // 點擊時選中全部文字，方便覆蓋
+        input.addEventListener('focus', function() {
+          this.select();
+        });
+      });
+    }
+
+    function getAllCalendarInputs() {
+      return Array.from(document.querySelectorAll('#calendar .day-input'));
+    }
+
+    function moveToNextInput(currentInput) {
+      const inputs = getAllCalendarInputs();
+      const currentIndex = inputs.indexOf(currentInput);
+      if (currentIndex < inputs.length - 1) {
+        inputs[currentIndex + 1].focus();
+      }
+    }
+
+    function moveToPrevInput(currentInput) {
+      const inputs = getAllCalendarInputs();
+      const currentIndex = inputs.indexOf(currentInput);
+      if (currentIndex > 0) {
+        inputs[currentIndex - 1].focus();
+      }
+    }
+
+    function moveToInputBelow(currentInput) {
+      const inputs = getAllCalendarInputs();
+      const currentIndex = inputs.indexOf(currentInput);
+      // 每週7天，所以往下移動7格
+      if (currentIndex + 7 < inputs.length) {
+        inputs[currentIndex + 7].focus();
+      }
+    }
+
+    function moveToInputAbove(currentInput) {
+      const inputs = getAllCalendarInputs();
+      const currentIndex = inputs.indexOf(currentInput);
+      // 每週7天，所以往上移動7格
+      if (currentIndex - 7 >= 0) {
+        inputs[currentIndex - 7].focus();
+      }
+    }
 
     /* === 核心邏輯 === */
     
@@ -1424,12 +1685,19 @@
 
         const cell = document.createElement("td");
         cell.className = className;
+        const inputId = `input-${key}`;
         cell.innerHTML = `
           <div class="day-header">
             <span class="day-date">${mm}/${dd}</span>
             <span class="day-badge">${label}</span>
           </div>
-          <input type="number" class="day-input" min="0" step="0.5" placeholder="—" data-daytype="${dayType}" onchange="updateTotal()" oninput="updateTotal()">
+          <input type="number" id="${inputId}" class="day-input" min="0" step="0.5" placeholder="—" data-daytype="${dayType}" onchange="updateTotal()" oninput="updateTotal()">
+          <div class="quick-btns">
+            <button class="quick-btn quick-btn-2" onclick="quickFill('${inputId}', 2)">2</button>
+            <button class="quick-btn quick-btn-4" onclick="quickFill('${inputId}', 4)">4</button>
+            <button class="quick-btn quick-btn-8" onclick="quickFill('${inputId}', 8)">8</button>
+            <button class="quick-btn quick-btn-c" onclick="quickFill('${inputId}', 0)">✕</button>
+          </div>
         `;
         currentRow.appendChild(cell);
 
@@ -1452,6 +1720,7 @@
       calendarCard.classList.remove("hidden");
       calendarCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
       updateTotal();
+      setupShortcutKeys();
     }
 
     function updateTotal() {
