@@ -1335,33 +1335,61 @@
       margin-bottom: 0.75rem;
     }
 
+    .record-filter-options {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(147, 197, 253, 0.3);
+    }
+
+    .record-filter-option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .record-filter-option input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #2563eb;
+    }
+
+    .record-filter-option-label {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #1e40af;
+    }
+
+    .record-filter-option:hover .record-filter-option-label {
+      color: #1e3a8a;
+    }
+
     .record-filter-row {
       display: flex;
       gap: 0.5rem;
-      margin-bottom: 0.75rem;
+      margin-top: 0.75rem;
     }
 
-    .record-filter-actions {
-      display: flex;
-      gap: 0.5rem;
+    .record-filter-custom,
+    .record-filter-settlement {
+      margin-top: 0.75rem;
     }
 
-    .record-filter-btn {
-      flex: 1;
-      padding: 0.5rem 0.75rem;
-      background: white;
+    .record-filter-settlement-info {
+      font-size: 0.8125rem;
       color: #1e40af;
-      border: 1px solid #93c5fd;
+      padding: 0.5rem;
+      background: rgba(255, 255, 255, 0.5);
       border-radius: var(--radius-sm);
-      font-size: 0.75rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
     }
 
-    .record-filter-btn:hover {
-      background: #dbeafe;
-      border-color: #60a5fa;
+    .record-filter-settlement-info strong {
+      color: #1e3a8a;
+      font-weight: 600;
     }
 
     /* 累積獎金提醒 */
@@ -1448,11 +1476,12 @@
         right: 16px;
       }
 
-      .record-filter-row {
+      .record-filter-options {
         flex-direction: column;
+        gap: 0.75rem;
       }
 
-      .record-filter-actions {
+      .record-filter-row {
         flex-direction: column;
       }
     }
@@ -1813,22 +1842,42 @@
         </div>
       </div>
 
-      <!-- 自訂區間篩選 -->
+      <!-- 區間篩選選項 -->
       <div class="record-filter-section">
-        <div class="record-filter-title">🔍 自訂區間篩選</div>
-        <div class="record-filter-row">
-          <div class="record-add-field">
-            <label>開始日期</label>
-            <input type="date" id="filterStartDate" class="record-input" onchange="updateFilteredRecords()">
-          </div>
-          <div class="record-add-field">
-            <label>結束日期</label>
-            <input type="date" id="filterEndDate" class="record-input" onchange="updateFilteredRecords()">
+        <div class="record-filter-title">🔍 區間篩選</div>
+        
+        <!-- 選項切換 -->
+        <div class="record-filter-options">
+          <label class="record-filter-option">
+            <input type="checkbox" id="filterUseCustom" onchange="toggleFilterMode('custom')">
+            <span class="record-filter-option-label">自訂區間</span>
+          </label>
+          <label class="record-filter-option">
+            <input type="checkbox" id="filterUseSettlement" onchange="toggleFilterMode('settlement')">
+            <span class="record-filter-option-label">當前結算區間</span>
+          </label>
+        </div>
+
+        <!-- 自訂區間輸入 -->
+        <div class="record-filter-custom" id="filterCustomSection" style="display: none;">
+          <div class="record-filter-row">
+            <div class="record-add-field">
+              <label>開始日期</label>
+              <input type="date" id="filterStartDate" class="record-input" onchange="updateFilteredRecords(); updateImportRangeDisplay();">
+            </div>
+            <div class="record-add-field">
+              <label>結束日期</label>
+              <input type="date" id="filterEndDate" class="record-input" onchange="updateFilteredRecords(); updateImportRangeDisplay();">
+            </div>
           </div>
         </div>
-        <div class="record-filter-actions">
-          <button class="record-filter-btn" onclick="setCurrentSettlementRange()">使用當前結算區間</button>
-          <button class="record-filter-btn" onclick="clearFilter()">清除篩選</button>
+
+        <!-- 當前結算區間顯示 -->
+        <div class="record-filter-settlement" id="filterSettlementSection" style="display: none;">
+          <div class="record-filter-settlement-info">
+            <span>📅 結算區間：</span>
+            <strong id="filterSettlementRangeDisplay">-</strong>
+          </div>
         </div>
       </div>
 
@@ -1849,7 +1898,7 @@
       <!-- 一鍵帶入 -->
       <div class="record-import-section">
         <div class="record-import-info">
-          <span>📅 當前結算區間：</span>
+          <span id="importRangeLabel">📅 當前結算區間：</span>
           <strong id="currentRangeDisplay">-</strong>
         </div>
         <button class="record-import-btn" onclick="importRecordsToCalendar()">
@@ -2083,6 +2132,8 @@
       
       if (panel.classList.contains('active')) {
         updateCurrentRangeDisplay();
+        updateSettlementRangeDisplay();
+        updateImportRangeDisplay();
         renderRecordList();
         updateBonusReminder();
         // 預設日期為今天
@@ -2157,42 +2208,120 @@
     }
 
     function updateCurrentRangeDisplay() {
+      // 更新一鍵帶入區塊的顯示（會根據當前選擇的模式自動判斷）
+      updateImportRangeDisplay();
+    }
+
+    // 切換篩選模式（互斥）
+    function toggleFilterMode(mode) {
+      const customCheckbox = document.getElementById('filterUseCustom');
+      const settlementCheckbox = document.getElementById('filterUseSettlement');
+      const customSection = document.getElementById('filterCustomSection');
+      const settlementSection = document.getElementById('filterSettlementSection');
+      
+      if (mode === 'custom') {
+        // 如果選擇自訂區間，取消當前結算區間
+        if (customCheckbox.checked) {
+          settlementCheckbox.checked = false;
+          settlementSection.style.display = 'none';
+          customSection.style.display = 'block';
+          // 更新一鍵帶入區塊顯示
+          updateImportRangeDisplay();
+        } else {
+          customSection.style.display = 'none';
+          // 如果兩個都沒選，恢復預設顯示
+          updateImportRangeDisplay();
+        }
+      } else if (mode === 'settlement') {
+        // 如果選擇當前結算區間，取消自訂區間
+        if (settlementCheckbox.checked) {
+          customCheckbox.checked = false;
+          customSection.style.display = 'none';
+          settlementSection.style.display = 'block';
+          // 自動設定結算區間
+          updateSettlementRangeDisplay();
+          // 更新一鍵帶入區塊顯示
+          updateImportRangeDisplay();
+        } else {
+          settlementSection.style.display = 'none';
+          // 如果兩個都沒選，恢復預設顯示
+          updateImportRangeDisplay();
+        }
+      }
+      
+      updateFilteredRecords();
+    }
+
+    // 更新一鍵帶入區塊的顯示
+    function updateImportRangeDisplay() {
+      const customCheckbox = document.getElementById('filterUseCustom');
+      const settlementCheckbox = document.getElementById('filterUseSettlement');
+      const labelEl = document.getElementById('importRangeLabel');
+      const displayEl = document.getElementById('currentRangeDisplay');
+      
+      if (customCheckbox.checked) {
+        // 使用自訂區間
+        const startDate = document.getElementById('filterStartDate').value;
+        const endDate = document.getElementById('filterEndDate').value;
+        
+        if (startDate && endDate) {
+          const start = startDate.split('-');
+          const end = endDate.split('-');
+          labelEl.textContent = '📅 自訂區間：';
+          displayEl.textContent = `${start[1]}/${start[2]} ~ ${end[1]}/${end[2]}`;
+        } else {
+          labelEl.textContent = '📅 自訂區間：';
+          displayEl.textContent = '-';
+        }
+      } else if (settlementCheckbox.checked) {
+        // 使用當前結算區間
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+        
+        if (startDate && endDate) {
+          const start = startDate.split('-');
+          const end = endDate.split('-');
+          labelEl.textContent = '📅 當前結算區間：';
+          displayEl.textContent = `${start[1]}/${start[2]} ~ ${end[1]}/${end[2]}`;
+        } else {
+          // 使用自動計算的結算區間
+          const settlementPeriod = calculateSettlementPeriod();
+          labelEl.textContent = '📅 當前結算區間：';
+          displayEl.textContent = `${settlementPeriod.displayStart} ~ ${settlementPeriod.displayEnd}`;
+        }
+      } else {
+        // 預設顯示當前結算區間
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+        
+        if (startDate && endDate) {
+          const start = startDate.split('-');
+          const end = endDate.split('-');
+          labelEl.textContent = '📅 當前結算區間：';
+          displayEl.textContent = `${start[1]}/${start[2]} ~ ${end[1]}/${end[2]}`;
+        } else {
+          const settlementPeriod = calculateSettlementPeriod();
+          labelEl.textContent = '📅 當前結算區間：';
+          displayEl.textContent = `${settlementPeriod.displayStart} ~ ${settlementPeriod.displayEnd}`;
+        }
+      }
+    }
+
+    // 更新結算區間顯示
+    function updateSettlementRangeDisplay() {
       const startDate = document.getElementById('startDate').value;
       const endDate = document.getElementById('endDate').value;
-      const display = document.getElementById('currentRangeDisplay');
+      const display = document.getElementById('filterSettlementRangeDisplay');
       
       if (startDate && endDate) {
         const start = startDate.split('-');
         const end = endDate.split('-');
         display.textContent = `${start[1]}/${start[2]} ~ ${end[1]}/${end[2]}`;
       } else {
-        display.textContent = '請先設定結算區間';
-      }
-    }
-
-    // 設定為當前結算區間
-    function setCurrentSettlementRange() {
-      const startDate = document.getElementById('startDate').value;
-      const endDate = document.getElementById('endDate').value;
-      
-      if (startDate && endDate) {
-        document.getElementById('filterStartDate').value = startDate;
-        document.getElementById('filterEndDate').value = endDate;
-        updateFilteredRecords();
-      } else {
         // 使用自動計算的結算區間
         const settlementPeriod = calculateSettlementPeriod();
-        document.getElementById('filterStartDate').value = settlementPeriod.start;
-        document.getElementById('filterEndDate').value = settlementPeriod.end;
-        updateFilteredRecords();
+        display.textContent = `${settlementPeriod.displayStart} ~ ${settlementPeriod.displayEnd}`;
       }
-    }
-
-    // 清除篩選
-    function clearFilter() {
-      document.getElementById('filterStartDate').value = '';
-      document.getElementById('filterEndDate').value = '';
-      updateFilteredRecords();
     }
 
     // 更新篩選後的記錄列表
@@ -2201,17 +2330,46 @@
       updateBonusReminder();
     }
 
+    // 取得當前有效的篩選區間
+    function getActiveFilterRange() {
+      const customCheckbox = document.getElementById('filterUseCustom');
+      const settlementCheckbox = document.getElementById('filterUseSettlement');
+      
+      if (customCheckbox.checked) {
+        // 使用自訂區間
+        const startDate = document.getElementById('filterStartDate').value;
+        const endDate = document.getElementById('filterEndDate').value;
+        return { start: startDate, end: endDate, type: 'custom' };
+      } else if (settlementCheckbox.checked) {
+        // 使用當前結算區間
+        let startDate = document.getElementById('startDate').value;
+        let endDate = document.getElementById('endDate').value;
+        
+        if (!startDate || !endDate) {
+          // 使用自動計算的結算區間
+          const settlementPeriod = calculateSettlementPeriod();
+          return { start: settlementPeriod.start, end: settlementPeriod.end, type: 'settlement' };
+        }
+        
+        return { start: startDate, end: endDate, type: 'settlement' };
+      }
+      
+      // 沒有篩選
+      return null;
+    }
+
     // 更新累積獎金提醒
     function updateBonusReminder() {
       const records = getRecords();
-      const filterStart = document.getElementById('filterStartDate').value;
-      const filterEnd = document.getElementById('filterEndDate').value;
+      
+      // 取得當前有效的篩選區間
+      const filterRange = getActiveFilterRange();
       
       // 計算總時數（如果有篩選，只計算篩選區間內的）
       let totalHours = 0;
-      if (filterStart && filterEnd) {
+      if (filterRange && filterRange.start && filterRange.end) {
         totalHours = records
-          .filter(r => r.date >= filterStart && r.date <= filterEnd)
+          .filter(r => r.date >= filterRange.start && r.date <= filterRange.end)
           .reduce((sum, r) => sum + r.hours, 0);
       } else {
         totalHours = records.reduce((sum, r) => sum + r.hours, 0);
@@ -2268,20 +2426,23 @@
       const listTitle = document.getElementById('recordListTitle');
       const startDate = document.getElementById('startDate').value;
       const endDate = document.getElementById('endDate').value;
-      const filterStart = document.getElementById('filterStartDate').value;
-      const filterEnd = document.getElementById('filterEndDate').value;
 
+      // 取得當前有效的篩選區間
+      const filterRange = getActiveFilterRange();
+      
       // 應用篩選
       let filteredRecords = records;
-      if (filterStart && filterEnd) {
-        filteredRecords = records.filter(r => r.date >= filterStart && r.date <= filterEnd);
-        listTitle.textContent = `篩選記錄 (${filteredRecords.length}/${records.length})`;
+      if (filterRange && filterRange.start && filterRange.end) {
+        filteredRecords = records.filter(r => r.date >= filterRange.start && r.date <= filterRange.end);
+        const filterType = filterRange.type === 'custom' ? '自訂區間' : '結算區間';
+        listTitle.textContent = `${filterType}記錄 (${filteredRecords.length}/${records.length})`;
       } else {
         listTitle.textContent = '所有記錄';
       }
 
       if (filteredRecords.length === 0) {
-        listEl.innerHTML = '<div class="record-empty">' + (filterStart && filterEnd ? '此區間內尚無加班記錄' : '尚無加班記錄') + '</div>';
+        const emptyText = filterRange ? '此區間內尚無加班記錄' : '尚無加班記錄';
+        listEl.innerHTML = `<div class="record-empty">${emptyText}</div>`;
         return;
       }
 
@@ -2290,7 +2451,7 @@
         const dateParts = record.date.split('-');
         const displayDate = `${dateParts[1]}/${dateParts[2]}`;
         
-        // 判斷是否在當前結算區間內
+        // 判斷是否在當前結算區間內（用於顯示狀態）
         let inRange = false;
         let statusClass = 'out-range';
         let statusText = '';
@@ -2583,6 +2744,8 @@
       calendarCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
       updateTotal();
       setupShortcutKeys();
+      // 更新一鍵帶入區塊的顯示
+      updateImportRangeDisplay();
     }
 
     function updateTotal() {
