@@ -1319,6 +1319,122 @@
       color: var(--danger);
     }
 
+    /* 自訂區間篩選 */
+    .record-filter-section {
+      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      border: 1px solid #93c5fd;
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .record-filter-title {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: #1e40af;
+      margin-bottom: 0.75rem;
+    }
+
+    .record-filter-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .record-filter-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .record-filter-btn {
+      flex: 1;
+      padding: 0.5rem 0.75rem;
+      background: white;
+      color: #1e40af;
+      border: 1px solid #93c5fd;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .record-filter-btn:hover {
+      background: #dbeafe;
+      border-color: #60a5fa;
+    }
+
+    /* 累積獎金提醒 */
+    .record-bonus-section {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border: 1px solid #fbbf24;
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .record-bonus-title {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: #92400e;
+      margin-bottom: 0.75rem;
+    }
+
+    .record-bonus-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .record-bonus-current {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+
+    .record-bonus-label {
+      font-size: 0.8125rem;
+      color: #78350f;
+    }
+
+    .record-bonus-hours {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #b45309;
+    }
+
+    .record-bonus-unit {
+      font-size: 0.8125rem;
+      color: #78350f;
+    }
+
+    .record-bonus-progress {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .record-bonus-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .record-bonus-next {
+      font-size: 0.75rem;
+      color: #78350f;
+      line-height: 1.4;
+    }
+
+    .record-bonus-next strong {
+      color: #b45309;
+      font-weight: 600;
+    }
+
     @media (max-width: 480px) {
       .record-panel {
         right: 12px;
@@ -1330,6 +1446,14 @@
       .fab {
         bottom: 16px;
         right: 16px;
+      }
+
+      .record-filter-row {
+        flex-direction: column;
+      }
+
+      .record-filter-actions {
+        flex-direction: column;
       }
     }
   </style>
@@ -1689,6 +1813,39 @@
         </div>
       </div>
 
+      <!-- 自訂區間篩選 -->
+      <div class="record-filter-section">
+        <div class="record-filter-title">🔍 自訂區間篩選</div>
+        <div class="record-filter-row">
+          <div class="record-add-field">
+            <label>開始日期</label>
+            <input type="date" id="filterStartDate" class="record-input" onchange="updateFilteredRecords()">
+          </div>
+          <div class="record-add-field">
+            <label>結束日期</label>
+            <input type="date" id="filterEndDate" class="record-input" onchange="updateFilteredRecords()">
+          </div>
+        </div>
+        <div class="record-filter-actions">
+          <button class="record-filter-btn" onclick="setCurrentSettlementRange()">使用當前結算區間</button>
+          <button class="record-filter-btn" onclick="clearFilter()">清除篩選</button>
+        </div>
+      </div>
+
+      <!-- 累積獎金提醒 -->
+      <div class="record-bonus-section" id="bonusReminderSection">
+        <div class="record-bonus-title">💰 累積獎金提醒</div>
+        <div class="record-bonus-content">
+          <div class="record-bonus-current">
+            <span class="record-bonus-label">當前累積時數：</span>
+            <span class="record-bonus-hours" id="bonusTotalHours">0</span>
+            <span class="record-bonus-unit">小時</span>
+          </div>
+          <div class="record-bonus-progress" id="bonusProgress"></div>
+          <div class="record-bonus-next" id="bonusNextInfo"></div>
+        </div>
+      </div>
+
       <!-- 一鍵帶入 -->
       <div class="record-import-section">
         <div class="record-import-info">
@@ -1703,7 +1860,7 @@
       <!-- 記錄列表 -->
       <div class="record-list-section">
         <div class="record-list-header">
-          <span>所有記錄</span>
+          <span id="recordListTitle">所有記錄</span>
           <button class="record-clear-btn" onclick="clearAllRecords()">清除全部</button>
         </div>
         <div class="record-list" id="recordList">
@@ -1913,6 +2070,11 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
       updateFabBadge();
       renderRecordList();
+      // 如果面板是打開的，更新獎金提醒
+      const panel = document.getElementById('recordPanel');
+      if (panel.classList.contains('active')) {
+        updateBonusReminder();
+      }
     }
 
     function toggleRecordPanel() {
@@ -1922,6 +2084,7 @@
       if (panel.classList.contains('active')) {
         updateCurrentRangeDisplay();
         renderRecordList();
+        updateBonusReminder();
         // 預設日期為今天
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('recordDate').value = today;
@@ -1962,6 +2125,7 @@
       records.sort((a, b) => a.date.localeCompare(b.date));
       
       saveRecords(records);
+      updateBonusReminder();
       
       // 清空輸入
       hoursInput.value = '';
@@ -1976,6 +2140,7 @@
       const records = getRecords();
       records.splice(index, 1);
       saveRecords(records);
+      updateBonusReminder();
     }
 
     function clearAllRecords() {
@@ -2005,19 +2170,123 @@
       }
     }
 
+    // 設定為當前結算區間
+    function setCurrentSettlementRange() {
+      const startDate = document.getElementById('startDate').value;
+      const endDate = document.getElementById('endDate').value;
+      
+      if (startDate && endDate) {
+        document.getElementById('filterStartDate').value = startDate;
+        document.getElementById('filterEndDate').value = endDate;
+        updateFilteredRecords();
+      } else {
+        // 使用自動計算的結算區間
+        const settlementPeriod = calculateSettlementPeriod();
+        document.getElementById('filterStartDate').value = settlementPeriod.start;
+        document.getElementById('filterEndDate').value = settlementPeriod.end;
+        updateFilteredRecords();
+      }
+    }
+
+    // 清除篩選
+    function clearFilter() {
+      document.getElementById('filterStartDate').value = '';
+      document.getElementById('filterEndDate').value = '';
+      updateFilteredRecords();
+    }
+
+    // 更新篩選後的記錄列表
+    function updateFilteredRecords() {
+      renderRecordList();
+      updateBonusReminder();
+    }
+
+    // 更新累積獎金提醒
+    function updateBonusReminder() {
+      const records = getRecords();
+      const filterStart = document.getElementById('filterStartDate').value;
+      const filterEnd = document.getElementById('filterEndDate').value;
+      
+      // 計算總時數（如果有篩選，只計算篩選區間內的）
+      let totalHours = 0;
+      if (filterStart && filterEnd) {
+        totalHours = records
+          .filter(r => r.date >= filterStart && r.date <= filterEnd)
+          .reduce((sum, r) => sum + r.hours, 0);
+      } else {
+        totalHours = records.reduce((sum, r) => sum + r.hours, 0);
+      }
+      
+      const bonusSection = document.getElementById('bonusReminderSection');
+      const bonusTotalHours = document.getElementById('bonusTotalHours');
+      const bonusProgress = document.getElementById('bonusProgress');
+      const bonusNextInfo = document.getElementById('bonusNextInfo');
+      
+      bonusTotalHours.textContent = totalHours.toFixed(1);
+      
+      // 獎金門檻：30小時1500、40小時2000、50小時3000
+      let currentBonus = 0;
+      let nextThreshold = 30;
+      let nextBonus = 1500;
+      let progress = 0;
+      
+      if (totalHours >= 50) {
+        currentBonus = 3000;
+        nextThreshold = null;
+        progress = 100;
+      } else if (totalHours >= 40) {
+        currentBonus = 2000;
+        nextThreshold = 50;
+        nextBonus = 3000;
+        progress = ((totalHours - 40) / 10) * 100;
+      } else if (totalHours >= 30) {
+        currentBonus = 1500;
+        nextThreshold = 40;
+        nextBonus = 2000;
+        progress = ((totalHours - 30) / 10) * 100;
+      } else {
+        nextThreshold = 30;
+        nextBonus = 1500;
+        progress = (totalHours / 30) * 100;
+      }
+      
+      // 更新進度條
+      bonusProgress.innerHTML = `<div class="record-bonus-progress-bar" style="width: ${Math.min(progress, 100)}%"></div>`;
+      
+      // 更新提示訊息
+      if (nextThreshold === null) {
+        bonusNextInfo.innerHTML = `🎉 已達到最高獎金 <strong>NT$ ${currentBonus.toLocaleString()}</strong>！`;
+      } else {
+        const remaining = nextThreshold - totalHours;
+        bonusNextInfo.innerHTML = `距離 <strong>${nextThreshold}小時獎金 NT$ ${nextBonus.toLocaleString()}</strong> 還差 <strong>${remaining.toFixed(1)}小時</strong>`;
+      }
+    }
+
     function renderRecordList() {
       const records = getRecords();
       const listEl = document.getElementById('recordList');
+      const listTitle = document.getElementById('recordListTitle');
       const startDate = document.getElementById('startDate').value;
       const endDate = document.getElementById('endDate').value;
+      const filterStart = document.getElementById('filterStartDate').value;
+      const filterEnd = document.getElementById('filterEndDate').value;
 
-      if (records.length === 0) {
-        listEl.innerHTML = '<div class="record-empty">尚無加班記錄</div>';
+      // 應用篩選
+      let filteredRecords = records;
+      if (filterStart && filterEnd) {
+        filteredRecords = records.filter(r => r.date >= filterStart && r.date <= filterEnd);
+        listTitle.textContent = `篩選記錄 (${filteredRecords.length}/${records.length})`;
+      } else {
+        listTitle.textContent = '所有記錄';
+      }
+
+      if (filteredRecords.length === 0) {
+        listEl.innerHTML = '<div class="record-empty">' + (filterStart && filterEnd ? '此區間內尚無加班記錄' : '尚無加班記錄') + '</div>';
         return;
       }
 
       let html = '';
-      records.forEach((record, index) => {
+      filteredRecords.forEach((record) => {
         const dateParts = record.date.split('-');
         const displayDate = `${dateParts[1]}/${dateParts[2]}`;
         
@@ -2032,6 +2301,9 @@
           statusText = inRange ? '在區間內' : '不在區間';
         }
 
+        // 找到原始索引（用於刪除）
+        const originalIndex = records.findIndex(r => r.date === record.date && r.hours === record.hours);
+
         html += `
           <div class="record-item">
             <div class="record-item-info">
@@ -2039,7 +2311,7 @@
               <span class="record-item-hours">${record.hours}h</span>
               ${statusText ? `<span class="record-item-status ${statusClass}">${statusText}</span>` : ''}
             </div>
-            <button class="record-item-delete" onclick="deleteRecord(${index})">🗑️</button>
+            <button class="record-item-delete" onclick="deleteRecord(${originalIndex})">🗑️</button>
           </div>
         `;
       });
@@ -2049,11 +2321,26 @@
 
     function importRecordsToCalendar() {
       const records = getRecords();
-      const startDate = document.getElementById('startDate').value;
-      const endDate = document.getElementById('endDate').value;
+      let startDate = document.getElementById('startDate').value;
+      let endDate = document.getElementById('endDate').value;
+      const calendarCard = document.getElementById('calendarCard');
 
+      // 如果沒有設定日期區間，使用自動計算的結算區間
       if (!startDate || !endDate) {
-        alert('請先設定結算區間並生成月曆');
+        const settlementPeriod = calculateSettlementPeriod();
+        startDate = settlementPeriod.start;
+        endDate = settlementPeriod.end;
+        document.getElementById('startDate').value = startDate;
+        document.getElementById('endDate').value = endDate;
+      }
+
+      // 如果月曆還沒生成，自動生成
+      if (calendarCard.classList.contains('hidden')) {
+        generateCalendar();
+        // 等待月曆生成完成後再帶入記錄
+        setTimeout(() => {
+          importRecordsToCalendar();
+        }, 100);
         return;
       }
 
@@ -2083,6 +2370,9 @@
       
       // 關閉面板
       toggleRecordPanel();
+
+      // 滾動到月曆位置
+      calendarCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
       alert(`已成功帶入 ${filledCount} 筆加班記錄！`);
     }
