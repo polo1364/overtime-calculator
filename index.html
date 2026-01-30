@@ -2816,34 +2816,42 @@
 
     function importRecordsToCalendar() {
       const records = getRecords();
-      let startDate = document.getElementById('startDate').value;
-      let endDate = document.getElementById('endDate').value;
       const calendarCard = document.getElementById('calendarCard');
 
-      // 如果沒有設定日期區間，使用自動計算的結算區間
-      if (!startDate || !endDate) {
-        const settlementPeriod = calculateSettlementPeriod();
-        startDate = settlementPeriod.start;
-        endDate = settlementPeriod.end;
-        document.getElementById('startDate').value = startDate;
-        document.getElementById('endDate').value = endDate;
+      // 決定帶入用的區間：有選篩選區間（自訂/結算）則用篩選區間，否則用主頁結算區間
+      const filterRange = getActiveFilterRange();
+      let rangeStart, rangeEnd;
+      if (filterRange && filterRange.start && filterRange.end) {
+        rangeStart = filterRange.start;
+        rangeEnd = filterRange.end;
+      } else {
+        let startDate = document.getElementById('startDate').value;
+        let endDate = document.getElementById('endDate').value;
+        if (!startDate || !endDate) {
+          const settlementPeriod = calculateSettlementPeriod();
+          startDate = settlementPeriod.start;
+          endDate = settlementPeriod.end;
+          document.getElementById('startDate').value = startDate;
+          document.getElementById('endDate').value = endDate;
+        }
+        rangeStart = startDate;
+        rangeEnd = endDate;
       }
 
-      // 如果月曆還沒生成，自動生成
+      // 如果月曆還沒生成，先用帶入區間寫入主頁日期並生成月曆
       if (calendarCard.classList.contains('hidden')) {
+        document.getElementById('startDate').value = rangeStart;
+        document.getElementById('endDate').value = rangeEnd;
         generateCalendar();
-        // 等待月曆生成完成後再帶入記錄
-        setTimeout(() => {
-          importRecordsToCalendar();
-        }, 100);
+        setTimeout(() => importRecordsToCalendar(), 100);
         return;
       }
 
-      // 篩選在區間內的記錄
-      const inRangeRecords = records.filter(r => r.date >= startDate && r.date <= endDate);
+      // 篩選在選取區間內的記錄
+      const inRangeRecords = records.filter(r => r.date >= rangeStart && r.date <= rangeEnd);
 
       if (inRangeRecords.length === 0) {
-        alert('沒有在當前結算區間內的加班記錄');
+        alert('沒有在選取區間內的加班記錄');
         return;
       }
 
