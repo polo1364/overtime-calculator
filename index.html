@@ -1992,11 +1992,11 @@
           <div class="record-filter-row">
             <div class="record-add-field">
               <label>開始日期</label>
-              <input type="date" id="filterStartDate" class="record-input" onchange="updateFilteredRecords(); updateImportRangeDisplay();">
+              <input type="date" id="filterStartDate" class="record-input" onchange="updateFilteredRecords(); updateImportRangeDisplay(); saveFilterCustomRange();">
             </div>
             <div class="record-add-field">
               <label>結束日期</label>
-              <input type="date" id="filterEndDate" class="record-input" onchange="updateFilteredRecords(); updateImportRangeDisplay();">
+              <input type="date" id="filterEndDate" class="record-input" onchange="updateFilteredRecords(); updateImportRangeDisplay(); saveFilterCustomRange();">
             </div>
           </div>
         </div>
@@ -2265,6 +2265,45 @@
 
     /* === 加班記錄本功能 === */
     const STORAGE_KEY = 'overtimeRecords';
+    const FILTER_CUSTOM_STORAGE_KEY = 'recordBookFilterCustom';
+
+    // 儲存加班記錄本自訂區間與篩選選項到本地
+    function saveFilterCustomRange() {
+      const customCheckbox = document.getElementById('filterUseCustom');
+      const settlementCheckbox = document.getElementById('filterUseSettlement');
+      const startEl = document.getElementById('filterStartDate');
+      const endEl = document.getElementById('filterEndDate');
+      if (!customCheckbox || !settlementCheckbox || !startEl || !endEl) return;
+      const data = {
+        useCustom: customCheckbox.checked,
+        useSettlement: settlementCheckbox.checked,
+        filterStartDate: startEl.value || '',
+        filterEndDate: endEl.value || ''
+      };
+      localStorage.setItem(FILTER_CUSTOM_STORAGE_KEY, JSON.stringify(data));
+    }
+
+    // 從本地載入加班記錄本自訂區間與篩選選項
+    function loadFilterCustomRange() {
+      const raw = localStorage.getItem(FILTER_CUSTOM_STORAGE_KEY);
+      if (!raw) return;
+      const customCheckbox = document.getElementById('filterUseCustom');
+      const settlementCheckbox = document.getElementById('filterUseSettlement');
+      const customSection = document.getElementById('filterCustomSection');
+      const settlementSection = document.getElementById('filterSettlementSection');
+      const startEl = document.getElementById('filterStartDate');
+      const endEl = document.getElementById('filterEndDate');
+      if (!customCheckbox || !settlementCheckbox || !customSection || !settlementSection || !startEl || !endEl) return;
+      try {
+        const data = JSON.parse(raw);
+        if (data.filterStartDate) startEl.value = data.filterStartDate;
+        if (data.filterEndDate) endEl.value = data.filterEndDate;
+        customCheckbox.checked = !!data.useCustom;
+        settlementCheckbox.checked = !!data.useSettlement;
+        customSection.style.display = data.useCustom ? 'block' : 'none';
+        settlementSection.style.display = data.useSettlement ? 'block' : 'none';
+      } catch (e) { /* 忽略舊格式或損壞資料 */ }
+    }
 
     function getRecords() {
       const data = localStorage.getItem(STORAGE_KEY);
@@ -2575,6 +2614,7 @@
         }
       }
       
+      saveFilterCustomRange();
       updateFilteredRecords();
     }
 
@@ -2882,6 +2922,7 @@
 
     // 頁面載入時初始化
     document.addEventListener('DOMContentLoaded', function() {
+      loadFilterCustomRange();
       updateFabBadge();
     });
 
