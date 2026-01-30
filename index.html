@@ -2772,18 +2772,23 @@
         return;
       }
 
+      // 用於顯示「在區間內」的區間：有篩選時用篩選區間，否則用主頁結算區間
+      const rangeForStatus = filterRange && filterRange.start && filterRange.end
+        ? { start: filterRange.start, end: filterRange.end }
+        : { start: startDate, end: endDate };
+
       let html = '';
       filteredRecords.forEach((record) => {
         const dateParts = record.date.split('-');
         const displayDate = `${dateParts[1]}/${dateParts[2]}`;
         
-        // 判斷是否在當前結算區間內（用於顯示狀態）
+        // 判斷是否在區間內（用於顯示狀態，須與篩選區間一致）
         let inRange = false;
         let statusClass = 'out-range';
         let statusText = '';
         
-        if (startDate && endDate) {
-          inRange = record.date >= startDate && record.date <= endDate;
+        if (rangeForStatus.start && rangeForStatus.end) {
+          inRange = record.date >= rangeForStatus.start && record.date <= rangeForStatus.end;
           statusClass = inRange ? 'in-range' : 'out-range';
           statusText = inRange ? '在區間內' : '不在區間';
         }
