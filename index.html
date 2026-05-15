@@ -2530,6 +2530,113 @@
       white-space: nowrap;
     }
 
+    .record-filter-section .record-filter-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 0.5rem;
+    }
+
+    .record-filter-section .record-add-field {
+      min-width: 0;
+    }
+
+    .record-filter-section .record-input {
+      width: 100%;
+      min-width: 0;
+      font-size: 0.875rem;
+      padding-left: 0.55rem;
+      padding-right: 0.55rem;
+    }
+
+    .record-filter-section .record-add-field label {
+      font-size: 0.8125rem;
+    }
+
+    /* ===== 金錢游標與薪資結算特效 ===== */
+    body {
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='14' cy='14' r='10' fill='%23ffd166' stroke='%2300e5ff' stroke-width='2'/%3E%3Ctext x='14' y='19' text-anchor='middle' font-size='14' font-family='Arial' font-weight='700' fill='%23061823'%3E$%3C/text%3E%3Cpath d='M23 23 L30 30' stroke='%23b8ffce' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") 6 6, auto;
+    }
+
+    button,
+    input,
+    select,
+    .quick-btn,
+    .record-quick-btn,
+    .fab {
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='14' cy='14' r='11' fill='%2392fe9d' stroke='%2300e5ff' stroke-width='2'/%3E%3Ctext x='14' y='19' text-anchor='middle' font-size='14' font-family='Arial' font-weight='700' fill='%23061823'%3E$%3C/text%3E%3Cpath d='M23 23 L30 30' stroke='%23ffd166' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") 6 6, pointer;
+    }
+
+    .money-burst-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3000;
+      overflow: hidden;
+    }
+
+    .money-coin {
+      position: fixed;
+      left: var(--x);
+      top: var(--y);
+      transform: translate(-50%, -50%);
+      font-size: var(--size);
+      filter: drop-shadow(0 0 12px rgba(255, 209, 102, 0.75));
+      animation: coinBurst 900ms var(--ease-out) forwards;
+    }
+
+    .money-ring {
+      position: fixed;
+      left: var(--x);
+      top: var(--y);
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 209, 102, 0.85);
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 24px rgba(0, 229, 255, 0.45);
+      animation: moneyRing 700ms ease-out forwards;
+    }
+
+    .money-flash {
+      animation: moneyFlash 900ms ease-out;
+    }
+
+    @keyframes coinBurst {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.55) rotate(0deg);
+      }
+      18% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.05) rotate(var(--rot));
+      }
+    }
+
+    @keyframes moneyRing {
+      0% {
+        opacity: 0.95;
+        width: 20px;
+        height: 20px;
+      }
+      100% {
+        opacity: 0;
+        width: 260px;
+        height: 260px;
+      }
+    }
+
+    @keyframes moneyFlash {
+      0%, 100% {
+        box-shadow: var(--shadow-lg);
+      }
+      35% {
+        box-shadow: 0 0 44px rgba(255, 209, 102, 0.5), 0 0 74px rgba(0, 229, 255, 0.32);
+      }
+    }
+
     /* ===== 操作流程與摘要 ===== */
     .workflow-card {
       padding: 1rem;
@@ -2774,6 +2881,310 @@
       .day-input,
       .record-input {
         font-size: 0.9375rem;
+      }
+    }
+
+    /* ===== 響應式版面強化 ===== */
+    @media (max-width: 1024px) {
+      .main {
+        max-width: 920px;
+      }
+
+      .calendar {
+        min-width: 860px;
+      }
+
+      .record-panel {
+        width: min(380px, calc(100vw - 32px));
+        right: 16px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        padding: 1.75rem 1rem 2.75rem;
+      }
+
+      .main {
+        margin-top: -1.5rem;
+        padding: 0 0.875rem 5rem;
+      }
+
+      .card {
+        border-radius: 14px;
+        margin-bottom: 1rem;
+      }
+
+      .card-header {
+        padding: 1rem;
+        gap: 0.75rem;
+      }
+
+      .card-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+      }
+
+      .card-body {
+        padding: 1rem;
+      }
+
+      .workflow-card {
+        padding: 0.875rem;
+      }
+
+      .workflow-step {
+        padding: 0.625rem;
+      }
+
+      .workflow-step-label {
+        font-size: 0.875rem;
+      }
+
+      .summary-tile,
+      .payslip-summary-card {
+        padding: 0.75rem;
+      }
+
+      .calendar-wrapper {
+        margin: 0 -0.75rem;
+        padding: 0.5rem 0.75rem 0.875rem;
+        border-radius: 0;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x proximity;
+      }
+
+      .calendar {
+        min-width: 760px;
+        border-spacing: 3px;
+      }
+
+      .calendar td {
+        min-width: 92px;
+        padding: 0.5rem;
+      }
+
+      .day-date {
+        font-size: 0.9rem;
+      }
+
+      .day-badge {
+        font-size: 0.68rem;
+        padding: 2px 5px;
+      }
+
+      .quick-btns {
+        gap: 4px;
+      }
+
+      .quick-btn {
+        width: 25px;
+        height: 24px;
+      }
+
+      .total-hours {
+        justify-content: space-between;
+        gap: 0.5rem;
+      }
+
+      .payslip-body {
+        grid-template-columns: 1fr;
+      }
+
+      .payslip-section:first-child {
+        border-right: none;
+        border-bottom: 1px solid rgba(153, 246, 255, 0.14);
+      }
+
+      .record-panel {
+        right: 12px;
+        left: 12px;
+        bottom: 84px;
+        width: auto;
+        max-height: min(76vh, 680px);
+      }
+
+      .record-panel-body {
+        padding: 0.875rem;
+      }
+
+      .fab {
+        right: 16px;
+        bottom: 16px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .header h1 {
+        font-size: 2rem;
+      }
+
+      .header p {
+        font-size: 0.95rem;
+      }
+
+      .workflow-steps,
+      .dashboard-summary,
+      .calendar-legend,
+      .payslip-summary,
+      .grid-2,
+      .leave-types-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .workflow-steps {
+        gap: 0.5rem;
+      }
+
+      .workflow-step {
+        min-height: 44px;
+      }
+
+      .section-label {
+        font-size: 0.8rem;
+      }
+
+      .form-group {
+        margin-bottom: 1rem;
+      }
+
+      .form-input,
+      .record-input {
+        min-height: 42px;
+      }
+
+      .calendar {
+        min-width: 700px;
+      }
+
+      .calendar td {
+        min-width: 86px;
+      }
+
+      .shortcut-hint,
+      .note,
+      .legend-item {
+        align-items: flex-start;
+        font-size: 0.8125rem;
+      }
+
+      .payslip-header {
+        padding: 1.5rem 1rem;
+      }
+
+      .payslip-amount {
+        font-size: 2.15rem;
+      }
+
+      .payslip-section {
+        padding: 1rem;
+      }
+
+      .payslip-row {
+        gap: 1rem;
+      }
+
+      .payslip-row .key,
+      .payslip-row .val {
+        font-size: 0.9rem;
+      }
+
+      .record-guide-section,
+      .record-add-section,
+      .record-filter-section,
+      .record-bonus-section,
+      .record-import-section {
+        padding: 0.875rem;
+      }
+
+      .record-filter-options {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .record-list-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .main {
+        padding-left: 0.625rem;
+        padding-right: 0.625rem;
+      }
+
+      .card-header {
+        align-items: flex-start;
+      }
+
+      .card-title {
+        font-size: 1rem;
+      }
+
+      .card-subtitle {
+        font-size: 0.8125rem;
+      }
+
+      .summary-value,
+      .payslip-summary-card span {
+        font-size: 0.95rem;
+      }
+
+      .record-add-section > .record-add-row,
+      .record-filter-section .record-filter-row {
+        grid-template-columns: 1fr;
+      }
+
+      .record-add-section .record-add-btn {
+        grid-column: auto;
+      }
+
+      .record-quick-hours {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .record-quick-btn {
+        width: 100%;
+      }
+
+      .record-item {
+        align-items: flex-start;
+      }
+
+      .record-item-actions {
+        margin-left: auto;
+      }
+
+      .fab {
+        width: 54px;
+        height: 54px;
+      }
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      body,
+      button,
+      input,
+      select,
+      .quick-btn,
+      .record-quick-btn,
+      .fab {
+        cursor: auto;
+      }
+
+      .card:hover {
+        transform: none;
+      }
+
+      .btn-primary:hover,
+      .record-add-btn:hover,
+      .record-import-btn:hover,
+      .record-item-edit-save:hover,
+      .fab:hover {
+        box-shadow: 0 0 22px rgba(0, 201, 255, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.45);
       }
     }
   </style>
@@ -3046,7 +3457,7 @@
         </div>
 
         <div class="mt-lg">
-          <button class="btn btn-primary" onclick="calculate()">
+          <button class="btn btn-primary" onclick="calculate(event)">
             <span class="btn-icon">🧮</span>
             立即計算薪資
           </button>
@@ -3719,10 +4130,22 @@
       setWorkflowStep('flowStepResult', resultVisible ? 'done' : (baseSalary > 0 ? 'active' : null));
     }
 
+    let clearRecordsConfirmTimer = null;
+    let clearRecordsArmed = false;
+
+    function resetClearRecordsButton() {
+      clearRecordsArmed = false;
+      if (clearRecordsConfirmTimer) {
+        window.clearTimeout(clearRecordsConfirmTimer);
+        clearRecordsConfirmTimer = null;
+      }
+      updateRecordActionSummaries();
+    }
+
     function updateRecordActionSummaries() {
       const clearBtn = document.getElementById('recordClearBtn');
       const records = getRecords();
-      if (clearBtn) clearBtn.textContent = `清除全部（${records.length}）`;
+      if (clearBtn && !clearRecordsArmed) clearBtn.textContent = `清除全部（${records.length}）`;
 
       const summaryEl = document.getElementById('recordImportSummary');
       if (!summaryEl) return;
@@ -3991,15 +4414,21 @@
       const records = getRecords();
       if (records.length === 0) {
         showRecordFeedback('目前沒有可清除的加班記錄', 'warning');
+        resetClearRecordsButton();
         return;
       }
-      if (!confirm(`確定要清除 ${records.length} 筆加班記錄嗎？此操作無法復原。`)) return;
-      const typed = prompt('請輸入「清除」以確認刪除全部記錄');
-      if (typed !== '清除') {
-        showRecordFeedback('已取消清除；未輸入正確確認文字', 'warning');
+
+      const clearBtn = document.getElementById('recordClearBtn');
+      if (!clearRecordsArmed) {
+        clearRecordsArmed = true;
+        if (clearBtn) clearBtn.textContent = `再次點擊確認清除（${records.length}）`;
+        showRecordFeedback('再次點擊「確認清除」才會刪除，5 秒後自動取消', 'warning');
+        clearRecordsConfirmTimer = window.setTimeout(resetClearRecordsButton, 5000);
         return;
       }
+
       saveRecords([]);
+      resetClearRecordsButton();
       showRecordFeedback('已清除所有加班記錄', 'success');
     }
 
@@ -4626,7 +5055,49 @@
     function parse(id) { return parseFloat(document.getElementById(id).value) || 0; }
     function formatCurrency(num) { return Math.round(num).toLocaleString(); }
 
-    function calculate() {
+    function triggerSalaryEffect(sourceEvent = null) {
+      const layer = document.createElement('div');
+      layer.className = 'money-burst-layer';
+      document.body.appendChild(layer);
+
+      const fallbackX = window.innerWidth / 2;
+      const fallbackY = window.innerHeight / 2;
+      const x = sourceEvent?.clientX || fallbackX;
+      const y = sourceEvent?.clientY || fallbackY;
+
+      const ring = document.createElement('span');
+      ring.className = 'money-ring';
+      ring.style.setProperty('--x', `${x}px`);
+      ring.style.setProperty('--y', `${y}px`);
+      layer.appendChild(ring);
+
+      const symbols = ['$', '$', 'NT$', '💰', '🪙'];
+      for (let index = 0; index < 18; index++) {
+        const coin = document.createElement('span');
+        const angle = (Math.PI * 2 * index) / 18;
+        const distance = 90 + Math.random() * 120;
+        coin.className = 'money-coin';
+        coin.textContent = symbols[index % symbols.length];
+        coin.style.setProperty('--x', `${x}px`);
+        coin.style.setProperty('--y', `${y}px`);
+        coin.style.setProperty('--dx', `${Math.cos(angle) * distance}px`);
+        coin.style.setProperty('--dy', `${Math.sin(angle) * distance - 30}px`);
+        coin.style.setProperty('--rot', `${Math.random() * 360 - 180}deg`);
+        coin.style.setProperty('--size', `${0.95 + Math.random() * 0.75}rem`);
+        layer.appendChild(coin);
+      }
+
+      const payslip = document.querySelector('.payslip');
+      if (payslip) {
+        payslip.classList.remove('money-flash');
+        void payslip.offsetWidth;
+        payslip.classList.add('money-flash');
+      }
+
+      window.setTimeout(() => layer.remove(), 1000);
+    }
+
+    function calculate(event) {
       const base = parse("baseSalary");
       if (base === 0) { alert("請輸入本薪"); return; }
 
@@ -4747,6 +5218,7 @@
       const resArea = document.getElementById("resultArea");
       resArea.classList.remove("hidden");
       updateDashboardSummary();
+      triggerSalaryEffect(event);
       resArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
