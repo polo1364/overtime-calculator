@@ -1185,6 +1185,160 @@
       background: var(--primary-dark);
     }
 
+    .record-feedback {
+      display: none;
+      margin-top: 0.75rem;
+      padding: 0.625rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.8125rem;
+      line-height: 1.4;
+    }
+
+    .record-feedback.show {
+      display: block;
+    }
+
+    .record-feedback.success {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+    }
+
+    .record-feedback.warning {
+      background: #fffbeb;
+      color: #92400e;
+      border: 1px solid #fcd34d;
+    }
+
+    .record-feedback.error {
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+
+    /* 照片辨識區塊 */
+    .record-photo-section {
+      background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+      border: 1px solid #c7d2fe;
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .record-photo-title {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: #3730a3;
+      margin-bottom: 0.5rem;
+    }
+
+    .record-photo-hint {
+      font-size: 0.75rem;
+      color: #4f46e5;
+      line-height: 1.5;
+      margin-bottom: 0.75rem;
+    }
+
+    .record-photo-example {
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px dashed #a5b4fc;
+      border-radius: var(--radius-sm);
+      padding: 0.5rem;
+      margin-bottom: 0.75rem;
+      font-size: 0.75rem;
+      color: #4338ca;
+      line-height: 1.5;
+    }
+
+    .record-photo-file-status {
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      color: #4f46e5;
+      line-height: 1.5;
+      word-break: break-all;
+    }
+
+    .record-photo-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .record-secondary-btn {
+      padding: 0.5rem 0.875rem;
+      background: white;
+      color: #4338ca;
+      border: 1px solid #a5b4fc;
+      border-radius: var(--radius-sm);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .record-secondary-btn:hover {
+      background: #eef2ff;
+    }
+
+    .record-secondary-btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .record-ocr-text {
+      width: 100%;
+      min-height: 72px;
+      margin-top: 0.75rem;
+      resize: vertical;
+      line-height: 1.45;
+    }
+
+    .record-ocr-preview {
+      display: none;
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid rgba(99, 102, 241, 0.25);
+    }
+
+    .record-ocr-preview.show {
+      display: block;
+    }
+
+    .record-ocr-preview-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #3730a3;
+      margin-bottom: 0.5rem;
+    }
+
+    .record-ocr-row {
+      display: grid;
+      grid-template-columns: 1fr 72px auto;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .record-ocr-row input {
+      min-width: 0;
+    }
+
+    .record-ocr-remove {
+      background: none;
+      border: none;
+      color: var(--danger);
+      cursor: pointer;
+      font-size: 0.8125rem;
+      padding: 0.25rem;
+    }
+
+    .record-ocr-empty {
+      color: var(--text-tertiary);
+      font-size: 0.8125rem;
+      line-height: 1.5;
+    }
+
     /* 帶入區塊 */
     .record-import-section {
       background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
@@ -1231,10 +1385,19 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 0.75rem;
       margin-bottom: 0.75rem;
       font-size: 0.8125rem;
       font-weight: 600;
       color: var(--text-secondary);
+    }
+
+    .record-list-meta {
+      display: block;
+      color: var(--text-tertiary);
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin-top: 0.125rem;
     }
 
     .record-clear-btn {
@@ -1276,6 +1439,8 @@
       align-items: center;
       gap: 0.75rem;
       flex: 1;
+      flex-wrap: wrap;
+      min-width: 0;
     }
 
     .record-item-actions {
@@ -1602,6 +1767,37 @@
       .record-filter-options {
         flex-direction: column;
         gap: 0.75rem;
+      }
+
+      .record-add-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .record-add-field,
+      .record-add-btn {
+        width: 100%;
+      }
+
+      #recordHours {
+        width: 100% !important;
+      }
+
+      .record-list {
+        max-height: 280px;
+      }
+
+      .record-list-header {
+        align-items: flex-start;
+      }
+
+      .record-photo-actions,
+      .record-ocr-row {
+        grid-template-columns: 1fr;
+      }
+
+      .record-secondary-btn {
+        width: 100%;
       }
 
       .record-filter-row {
@@ -1965,9 +2161,45 @@
         </div>
         <!-- 時數快捷按鈕 -->
         <div class="record-quick-hours">
+          <button class="record-quick-btn record-quick-hours-btn" onclick="setQuickHours(1)">1h</button>
+          <button class="record-quick-btn record-quick-hours-btn" onclick="setQuickHours(1.5)">1.5h</button>
           <button class="record-quick-btn record-quick-hours-btn" onclick="setQuickHours(2)">2h</button>
           <button class="record-quick-btn record-quick-hours-btn" onclick="setQuickHours(4)">4h</button>
           <button class="record-quick-btn record-quick-hours-btn" onclick="setQuickHours(8)">8h</button>
+        </div>
+        <div class="record-feedback" id="recordFeedback"></div>
+      </div>
+
+      <!-- 照片辨識 -->
+      <div class="record-photo-section">
+        <div class="record-photo-title">📷 照片辨識加班單</div>
+        <div class="record-photo-hint">
+          可選擇加班單照片，自動嘗試讀取日期與時數。手寫辨識可能有誤，匯入前請先確認下方預覽。
+        </div>
+        <div class="record-photo-example">
+          辨識很亂時，可在文字框整理成每行一筆，例如：<br>
+          3/23 2<br>
+          3/24 2<br>
+          3/28 8<br>
+          若只有抓到時數，可先設定下方「補日期起始日」，再重新解析。
+        </div>
+        <div class="record-add-row">
+          <div class="record-add-field">
+            <label>補日期起始日</label>
+            <input type="date" id="recordOcrStartDate" class="record-input">
+          </div>
+        </div>
+        <input type="file" id="recordPhotoInput" class="record-input" accept="image/*" multiple onchange="updateRecordPhotoFileStatus()">
+        <div class="record-photo-file-status" id="recordPhotoFileStatus">尚未選擇照片，可一次選多張。</div>
+        <div class="record-photo-actions">
+          <button type="button" class="record-secondary-btn" onclick="recognizeRecordPhotos()">辨識照片</button>
+          <button type="button" class="record-secondary-btn" onclick="parseOcrTextFromTextarea()">重新解析文字</button>
+        </div>
+        <textarea id="recordOcrText" class="record-input record-ocr-text" placeholder="辨識出的文字會顯示在這裡，也可以貼上文字後按「重新解析文字」。"></textarea>
+        <div class="record-ocr-preview" id="recordOcrPreview">
+          <div class="record-ocr-preview-title">辨識結果（可修改後匯入）</div>
+          <div id="recordOcrRows"></div>
+          <button type="button" class="record-import-btn" id="recordOcrImportBtn" onclick="importOcrPreviewToRecords()" disabled>匯入辨識結果</button>
         </div>
       </div>
 
@@ -2058,6 +2290,7 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <script>
     /* === 設定與資料 === */
     
@@ -2310,6 +2543,513 @@
       return data ? JSON.parse(data) : [];
     }
 
+    let recordFeedbackTimer = null;
+
+    function formatRecordHours(hours) {
+      const value = Number(hours) || 0;
+      return value.toFixed(1).replace(/\.0$/, '');
+    }
+
+    function parseLocalDate(dateString) {
+      const parts = dateString.split('-').map(Number);
+      return new Date(parts[0], parts[1] - 1, parts[2]);
+    }
+
+    function formatDateForInput(date) {
+      const yyyy = date.getFullYear();
+      const mm = String(date.getMonth() + 1).padStart(2, '0');
+      const dd = String(date.getDate()).padStart(2, '0');
+      return `${yyyy}-${mm}-${dd}`;
+    }
+
+    function addDays(dateString, days) {
+      const date = parseLocalDate(dateString);
+      date.setDate(date.getDate() + days);
+      return formatDateForInput(date);
+    }
+
+    function formatRecordDate(dateString) {
+      if (!dateString) return '-';
+      const date = parseLocalDate(dateString);
+      const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+      const mm = String(date.getMonth() + 1).padStart(2, '0');
+      const dd = String(date.getDate()).padStart(2, '0');
+      return `${mm}/${dd}（${weekdays[date.getDay()]}）`;
+    }
+
+    function getRecordEntryRange() {
+      const activeRange = getActiveFilterRange();
+      if (activeRange && activeRange.start && activeRange.end) return activeRange;
+
+      const startDate = document.getElementById('startDate').value;
+      const endDate = document.getElementById('endDate').value;
+      if (startDate && endDate) {
+        return { start: startDate, end: endDate, type: 'settlement' };
+      }
+
+      const period = calculateSettlementPeriod();
+      return { start: period.start, end: period.end, type: 'settlement' };
+    }
+
+    function getSuggestedRecordDate(records = getRecords()) {
+      const range = getRecordEntryRange();
+      if (!range || !range.start || !range.end) {
+        return formatDateForInput(new Date());
+      }
+
+      const existingDates = new Set(records.map(record => record.date));
+      let cursor = parseLocalDate(range.start);
+      const end = parseLocalDate(range.end);
+      while (cursor <= end) {
+        const candidate = formatDateForInput(cursor);
+        if (!existingDates.has(candidate)) return candidate;
+        cursor.setDate(cursor.getDate() + 1);
+      }
+
+      return range.end;
+    }
+
+    function showRecordFeedback(message, type = 'success') {
+      const feedback = document.getElementById('recordFeedback');
+      if (!feedback) return;
+
+      window.clearTimeout(recordFeedbackTimer);
+      feedback.textContent = message;
+      feedback.className = `record-feedback show ${type}`;
+      recordFeedbackTimer = window.setTimeout(() => {
+        feedback.className = 'record-feedback';
+        feedback.textContent = '';
+      }, 3500);
+    }
+
+    let ocrPreviewRecords = [];
+
+    function getDefaultRecordYear() {
+      const startDate = document.getElementById('startDate').value;
+      if (startDate) return Number(startDate.slice(0, 4));
+      return new Date().getFullYear();
+    }
+
+    function normalizeRecognizedDate(month, day) {
+      const year = getDefaultRecordYear();
+      const mm = String(Number(month)).padStart(2, '0');
+      const dd = String(Number(day)).padStart(2, '0');
+      return `${year}-${mm}-${dd}`;
+    }
+
+    function cleanOcrLine(line) {
+      return line
+        .replace(/[０-９]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xFEE0))
+        .replace(/[|｜]/g, '/')
+        .replace(/[：:]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function normalizeOcrNumberText(text) {
+      return cleanOcrLine(String(text || ''))
+        .replace(/[OoQq]/g, '0')
+        .replace(/[Il!]/g, '1')
+        .replace(/[Zz]/g, '2')
+        .replace(/[Bb]/g, '8');
+    }
+
+    function parseAllowedOvertimeHours(text) {
+      const normalized = normalizeOcrNumberText(text);
+      const match = normalized.match(/\b\d+(?:\.\d+)?\b/);
+      if (!match) return null;
+
+      const value = Number(match[0]);
+      return [1, 1.5, 2, 4, 5, 8].includes(value) ? value : null;
+    }
+
+    function mergeOcrRows(rows) {
+      const rowsByDate = new Map();
+      rows.forEach(row => {
+        if (!row || !row.date || !row.hours) return;
+        rowsByDate.set(row.date, (rowsByDate.get(row.date) || 0) + Number(row.hours));
+      });
+      return [...rowsByDate.entries()]
+        .map(([date, hours]) => ({ date, hours }))
+        .sort((a, b) => a.date.localeCompare(b.date));
+    }
+
+    function getOcrWordBox(word) {
+      const box = word && (word.bbox || word.boundingBox);
+      if (!box) return null;
+      const x0 = Number(box.x0 ?? box.left);
+      const y0 = Number(box.y0 ?? box.top);
+      const x1 = Number(box.x1 ?? (box.left + box.width));
+      const y1 = Number(box.y1 ?? (box.top + box.height));
+      if ([x0, y0, x1, y1].some(value => Number.isNaN(value))) return null;
+      return { x0, y0, x1, y1 };
+    }
+
+    function getOcrWords(data) {
+      if (Array.isArray(data?.words) && data.words.length > 0) return data.words;
+
+      const words = [];
+      const visit = node => {
+        if (!node) return;
+        if (Array.isArray(node)) {
+          node.forEach(visit);
+          return;
+        }
+        if (typeof node !== 'object') return;
+        if (node.text && getOcrWordBox(node)) words.push(node);
+        ['blocks', 'paragraphs', 'lines', 'words'].forEach(key => {
+          if (Array.isArray(node[key])) visit(node[key]);
+        });
+      };
+
+      visit(data);
+      return words;
+    }
+
+    function getPreviousMonth(month) {
+      return month === 1 ? 12 : month - 1;
+    }
+
+    function detectOcrSheetMonth(tokens, width, height) {
+      const monthCandidates = tokens
+        .filter(token => token.x > width * 0.62 && token.y > height * 0.12 && token.y < height * 0.36)
+        .map(token => Number(normalizeOcrNumberText(token.text).match(/\b\d{1,2}\b/)?.[0]))
+        .filter(value => value >= 1 && value <= 12);
+
+      return monthCandidates.length ? monthCandidates[monthCandidates.length - 1] : null;
+    }
+
+    function normalizeDateFromDayWithSheetMonth(day, sheetMonth) {
+      if (!sheetMonth) return null;
+      const month = day >= 21 ? getPreviousMonth(sheetMonth) : sheetMonth;
+      return normalizeRecognizedDate(month, day);
+    }
+
+    function parseDateFromOcrToken(text, sheetMonth) {
+      const normalized = normalizeOcrNumberText(text).replace(/[\\_.,]/g, '/');
+      const fullDateMatch = normalized.match(/\b(\d{1,2})\s*\/\s*(\d{1,2})\b/);
+      if (fullDateMatch) {
+        const month = Number(fullDateMatch[1]);
+        const day = Number(fullDateMatch[2]);
+        if (month >= 1 && month <= 12 && day >= 1 && day <= 31) {
+          return normalizeRecognizedDate(month, day);
+        }
+      }
+
+      const dayMatch = normalized.match(/\b\d{1,2}\b/);
+      if (!dayMatch) return null;
+      const day = Number(dayMatch[0]);
+      if (day < 1 || day > 31) return null;
+      return normalizeDateFromDayWithSheetMonth(day, sheetMonth);
+    }
+
+    function parseOcrRecordsFromLayout(data) {
+      const words = getOcrWords(data);
+      if (words.length === 0) return [];
+
+      const tokens = words
+        .map(word => {
+          const box = getOcrWordBox(word);
+          if (!box) return null;
+          return {
+            text: cleanOcrLine(word.text || ''),
+            x: (box.x0 + box.x1) / 2,
+            y: (box.y0 + box.y1) / 2,
+            box
+          };
+        })
+        .filter(token => token && token.text);
+
+      if (tokens.length === 0) return [];
+
+      const width = Math.max(...tokens.map(token => token.box.x1));
+      const height = Math.max(...tokens.map(token => token.box.y1));
+      const sheetMonth = detectOcrSheetMonth(tokens, width, height);
+      const tableTop = height * 0.28;
+      const dateColumnEnd = width * 0.22;
+      const hourColumnStart = width * 0.48;
+      const hourColumnEnd = width * 0.72;
+      const rowTolerance = Math.max(18, height * 0.025);
+
+      const dateCandidates = tokens
+        .filter(token => token.y > tableTop && token.x < dateColumnEnd)
+        .map(token => ({ ...token, date: parseDateFromOcrToken(token.text, sheetMonth) }))
+        .filter(token => token.date);
+
+      const hourCandidates = tokens
+        .filter(token => token.y > tableTop && token.x >= hourColumnStart && token.x <= hourColumnEnd)
+        .map(token => ({ ...token, hours: parseAllowedOvertimeHours(token.text) }))
+        .filter(token => token.hours);
+
+      const usedHours = new Set();
+      const rows = [];
+      dateCandidates.forEach(dateToken => {
+        const matchingHours = hourCandidates
+          .map((hourToken, index) => ({ hourToken, index, distance: Math.abs(hourToken.y - dateToken.y) }))
+          .filter(candidate => !usedHours.has(candidate.index) && candidate.distance <= rowTolerance)
+          .sort((a, b) => a.distance - b.distance);
+
+        if (matchingHours.length === 0) return;
+        const match = matchingHours[0];
+        usedHours.add(match.index);
+        rows.push({ date: dateToken.date, hours: match.hourToken.hours });
+      });
+
+      return mergeOcrRows(rows);
+    }
+
+    function extractHoursFromLine(line, dateMatch) {
+      let target = line.slice(dateMatch.index + dateMatch[0].length);
+      target = target
+        // 移除工作描述中的時間區間，避免 1730-1930 被當作時數。
+        .replace(/\b\d{3,4}\s*[-~－—]\s*\d{3,4}\b/g, ' ')
+        .replace(/\b\d{1,2}\s*[:：]\s*\d{2}\b/g, ' ');
+
+      const numbers = [...target.matchAll(/\b\d+(?:\.\d+)?\b/g)]
+        .map(match => Number(match[0]))
+        .filter(value => value > 0 && value <= 12 && value !== 60);
+
+      return numbers.length ? numbers[numbers.length - 1] : null;
+    }
+
+    function extractStandaloneHours(text) {
+      const normalized = cleanOcrLine(text)
+        .replace(/\b\d{1,2}\s*[\/\-]\s*\d{1,2}\b/g, ' ')
+        .replace(/\b\d{3,4}\s*[-~－—]\s*\d{3,4}\b/g, ' ')
+        .replace(/\b\d{1,2}\s*[:：]\s*\d{2}\b/g, ' ');
+      return [...normalized.matchAll(/\b(?:1(?:\.5)?|2|4|5|8)\b/g)]
+        .map(match => Number(match[0]))
+        // 常見誤餐 60 與員工編號等已被規則排除；只保留加班單常用時數。
+        .filter(value => [1, 1.5, 2, 4, 5, 8].includes(value));
+    }
+
+    function getOcrTextLines(text) {
+      return text
+        .split(/\r?\n/)
+        .map(cleanOcrLine)
+        .filter(line => line && !/(Name|Emp|Dept|Month|Hours|Meal|Allowance|Total|姓名|員工|部門|月份|加班時數|誤餐費|總計)/i.test(line));
+    }
+
+    function extractDatesFromText(text) {
+      const rows = [];
+      getOcrTextLines(text).forEach(line => {
+        const matches = [...line.matchAll(/\b(\d{1,2})\s*[\/\-]\s*(\d{1,2})\b/g)];
+        matches.forEach(match => {
+          const month = Number(match[1]);
+          const day = Number(match[2]);
+          if (month < 1 || month > 12 || day < 1 || day > 31) return;
+          rows.push(normalizeRecognizedDate(month, day));
+        });
+      });
+      return rows;
+    }
+
+    function buildSequentialRowsFromHours(hoursList) {
+      const startInput = document.getElementById('recordOcrStartDate');
+      if (!startInput || !startInput.value || hoursList.length === 0) return [];
+
+      return hoursList.map((hours, index) => ({
+        date: addDays(startInput.value, index),
+        hours
+      }));
+    }
+
+    function parseOcrRecords(text) {
+      const rowsByDate = new Map();
+      const lines = getOcrTextLines(text);
+
+      lines.forEach(line => {
+        const dateMatch = line.match(/\b(\d{1,2})\s*[\/\-]\s*(\d{1,2})\b/);
+        if (!dateMatch) return;
+
+        const month = Number(dateMatch[1]);
+        const day = Number(dateMatch[2]);
+        if (month < 1 || month > 12 || day < 1 || day > 31) return;
+
+        const hours = extractHoursFromLine(line, dateMatch);
+        if (!hours) return;
+
+        const date = normalizeRecognizedDate(month, day);
+        rowsByDate.set(date, (rowsByDate.get(date) || 0) + hours);
+      });
+
+      const parsedRows = [...rowsByDate.entries()]
+        .map(([date, hours]) => ({ date, hours }))
+        .sort((a, b) => a.date.localeCompare(b.date));
+
+      if (parsedRows.length > 0) return parsedRows;
+
+      const dates = extractDatesFromText(text);
+      const fallbackHours = extractStandaloneHours(text);
+      if (dates.length > 0 && fallbackHours.length >= dates.length) {
+        return mergeOcrRows(dates.map((date, index) => ({
+          date,
+          hours: fallbackHours[index]
+        })));
+      }
+
+      return buildSequentialRowsFromHours(fallbackHours);
+    }
+
+    function updateRecordPhotoFileStatus() {
+      const input = document.getElementById('recordPhotoInput');
+      const status = document.getElementById('recordPhotoFileStatus');
+      if (!input || !status) return;
+
+      const files = Array.from(input.files || []);
+      if (files.length === 0) {
+        status.textContent = '尚未選擇照片，可一次選多張。';
+        return;
+      }
+
+      const names = files.map(file => file.name).join('、');
+      status.textContent = `已選 ${files.length} 個檔案：${names}`;
+    }
+
+    async function recognizeRecordPhotos() {
+      const input = document.getElementById('recordPhotoInput');
+      const textArea = document.getElementById('recordOcrText');
+      if (!input || input.files.length === 0) {
+        showRecordFeedback('請先選擇加班單照片', 'warning');
+        return;
+      }
+      if (!window.Tesseract) {
+        showRecordFeedback('OCR 套件尚未載入，請確認網路後重新整理頁面', 'error');
+        return;
+      }
+
+      const files = Array.from(input.files);
+      const status = document.getElementById('recordPhotoFileStatus');
+      showRecordFeedback(`正在辨識 ${files.length} 張照片，手寫資料請稍候...`, 'success');
+      const chunks = [];
+      const layoutRows = [];
+      try {
+        for (let index = 0; index < files.length; index++) {
+          const file = files[index];
+          if (status) {
+            status.textContent = `正在辨識 ${index + 1}/${files.length}：${file.name}`;
+          }
+          const result = await Tesseract.recognize(file, 'eng+chi_tra');
+          layoutRows.push(...parseOcrRecordsFromLayout(result.data));
+          chunks.push(`--- ${file.name} ---\n${result.data.text || ''}`);
+        }
+        textArea.value = chunks.join('\n\n');
+        if (status) {
+          status.textContent = `已完成 ${files.length} 個檔案辨識，可在下方確認文字與結果。`;
+        }
+        ocrPreviewRecords = mergeOcrRows(layoutRows);
+        if (ocrPreviewRecords.length === 0) {
+          ocrPreviewRecords = parseOcrRecords(textArea.value);
+        }
+        renderOcrPreview();
+        if (ocrPreviewRecords.length === 0) {
+          showRecordFeedback('尚未辨識到日期與時數，請確認照片清楚或手動修正文字', 'warning');
+        } else {
+          showRecordFeedback(`已解析 ${ocrPreviewRecords.length} 筆，請確認後匯入`, 'success');
+        }
+      } catch (error) {
+        console.error('OCR failed:', error);
+        showRecordFeedback('照片辨識失敗，請改貼辨識文字或換一張較清楚的照片', 'error');
+        updateRecordPhotoFileStatus();
+      }
+    }
+
+    function parseOcrTextFromTextarea() {
+      const textArea = document.getElementById('recordOcrText');
+      const text = textArea ? textArea.value : '';
+      ocrPreviewRecords = parseOcrRecords(text);
+      renderOcrPreview();
+
+      if (ocrPreviewRecords.length === 0) {
+        showRecordFeedback('尚未辨識到日期與時數，請確認照片清楚或手動修正文字', 'warning');
+      } else {
+        showRecordFeedback(`已解析 ${ocrPreviewRecords.length} 筆，請確認後匯入`, 'success');
+      }
+    }
+
+    function renderOcrPreview() {
+      const preview = document.getElementById('recordOcrPreview');
+      const rows = document.getElementById('recordOcrRows');
+      const importBtn = document.getElementById('recordOcrImportBtn');
+      if (!preview || !rows || !importBtn) return;
+
+      preview.classList.add('show');
+      importBtn.disabled = ocrPreviewRecords.length === 0;
+
+      if (ocrPreviewRecords.length === 0) {
+        rows.innerHTML = '<div class="record-ocr-empty">尚無可匯入資料。可在上方文字框修正辨識文字後重新解析。</div>';
+        return;
+      }
+
+      rows.innerHTML = ocrPreviewRecords.map((record, index) => `
+        <div class="record-ocr-row">
+          <input type="date" class="record-input" value="${record.date}" onchange="updateOcrPreviewRecord(${index}, 'date', this.value)">
+          <input type="number" class="record-input" min="0" step="0.5" value="${formatRecordHours(record.hours)}" onchange="updateOcrPreviewRecord(${index}, 'hours', this.value)">
+          <button type="button" class="record-ocr-remove" onclick="removeOcrPreviewRecord(${index})">移除</button>
+        </div>
+      `).join('');
+    }
+
+    function updateOcrPreviewRecord(index, key, value) {
+      if (!ocrPreviewRecords[index]) return;
+      if (key === 'hours') {
+        ocrPreviewRecords[index].hours = parseFloat(value) || 0;
+      } else {
+        ocrPreviewRecords[index].date = value;
+      }
+      ocrPreviewRecords.sort((a, b) => a.date.localeCompare(b.date));
+      renderOcrPreview();
+    }
+
+    function removeOcrPreviewRecord(index) {
+      ocrPreviewRecords.splice(index, 1);
+      renderOcrPreview();
+    }
+
+    function importOcrPreviewToRecords() {
+      const validRecords = ocrPreviewRecords
+        .filter(record => record.date && record.hours > 0)
+        .sort((a, b) => a.date.localeCompare(b.date));
+
+      if (validRecords.length === 0) {
+        showRecordFeedback('沒有有效的辨識結果可匯入', 'warning');
+        return;
+      }
+
+      const records = getRecords();
+      validRecords.forEach(record => {
+        const existingIndex = records.findIndex(item => item.date === record.date);
+        if (existingIndex >= 0) {
+          records[existingIndex].hours = record.hours;
+        } else {
+          records.push({ date: record.date, hours: record.hours });
+        }
+      });
+      records.sort((a, b) => a.date.localeCompare(b.date));
+      saveRecords(records);
+
+      const rangeStart = validRecords[0].date;
+      const rangeEnd = validRecords[validRecords.length - 1].date;
+      document.getElementById('startDate').value = rangeStart;
+      document.getElementById('endDate').value = rangeEnd;
+      const customCheckbox = document.getElementById('filterUseCustom');
+      const settlementCheckbox = document.getElementById('filterUseSettlement');
+      if (customCheckbox && settlementCheckbox) {
+        customCheckbox.checked = false;
+        settlementCheckbox.checked = false;
+        document.getElementById('filterCustomSection').style.display = 'none';
+        document.getElementById('filterSettlementSection').style.display = 'none';
+        saveFilterCustomRange();
+      }
+      generateCalendar();
+      updateCurrentRangeDisplay();
+      updateSettlementRangeDisplay();
+      updateImportRangeDisplay();
+      importRecordsToCalendar();
+
+      showRecordFeedback(`已匯入 ${validRecords.length} 筆，並自動生成 ${formatRecordDate(rangeStart)} ~ ${formatRecordDate(rangeEnd)} 月曆`, 'success');
+    }
+
     function saveRecords(records) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
       updateFabBadge();
@@ -2317,6 +3057,7 @@
       // 如果面板是打開的，更新獎金提醒
       const panel = document.getElementById('recordPanel');
       if (panel.classList.contains('active')) {
+        updateImportRangeDisplay();
         updateBonusReminder();
       }
     }
@@ -2331,9 +3072,6 @@
         updateImportRangeDisplay();
         renderRecordList();
         updateBonusReminder();
-        // 預設日期為今天
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('recordDate').value = today;
         
         // 添加 Enter 鍵快捷鍵支持
         const dateInput = document.getElementById('recordDate');
@@ -2348,6 +3086,12 @@
         // 重新獲取元素
         const newDateEl = document.getElementById('recordDate');
         const newHoursEl = document.getElementById('recordHours');
+        const ocrStartEl = document.getElementById('recordOcrStartDate');
+        newDateEl.value = getSuggestedRecordDate();
+        newHoursEl.value = '';
+        if (ocrStartEl && !ocrStartEl.value) {
+          ocrStartEl.value = newDateEl.value;
+        }
         
         // 添加 Enter 鍵監聽
         newDateEl.addEventListener('keydown', function(e) {
@@ -2384,21 +3128,23 @@
       const hours = parseFloat(hoursInput.value) || 0;
 
       if (!date) {
-        alert('請選擇日期');
+        showRecordFeedback('請先選擇日期', 'warning');
         return;
       }
       if (hours <= 0) {
-        alert('請輸入有效的時數');
+        showRecordFeedback('請輸入大於 0 的加班時數', 'warning');
         return;
       }
 
       const records = getRecords();
+      let action = '新增';
       
       // 檢查是否已存在該日期的記錄
       const existingIndex = records.findIndex(r => r.date === date);
       if (existingIndex !== -1) {
         if (confirm(`${date} 已有 ${records[existingIndex].hours} 小時的記錄，要覆蓋嗎？`)) {
           records[existingIndex].hours = hours;
+          action = '更新';
         } else {
           return;
         }
@@ -2416,9 +3162,11 @@
       hoursInput.value = '';
       
       // 日期往後一天，方便連續輸入
-      const nextDate = new Date(date);
-      nextDate.setDate(nextDate.getDate() + 1);
-      dateInput.value = nextDate.toISOString().split('T')[0];
+      const nextDate = addDays(date, 1);
+      const entryRange = getRecordEntryRange();
+      dateInput.value = entryRange && nextDate <= entryRange.end ? nextDate : getSuggestedRecordDate(records);
+      hoursInput.focus();
+      showRecordFeedback(`已${action} ${formatRecordDate(date)} ${formatRecordHours(hours)}h`, 'success');
     }
 
     function deleteRecord(index) {
@@ -2432,7 +3180,7 @@
     function setQuickHours(hours) {
       const hoursInput = document.getElementById('recordHours');
       hoursInput.value = hours;
-      hoursInput.focus();
+      document.getElementById('recordAddBtn').focus();
     }
 
     // 編輯記錄
@@ -2560,8 +3308,15 @@
     }
 
     function clearAllRecords() {
-      if (confirm('確定要清除所有加班記錄嗎？此操作無法復原。')) {
+      const records = getRecords();
+      if (records.length === 0) {
+        showRecordFeedback('目前沒有可清除的加班記錄', 'warning');
+        return;
+      }
+      if (confirm(`確定要清除 ${records.length} 筆加班記錄嗎？此操作無法復原。`) &&
+          confirm('再次確認：清除後無法從系統內復原，確定清除全部？')) {
         saveRecords([]);
+        showRecordFeedback('已清除所有加班記錄', 'success');
       }
     }
 
@@ -2670,6 +3425,13 @@
           labelEl.textContent = '📅 當前結算區間：';
           displayEl.textContent = `${settlementPeriod.displayStart} ~ ${settlementPeriod.displayEnd}`;
         }
+      }
+
+      const rangeForCount = getRecordEntryRange();
+      if (displayEl.textContent !== '-' && rangeForCount && rangeForCount.start && rangeForCount.end) {
+        const records = getRecords().filter(record => record.date >= rangeForCount.start && record.date <= rangeForCount.end);
+        const totalHours = records.reduce((sum, record) => sum + record.hours, 0);
+        displayEl.textContent = `${displayEl.textContent}，${records.length} 筆 / ${formatRecordHours(totalHours)} 小時`;
       }
     }
 
@@ -2798,13 +3560,15 @@
       
       // 應用篩選
       let filteredRecords = records;
+      let titleText = '所有記錄';
       if (filterRange && filterRange.start && filterRange.end) {
         filteredRecords = records.filter(r => r.date >= filterRange.start && r.date <= filterRange.end);
         const filterType = filterRange.type === 'custom' ? '自訂區間' : '結算區間';
-        listTitle.textContent = `${filterType}記錄 (${filteredRecords.length}/${records.length})`;
-      } else {
-        listTitle.textContent = '所有記錄';
+        titleText = `${filterType}記錄`;
       }
+
+      const filteredTotalHours = filteredRecords.reduce((sum, record) => sum + record.hours, 0);
+      listTitle.innerHTML = `${titleText}<span class="record-list-meta">${filteredRecords.length} 筆，${formatRecordHours(filteredTotalHours)} 小時${filterRange ? ` / 全部 ${records.length} 筆` : ''}</span>`;
 
       if (filteredRecords.length === 0) {
         const emptyText = filterRange ? '此區間內尚無加班記錄' : '尚無加班記錄';
@@ -2819,8 +3583,7 @@
 
       let html = '';
       filteredRecords.forEach((record) => {
-        const dateParts = record.date.split('-');
-        const displayDate = `${dateParts[1]}/${dateParts[2]}`;
+        const displayDate = formatRecordDate(record.date);
         
         // 判斷是否在區間內（用於顯示狀態，須與篩選區間一致）
         let inRange = false;
@@ -2834,13 +3597,13 @@
         }
 
         // 找到原始索引（用於刪除）
-        const originalIndex = records.findIndex(r => r.date === record.date && r.hours === record.hours);
+        const originalIndex = records.findIndex(r => r.date === record.date);
 
         html += `
           <div class="record-item" id="record-item-${originalIndex}">
             <div class="record-item-info" id="record-info-${originalIndex}">
               <span class="record-item-date">${displayDate}</span>
-              <span class="record-item-hours">${record.hours}h</span>
+              <span class="record-item-hours">${formatRecordHours(record.hours)}h</span>
               ${statusText ? `<span class="record-item-status ${statusClass}">${statusText}</span>` : ''}
             </div>
             <div class="record-item-actions">
@@ -2883,6 +3646,7 @@
         document.getElementById('startDate').value = rangeStart;
         document.getElementById('endDate').value = rangeEnd;
         generateCalendar();
+        showRecordFeedback('正在生成月曆並準備帶入記錄...', 'success');
         setTimeout(() => importRecordsToCalendar(), 100);
         return;
       }
@@ -2891,7 +3655,7 @@
       const inRangeRecords = records.filter(r => r.date >= rangeStart && r.date <= rangeEnd);
 
       if (inRangeRecords.length === 0) {
-        alert('沒有在選取區間內的加班記錄');
+        showRecordFeedback('選取區間內沒有加班記錄，請確認篩選區間或先新增記錄', 'warning');
         return;
       }
 
@@ -2910,14 +3674,14 @@
       });
 
       updateTotal();
-      
-      // 關閉面板
-      toggleRecordPanel();
 
       // 滾動到月曆位置
       calendarCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-      alert(`已成功帶入 ${filledCount} 筆加班記錄！`);
+      if (filledCount === 0) {
+        showRecordFeedback('找到區間記錄，但目前月曆沒有對應日期，請重新生成該區間月曆', 'warning');
+      } else {
+        showRecordFeedback(`已帶入 ${filledCount} 筆到月曆（${formatRecordDate(rangeStart)} ~ ${formatRecordDate(rangeEnd)}）`, 'success');
+      }
     }
 
     // 頁面載入時初始化
