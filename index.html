@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="專業的薪資計算與管理系統，支援加班費計算、請假管理等功能">
-  <meta name="theme-color" content="#2563eb">
+  <meta name="theme-color" content="#061823">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="薪資管理">
@@ -1123,6 +1123,69 @@
       padding: 1rem;
     }
 
+    /* 使用說明 */
+    .record-guide-section {
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.12), rgba(16, 185, 129, 0.08));
+      border: 1px solid rgba(147, 197, 253, 0.45);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .record-guide-title {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: #1e40af;
+      margin-bottom: 0.75rem;
+    }
+
+    .record-guide-steps {
+      display: grid;
+      gap: 0.625rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .record-guide-step {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.625rem;
+      align-items: flex-start;
+    }
+
+    .record-guide-step-no {
+      width: 1.35rem;
+      height: 1.35rem;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--primary);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .record-guide-step-text {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .record-guide-step-text strong {
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+
+    .record-guide-tip {
+      padding: 0.625rem 0.75rem;
+      background: rgba(255, 255, 255, 0.62);
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
     /* 新增區塊 */
     .record-add-section {
       background: var(--bg-tertiary);
@@ -1214,129 +1277,6 @@
       background: #fef2f2;
       color: #b91c1c;
       border: 1px solid #fecaca;
-    }
-
-    /* 照片辨識區塊 */
-    .record-photo-section {
-      background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
-      border: 1px solid #c7d2fe;
-      border-radius: var(--radius-md);
-      padding: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .record-photo-title {
-      font-size: 0.8125rem;
-      font-weight: 600;
-      color: #3730a3;
-      margin-bottom: 0.5rem;
-    }
-
-    .record-photo-hint {
-      font-size: 0.75rem;
-      color: #4f46e5;
-      line-height: 1.5;
-      margin-bottom: 0.75rem;
-    }
-
-    .record-photo-example {
-      background: rgba(255, 255, 255, 0.6);
-      border: 1px dashed #a5b4fc;
-      border-radius: var(--radius-sm);
-      padding: 0.5rem;
-      margin-bottom: 0.75rem;
-      font-size: 0.75rem;
-      color: #4338ca;
-      line-height: 1.5;
-    }
-
-    .record-photo-file-status {
-      margin-top: 0.5rem;
-      font-size: 0.75rem;
-      color: #4f46e5;
-      line-height: 1.5;
-      word-break: break-all;
-    }
-
-    .record-photo-actions {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: 0.75rem;
-      flex-wrap: wrap;
-    }
-
-    .record-secondary-btn {
-      padding: 0.5rem 0.875rem;
-      background: white;
-      color: #4338ca;
-      border: 1px solid #a5b4fc;
-      border-radius: var(--radius-sm);
-      font-size: 0.8125rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .record-secondary-btn:hover {
-      background: #eef2ff;
-    }
-
-    .record-secondary-btn:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
-    }
-
-    .record-ocr-text {
-      width: 100%;
-      min-height: 72px;
-      margin-top: 0.75rem;
-      resize: vertical;
-      line-height: 1.45;
-    }
-
-    .record-ocr-preview {
-      display: none;
-      margin-top: 0.75rem;
-      padding-top: 0.75rem;
-      border-top: 1px solid rgba(99, 102, 241, 0.25);
-    }
-
-    .record-ocr-preview.show {
-      display: block;
-    }
-
-    .record-ocr-preview-title {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: #3730a3;
-      margin-bottom: 0.5rem;
-    }
-
-    .record-ocr-row {
-      display: grid;
-      grid-template-columns: 1fr 72px auto;
-      gap: 0.5rem;
-      align-items: center;
-      margin-bottom: 0.5rem;
-    }
-
-    .record-ocr-row input {
-      min-width: 0;
-    }
-
-    .record-ocr-remove {
-      background: none;
-      border: none;
-      color: var(--danger);
-      cursor: pointer;
-      font-size: 0.8125rem;
-      padding: 0.25rem;
-    }
-
-    .record-ocr-empty {
-      color: var(--text-tertiary);
-      font-size: 0.8125rem;
-      line-height: 1.5;
     }
 
     /* 帶入區塊 */
@@ -1791,17 +1731,1049 @@
         align-items: flex-start;
       }
 
-      .record-photo-actions,
-      .record-ocr-row {
-        grid-template-columns: 1fr;
-      }
-
-      .record-secondary-btn {
-        width: 100%;
-      }
-
       .record-filter-row {
         flex-direction: column;
+      }
+    }
+
+    /* =========================================
+       大瑞科技 - 深海科技琉璃風 Tech-Glass
+       以覆蓋層方式套用，不改動原本功能與版面結構
+       ========================================= */
+    :root {
+      --primary: #00e5ff;
+      --primary-light: #67f8ff;
+      --primary-dark: #0891b2;
+      --primary-glow: rgba(0, 229, 255, 0.24);
+      --success: #8cffb0;
+      --success-light: rgba(140, 255, 176, 0.16);
+      --warning: #ffd166;
+      --warning-light: rgba(255, 209, 102, 0.16);
+      --danger: #ff6b8a;
+      --danger-light: rgba(255, 107, 138, 0.15);
+      --bg-primary: #061823;
+      --bg-secondary: rgba(12, 28, 42, 0.68);
+      --bg-tertiary: rgba(255, 255, 255, 0.07);
+      --text-primary: #f5fbff;
+      --text-secondary: #bad4e4;
+      --text-tertiary: #7ea2b8;
+      --border: rgba(153, 246, 255, 0.18);
+      --border-light: rgba(153, 246, 255, 0.1);
+      --shadow-sm: 0 12px 36px rgba(0, 0, 0, 0.26);
+      --shadow-md: 0 18px 48px rgba(0, 229, 255, 0.12), 0 18px 50px rgba(0, 0, 0, 0.32);
+      --shadow-lg: 0 24px 70px rgba(0, 0, 0, 0.42), 0 0 36px rgba(0, 229, 255, 0.08);
+      --shadow-xl: 0 30px 90px rgba(0, 0, 0, 0.55), 0 0 45px rgba(0, 229, 255, 0.14);
+    }
+
+    html {
+      background: #061823;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 18% 10%, rgba(0, 229, 255, 0.2) 0, transparent 28rem),
+        radial-gradient(circle at 82% 8%, rgba(140, 255, 176, 0.14) 0, transparent 24rem),
+        radial-gradient(circle at 55% 82%, rgba(56, 189, 248, 0.12) 0, transparent 30rem),
+        linear-gradient(135deg, #061823 0%, #0d2a37 45%, #101820 100%);
+      color: var(--text-primary);
+    }
+
+    body::before {
+      height: 100%;
+      background:
+        linear-gradient(rgba(153, 246, 255, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(153, 246, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(115deg, transparent 0 48%, rgba(0, 229, 255, 0.08) 49%, transparent 52%);
+      background-size: 44px 44px, 44px 44px, 100% 100%;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0.1));
+      opacity: 0.75;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse at top, rgba(255, 255, 255, 0.08), transparent 42%),
+        linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.06), transparent);
+      mix-blend-mode: screen;
+    }
+
+    .header {
+      background:
+        linear-gradient(135deg, rgba(3, 20, 30, 0.78), rgba(13, 42, 55, 0.52)),
+        radial-gradient(circle at 30% 20%, rgba(0, 229, 255, 0.26), transparent 34rem);
+      border-bottom: 1px solid rgba(0, 229, 255, 0.18);
+      box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .header::before {
+      background:
+        radial-gradient(ellipse 70% 45% at 20% 20%, rgba(0, 229, 255, 0.22) 0%, transparent 58%),
+        radial-gradient(ellipse 55% 32% at 80% 70%, rgba(140, 255, 176, 0.18) 0%, transparent 55%);
+    }
+
+    .header::after {
+      height: 120px;
+      background: linear-gradient(to top, #061823, transparent);
+    }
+
+    .header-badge {
+      color: #dffcff;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(153, 246, 255, 0.28);
+      box-shadow: 0 0 22px rgba(0, 229, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+
+    .header-badge::before {
+      background: var(--success);
+      box-shadow: 0 0 14px rgba(140, 255, 176, 0.9);
+    }
+
+    .header h1 {
+      color: #ffffff;
+      text-shadow: 0 0 24px rgba(0, 229, 255, 0.35);
+    }
+
+    .header p {
+      color: rgba(222, 252, 255, 0.76);
+    }
+
+    .card,
+    .payslip,
+    .modal,
+    .record-panel {
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.105), rgba(255, 255, 255, 0.045));
+      border: 1px solid rgba(153, 246, 255, 0.2);
+      box-shadow: var(--shadow-lg);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      position: relative;
+    }
+
+    .card::before,
+    .payslip::before,
+    .record-panel::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border-radius: inherit;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent 32%),
+        radial-gradient(circle at 100% 0%, rgba(0, 229, 255, 0.16), transparent 26rem);
+      opacity: 0.72;
+    }
+
+    .card > *,
+    .payslip > *,
+    .record-panel > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .record-panel {
+      position: fixed;
+      bottom: 100px;
+      right: 24px;
+      width: 360px;
+      max-height: 70vh;
+    }
+
+    .card:hover {
+      border-color: rgba(0, 229, 255, 0.42);
+      box-shadow: var(--shadow-xl);
+      transform: translateY(-2px);
+    }
+
+    .card-header {
+      background: linear-gradient(90deg, rgba(0, 229, 255, 0.12), rgba(140, 255, 176, 0.045), transparent);
+      border-bottom: 1px solid rgba(153, 246, 255, 0.14);
+    }
+
+    .card-icon {
+      background: rgba(255, 255, 255, 0.08) !important;
+      color: var(--primary) !important;
+      border: 1px solid rgba(153, 246, 255, 0.22);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.13), 0 0 18px rgba(0, 229, 255, 0.12);
+    }
+
+    .card-title,
+    .modal-title {
+      color: var(--text-primary);
+    }
+
+    .card-subtitle,
+    .form-label,
+    .section-label,
+    .total-label,
+    .total-unit,
+    .note-text,
+    .leave-type-label {
+      color: var(--text-secondary);
+    }
+
+    .section-label::after {
+      background: linear-gradient(to right, rgba(0, 229, 255, 0.55), transparent);
+    }
+
+    .form-input,
+    .day-input,
+    .record-input,
+    .record-item-edit-input,
+    select,
+    input {
+      background: rgba(0, 8, 14, 0.46);
+      border-color: rgba(0, 229, 255, 0.24);
+      color: #6ff7ff;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    .form-input:hover,
+    .day-input:hover,
+    .record-input:hover {
+      background: rgba(0, 18, 28, 0.58);
+      border-color: rgba(103, 248, 255, 0.44);
+    }
+
+    .form-input:focus,
+    .day-input:focus,
+    .record-input:focus,
+    .leave-type-input:focus,
+    .record-item-edit-input:focus {
+      background: rgba(1, 22, 34, 0.78);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.14), 0 0 18px rgba(0, 229, 255, 0.22);
+    }
+
+    .form-input::placeholder,
+    .day-input::placeholder {
+      color: rgba(186, 212, 228, 0.5);
+    }
+
+    .form-input[readonly] {
+      background: rgba(255, 255, 255, 0.06);
+      color: rgba(111, 247, 255, 0.72);
+      border-color: rgba(153, 246, 255, 0.11);
+    }
+
+    .input-icon {
+      color: rgba(140, 255, 176, 0.85);
+    }
+
+    .btn-primary,
+    .record-add-btn,
+    .record-import-btn,
+    .record-item-edit-save,
+    .fab {
+      background: linear-gradient(90deg, #00c9ff 0%, #92fe9d 100%);
+      color: #061823;
+      box-shadow: 0 0 22px rgba(0, 201, 255, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+      font-weight: 800;
+    }
+
+    .btn-primary:hover,
+    .record-add-btn:hover,
+    .record-import-btn:hover,
+    .record-item-edit-save:hover,
+    .fab:hover {
+      background: linear-gradient(90deg, #67f8ff 0%, #b8ffce 100%);
+      box-shadow: 0 0 30px rgba(0, 229, 255, 0.44), 0 0 42px rgba(140, 255, 176, 0.16);
+    }
+
+    .shortcut-hint,
+    .note,
+    .leave-types-grid,
+    .record-guide-section,
+    .record-add-section,
+    .record-filter-section,
+    .record-import-section,
+    .record-bonus-section,
+    .record-item,
+    .record-filter-settlement-info {
+      background: rgba(255, 255, 255, 0.065);
+      border: 1px solid rgba(153, 246, 255, 0.14);
+      color: var(--text-secondary);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    }
+
+    .shortcut-hint-text,
+    .shortcut-hint-text b,
+    .record-import-info,
+    .record-guide-title,
+    .record-guide-step-text,
+    .record-guide-step-text strong,
+    .record-guide-tip,
+    .record-import-info strong,
+    .record-filter-title,
+    .record-filter-option-label,
+    .record-filter-settlement-info,
+    .record-filter-settlement-info strong,
+    .record-bonus-title,
+    .record-bonus-label,
+    .record-bonus-unit,
+    .record-bonus-next,
+    .record-bonus-next strong {
+      color: var(--text-secondary);
+    }
+
+    .shortcut-hint kbd {
+      background: rgba(0, 229, 255, 0.12);
+      border-color: rgba(0, 229, 255, 0.32);
+      color: #dffcff;
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.16);
+    }
+
+    .calendar th {
+      color: rgba(223, 252, 255, 0.65);
+    }
+
+    .calendar td {
+      background: linear-gradient(145deg, rgba(11, 48, 62, 0.88), rgba(9, 33, 45, 0.9));
+      border-color: rgba(103, 248, 255, 0.22);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.055);
+    }
+
+    .calendar td:hover {
+      border-color: rgba(0, 229, 255, 0.42);
+      box-shadow: 0 0 18px rgba(0, 229, 255, 0.13);
+    }
+
+    .cell-weekday {
+      background: linear-gradient(145deg, rgba(0, 116, 145, 0.34), rgba(9, 33, 45, 0.92)) !important;
+      border-color: rgba(103, 248, 255, 0.28) !important;
+    }
+
+    .cell-weekend {
+      background: linear-gradient(145deg, rgba(255, 91, 132, 0.42), rgba(54, 22, 45, 0.92)) !important;
+      border-color: rgba(255, 140, 163, 0.52) !important;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 0 18px rgba(255, 107, 138, 0.14);
+    }
+
+    .cell-festival {
+      background: linear-gradient(145deg, rgba(255, 196, 65, 0.46), rgba(65, 48, 15, 0.92)) !important;
+      border-color: rgba(255, 226, 156, 0.62) !important;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 209, 102, 0.18);
+    }
+
+    .day-date,
+    .record-item-date,
+    .payslip-row .val,
+    .total-value,
+    .record-bonus-hours {
+      color: #67f8ff;
+      text-shadow: 0 0 14px rgba(0, 229, 255, 0.28);
+    }
+
+    .cell-weekend .day-date,
+    .text-danger {
+      color: #ff8ca3;
+    }
+
+    .cell-festival .day-date {
+      color: #ffd166;
+    }
+
+    .day-badge,
+    .leave-type-badge,
+    .record-item-status {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .cell-weekday .day-badge,
+    .record-item-status.out-range {
+      background: rgba(103, 248, 255, 0.18);
+      color: #dffcff;
+      border-color: rgba(103, 248, 255, 0.36);
+    }
+
+    .cell-weekend .day-badge {
+      background: rgba(255, 107, 138, 0.36);
+      color: #ffe3ea;
+      border-color: rgba(255, 179, 193, 0.55);
+      box-shadow: 0 0 10px rgba(255, 107, 138, 0.22);
+    }
+
+    .cell-festival .day-badge {
+      background: rgba(255, 209, 102, 0.36);
+      color: #fff3c4;
+      border-color: rgba(255, 226, 156, 0.6);
+      box-shadow: 0 0 10px rgba(255, 209, 102, 0.24);
+    }
+
+    .quick-btn,
+    .record-quick-btn,
+    .record-item-edit-cancel {
+      background: rgba(255, 255, 255, 0.075);
+      border: 1px solid rgba(153, 246, 255, 0.16);
+      color: var(--text-secondary);
+    }
+
+    .quick-btn:hover,
+    .record-quick-btn:hover {
+      color: #061823;
+      background: linear-gradient(90deg, #00c9ff, #92fe9d);
+      border-color: transparent;
+      box-shadow: 0 0 16px rgba(0, 229, 255, 0.3);
+    }
+
+    .quick-btn-2,
+    .record-quick-hours-btn {
+      background: rgba(0, 229, 255, 0.12);
+      color: #9ffaff;
+      border-color: rgba(0, 229, 255, 0.26);
+    }
+
+    .quick-btn-4 {
+      background: rgba(255, 209, 102, 0.12);
+      color: #ffe29c;
+      border-color: rgba(255, 209, 102, 0.26);
+    }
+
+    .quick-btn-8,
+    .leave-type-badge.full,
+    .record-item-status.in-range {
+      background: rgba(140, 255, 176, 0.14);
+      color: #b8ffce;
+      border-color: rgba(140, 255, 176, 0.28);
+    }
+
+    .quick-btn-c {
+      background: rgba(255, 107, 138, 0.13);
+      color: #ffb3c1;
+      border-color: rgba(255, 107, 138, 0.26);
+    }
+
+    .leave-type-badge.half {
+      background: rgba(255, 209, 102, 0.14);
+      color: #ffe29c;
+      border-color: rgba(255, 209, 102, 0.28);
+    }
+
+    .payslip-header,
+    .record-panel-header {
+      background:
+        linear-gradient(135deg, rgba(0, 229, 255, 0.22), rgba(140, 255, 176, 0.11)),
+        linear-gradient(135deg, #061823, #102a38);
+      border-bottom: 1px solid rgba(153, 246, 255, 0.18);
+    }
+
+    .payslip-header::before {
+      background:
+        radial-gradient(ellipse 90% 80% at 50% 0%, rgba(0, 229, 255, 0.22) 0%, transparent 62%),
+        linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    }
+
+    .payslip-amount {
+      color: #b8ffce;
+      text-shadow: 0 0 18px rgba(140, 255, 176, 0.5), 0 0 40px rgba(0, 229, 255, 0.24);
+    }
+
+    .payslip-title,
+    .payslip-subtitle,
+    .payslip-row .key,
+    .payslip-section-title,
+    .modal-content {
+      color: var(--text-secondary);
+    }
+
+    .payslip-section:first-child {
+      border-right-color: rgba(153, 246, 255, 0.12);
+    }
+
+    .payslip-section-title,
+    .payslip-row.total,
+    .total-hours,
+    .record-list-section {
+      border-color: rgba(153, 246, 255, 0.14);
+    }
+
+    .text-success {
+      color: #8cffb0;
+      text-shadow: 0 0 12px rgba(140, 255, 176, 0.22);
+    }
+
+    .modal-overlay {
+      background: rgba(1, 10, 17, 0.72);
+    }
+
+    .modal-icon {
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.2), rgba(140, 255, 176, 0.16));
+      border: 1px solid rgba(153, 246, 255, 0.2);
+    }
+
+    .fab {
+      border: 1px solid rgba(255, 255, 255, 0.32);
+    }
+
+    .fab-badge {
+      background: linear-gradient(135deg, #ff6b8a, #ffd166);
+      color: #061823;
+      box-shadow: 0 0 16px rgba(255, 107, 138, 0.5);
+    }
+
+    .record-panel-body {
+      background: rgba(2, 13, 22, 0.16);
+    }
+
+    .record-guide-section {
+      background:
+        linear-gradient(135deg, rgba(0, 229, 255, 0.16), rgba(140, 255, 176, 0.07)),
+        rgba(255, 255, 255, 0.055);
+      border-color: rgba(103, 248, 255, 0.26);
+    }
+
+    .record-guide-step-no {
+      background: linear-gradient(135deg, #00c9ff, #92fe9d);
+      color: #061823;
+      box-shadow: 0 0 14px rgba(0, 229, 255, 0.32);
+    }
+
+    .record-guide-tip {
+      background: rgba(0, 8, 14, 0.35);
+      border: 1px solid rgba(153, 246, 255, 0.14);
+    }
+
+    .record-panel-close {
+      color: rgba(223, 252, 255, 0.72);
+    }
+
+    .record-panel-close:hover,
+    .record-clear-btn:hover,
+    .record-item-delete:hover {
+      color: #ff8ca3;
+    }
+
+    .record-add-title,
+    .record-list-header,
+    .record-list-meta,
+    .record-empty,
+    .record-add-field label {
+      color: var(--text-secondary);
+    }
+
+    .record-item.editing {
+      background: rgba(255, 209, 102, 0.13);
+      border-color: rgba(255, 209, 102, 0.3);
+    }
+
+    .record-feedback.success {
+      background: rgba(140, 255, 176, 0.12);
+      color: #b8ffce;
+      border-color: rgba(140, 255, 176, 0.28);
+    }
+
+    .record-feedback.warning {
+      background: rgba(255, 209, 102, 0.12);
+      color: #ffe29c;
+      border-color: rgba(255, 209, 102, 0.3);
+    }
+
+    .record-feedback.error {
+      background: rgba(255, 107, 138, 0.12);
+      color: #ffb3c1;
+      border-color: rgba(255, 107, 138, 0.3);
+    }
+
+    .record-bonus-progress {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .record-bonus-progress-bar {
+      background: linear-gradient(90deg, #00c9ff 0%, #92fe9d 100%);
+      box-shadow: 0 0 16px rgba(140, 255, 176, 0.35);
+    }
+
+    ::selection {
+      background: rgba(0, 229, 255, 0.35);
+      color: #ffffff;
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, rgba(0, 229, 255, 0.55), rgba(140, 255, 176, 0.42));
+      border-radius: 999px;
+      border: 2px solid rgba(6, 24, 35, 0.9);
+    }
+
+    /* ===== 可讀性強化：提高字級、亮度與數字辨識度 ===== */
+    body {
+      font-size: 16px;
+      color: #f7fcff;
+    }
+
+    .header-badge {
+      font-size: 0.875rem;
+      font-weight: 700;
+    }
+
+    .header h1 {
+      font-size: clamp(2.25rem, 4.5vw, 3.25rem);
+      letter-spacing: 0.02em;
+    }
+
+    .header p {
+      font-size: 1.0625rem;
+      color: #dffcff;
+      font-weight: 600;
+    }
+
+    .card-title {
+      font-size: 1.125rem;
+      font-weight: 800;
+      color: #ffffff;
+      text-shadow: 0 0 12px rgba(0, 229, 255, 0.16);
+    }
+
+    .card-subtitle {
+      font-size: 0.9375rem;
+      color: #d7eef8;
+    }
+
+    .form-label,
+    .section-label,
+    .leave-type-label,
+    .record-add-field label {
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: #e8f9ff;
+    }
+
+    .section-label {
+      letter-spacing: 0.075em;
+    }
+
+    .form-input,
+    .day-input,
+    .record-input,
+    .record-item-edit-input {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #a8fbff;
+      background: rgba(0, 10, 18, 0.62);
+      border-color: rgba(103, 248, 255, 0.36);
+    }
+
+    .form-input::placeholder,
+    .day-input::placeholder {
+      color: rgba(215, 238, 248, 0.62);
+      font-weight: 500;
+    }
+
+    .form-input[readonly] {
+      color: #d7eef8;
+      opacity: 1;
+    }
+
+    .btn,
+    .record-add-btn,
+    .record-import-btn,
+    .record-quick-btn,
+    .quick-btn {
+      font-size: 1rem;
+      letter-spacing: 0.01em;
+    }
+
+    .calendar th {
+      font-size: 0.9375rem;
+      color: #e8f9ff;
+      font-weight: 800;
+    }
+
+    .day-date {
+      font-size: 1rem;
+      font-weight: 800;
+    }
+
+    .cell-weekday .day-date {
+      color: #8ffaff;
+      text-shadow: 0 0 14px rgba(0, 229, 255, 0.36);
+    }
+
+    .cell-weekend .day-date {
+      color: #ff9eb2;
+      text-shadow: 0 0 14px rgba(255, 107, 138, 0.42);
+    }
+
+    .cell-festival .day-date {
+      color: #ffe082;
+      text-shadow: 0 0 14px rgba(255, 209, 102, 0.45);
+    }
+
+    .day-badge,
+    .leave-type-badge,
+    .record-item-status {
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+
+    .total-label,
+    .total-unit,
+    .note-text,
+    .shortcut-hint-text,
+    .record-import-info,
+    .record-bonus-next,
+    .payslip-row .key {
+      font-size: 0.9375rem;
+      color: #d7eef8;
+      font-weight: 600;
+    }
+
+    .total-value {
+      font-size: 1.875rem;
+      font-weight: 900;
+      color: #b8ffce;
+    }
+
+    .payslip-title,
+    .payslip-subtitle {
+      color: #dffcff;
+      font-weight: 700;
+    }
+
+    .payslip-amount {
+      font-size: clamp(2.5rem, 6vw, 3.4rem);
+      font-weight: 900;
+    }
+
+    .payslip-section-title {
+      font-size: 0.8125rem;
+      color: #e8f9ff;
+    }
+
+    .payslip-row .val {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #a8fbff;
+    }
+
+    .record-panel-header h3 {
+      font-size: 1.125rem;
+      font-weight: 800;
+    }
+
+    .record-add-title,
+    .record-guide-title,
+    .record-filter-title,
+    .record-bonus-title,
+    .record-list-header {
+      font-size: 0.9375rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .record-guide-step-text {
+      font-size: 0.875rem;
+      color: #d7eef8;
+    }
+
+    .record-guide-step-text strong {
+      color: #ffffff;
+    }
+
+    .record-guide-tip {
+      font-size: 0.8125rem;
+      color: #b8ffce;
+      font-weight: 600;
+    }
+
+    .record-item-date,
+    .record-item-hours {
+      font-size: 0.9375rem;
+      font-weight: 800;
+    }
+
+    .record-list-meta,
+    .record-empty,
+    .record-feedback {
+      font-size: 0.875rem;
+      color: #d7eef8;
+    }
+
+    .record-add-section > .record-add-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 72px;
+      align-items: end;
+      gap: 0.5rem;
+    }
+
+    .record-add-section .record-add-field {
+      min-width: 0;
+    }
+
+    .record-add-section .record-input {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .record-add-section #recordHours {
+      width: 100% !important;
+    }
+
+    .record-add-section .record-add-btn {
+      grid-column: 1 / -1;
+      width: 100%;
+      min-width: 0;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+      white-space: nowrap;
+    }
+
+    /* ===== 操作流程與摘要 ===== */
+    .workflow-card {
+      padding: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .workflow-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .workflow-step {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 0.75rem;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(153, 246, 255, 0.14);
+      color: #9fbccd;
+    }
+
+    .workflow-step.done {
+      color: #dffcff;
+      border-color: rgba(140, 255, 176, 0.35);
+      background: rgba(140, 255, 176, 0.09);
+    }
+
+    .workflow-step.active {
+      color: #ffffff;
+      border-color: rgba(0, 229, 255, 0.46);
+      background: rgba(0, 229, 255, 0.12);
+      box-shadow: 0 0 18px rgba(0, 229, 255, 0.14);
+    }
+
+    .workflow-step-no {
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(153, 246, 255, 0.18);
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    .workflow-step.done .workflow-step-no,
+    .workflow-step.active .workflow-step-no {
+      background: linear-gradient(135deg, #00c9ff, #92fe9d);
+      color: #061823;
+      border-color: transparent;
+    }
+
+    .workflow-step-label {
+      font-size: 0.9375rem;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .dashboard-summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+    }
+
+    .summary-tile {
+      padding: 0.875rem;
+      border-radius: var(--radius-md);
+      background: rgba(0, 8, 14, 0.35);
+      border: 1px solid rgba(153, 246, 255, 0.14);
+    }
+
+    .summary-label {
+      display: block;
+      margin-bottom: 0.25rem;
+      color: #bad4e4;
+      font-size: 0.8125rem;
+      font-weight: 700;
+    }
+
+    .summary-value {
+      display: block;
+      color: #a8fbff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.0625rem;
+      font-weight: 900;
+      text-shadow: 0 0 12px rgba(0, 229, 255, 0.24);
+    }
+
+    .calendar-legend {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 0.75rem;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(153, 246, 255, 0.14);
+      background: rgba(255, 255, 255, 0.055);
+      color: #d7eef8;
+      font-size: 0.875rem;
+      font-weight: 700;
+    }
+
+    .legend-dot {
+      width: 0.9rem;
+      height: 0.9rem;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+
+    .legend-dot.weekday {
+      background: #67f8ff;
+      box-shadow: 0 0 12px rgba(0, 229, 255, 0.55);
+    }
+
+    .legend-dot.weekend {
+      background: #ff8ca3;
+      box-shadow: 0 0 12px rgba(255, 107, 138, 0.55);
+    }
+
+    .legend-dot.holiday {
+      background: #ffd166;
+      box-shadow: 0 0 12px rgba(255, 209, 102, 0.55);
+    }
+
+    .payslip-summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+      padding: 1rem;
+      border-bottom: 1px solid rgba(153, 246, 255, 0.14);
+    }
+
+    .payslip-summary-card {
+      padding: 0.875rem;
+      border-radius: var(--radius-md);
+      background: rgba(0, 8, 14, 0.35);
+      border: 1px solid rgba(153, 246, 255, 0.14);
+    }
+
+    .payslip-summary-card strong {
+      display: block;
+      color: #d7eef8;
+      font-size: 0.8125rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .payslip-summary-card span {
+      display: block;
+      color: #b8ffce;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.125rem;
+      font-weight: 900;
+      text-shadow: 0 0 12px rgba(140, 255, 176, 0.28);
+    }
+
+    .record-guide-section details {
+      display: block;
+    }
+
+    .record-guide-section summary {
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .record-guide-section summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .record-guide-section summary::after {
+      content: '展開';
+      color: #b8ffce;
+      font-size: 0.8125rem;
+      font-weight: 800;
+    }
+
+    .record-guide-section details[open] summary::after {
+      content: '收合';
+    }
+
+    .record-guide-compact {
+      margin-top: 0.625rem;
+      color: #d7eef8;
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    .record-import-summary {
+      margin-top: 0.5rem;
+      padding: 0.625rem 0.75rem;
+      border-radius: var(--radius-sm);
+      background: rgba(0, 8, 14, 0.32);
+      border: 1px solid rgba(153, 246, 255, 0.14);
+      color: #b8ffce;
+      font-size: 0.875rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 768px) {
+      .workflow-steps,
+      .dashboard-summary,
+      .calendar-legend,
+      .payslip-summary {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .workflow-steps,
+      .dashboard-summary,
+      .calendar-legend,
+      .payslip-summary {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        font-size: 15px;
+      }
+
+      .card-title,
+      .record-panel-header h3 {
+        font-size: 1.0625rem;
+      }
+
+      .form-input,
+      .day-input,
+      .record-input {
+        font-size: 0.9375rem;
       }
     }
   </style>
@@ -1819,6 +2791,44 @@
 
   <!-- Main Content -->
   <main class="main">
+    <section class="card workflow-card" aria-label="操作流程與目前狀態">
+      <div class="workflow-steps">
+        <div class="workflow-step active" id="flowStepRange">
+          <span class="workflow-step-no">1</span>
+          <span class="workflow-step-label">設定區間</span>
+        </div>
+        <div class="workflow-step" id="flowStepCalendar">
+          <span class="workflow-step-no">2</span>
+          <span class="workflow-step-label">填加班</span>
+        </div>
+        <div class="workflow-step" id="flowStepSalary">
+          <span class="workflow-step-no">3</span>
+          <span class="workflow-step-label">薪資參數</span>
+        </div>
+        <div class="workflow-step" id="flowStepResult">
+          <span class="workflow-step-no">4</span>
+          <span class="workflow-step-label">計算結果</span>
+        </div>
+      </div>
+      <div class="dashboard-summary">
+        <div class="summary-tile">
+          <span class="summary-label">目前區間</span>
+          <span class="summary-value" id="summaryRange">-</span>
+        </div>
+        <div class="summary-tile">
+          <span class="summary-label">月曆時數</span>
+          <span class="summary-value" id="summaryCalendarHours">0.0h</span>
+        </div>
+        <div class="summary-tile">
+          <span class="summary-label">記錄本本期</span>
+          <span class="summary-value" id="summaryRecordHours">0 筆 / 0.0h</span>
+        </div>
+        <div class="summary-tile">
+          <span class="summary-label">帶入狀態</span>
+          <span class="summary-value" id="summaryImportStatus">尚未帶入</span>
+        </div>
+      </div>
+    </section>
     
     <!-- 1. 結算週期設定 -->
     <div class="card" style="animation-delay: 0.1s;">
@@ -1833,11 +2843,11 @@
         <div class="grid-2">
           <div class="form-group">
             <label class="form-label">開始日期</label>
-            <input type="date" id="startDate" class="form-input">
+            <input type="date" id="startDate" class="form-input" onchange="updateDashboardSummary(); updateImportRangeDisplay();">
           </div>
           <div class="form-group">
             <label class="form-label">結束日期</label>
-            <input type="date" id="endDate" class="form-input">
+            <input type="date" id="endDate" class="form-input" onchange="updateDashboardSummary(); updateImportRangeDisplay();">
           </div>
         </div>
         <div class="mt-md">
@@ -1874,7 +2884,13 @@
 
         <div class="note">
           <span class="note-icon">💡</span>
-          <span class="note-text">系統將自動判斷平日、假日與節日費率，請依照每日實際狀況填寫加班時數。</span>
+          <span class="note-text">系統將自動判斷平日、假日與節日費率；假日與節日重疊時依假日算法。</span>
+        </div>
+
+        <div class="calendar-legend" aria-label="月曆顏色與加班倍率說明">
+          <div class="legend-item"><span class="legend-dot weekday"></span>平日：前 2h x2，後續 x2.33 / x2.66</div>
+          <div class="legend-item"><span class="legend-dot weekend"></span>週末：前 2h x2，3~8h x2.33，9h+ x3.32</div>
+          <div class="legend-item"><span class="legend-dot holiday"></span>節日：全時數 x2.16，與假日重疊時依假日</div>
         </div>
         
         <div class="calendar-wrapper">
@@ -2046,6 +3062,25 @@
           <div class="payslip-amount" id="finalNetPay">NT$ 0</div>
           <div class="payslip-subtitle">含加班費與各項扣款</div>
         </div>
+
+        <div class="payslip-summary" aria-label="薪資計算重點摘要">
+          <div class="payslip-summary-card">
+            <strong>實領薪資</strong>
+            <span id="summaryNetPay">NT$ 0</span>
+          </div>
+          <div class="payslip-summary-card">
+            <strong>加班總計</strong>
+            <span id="summaryOvertimePay">0</span>
+          </div>
+          <div class="payslip-summary-card">
+            <strong>扣款總計</strong>
+            <span id="summaryDeductionPay">0</span>
+          </div>
+          <div class="payslip-summary-card">
+            <strong>總加班時數</strong>
+            <span id="summaryResultHours">0.0h</span>
+          </div>
+        </div>
         
         <div class="payslip-body">
           <!-- 應發項目 -->
@@ -2060,7 +3095,7 @@
               <span class="val text-success" id="resWD">0</span>
             </div>
             <div class="payslip-row">
-              <span class="key">週六加班費</span>
+              <span class="key">假日加班費</span>
               <span class="val text-success" id="resSat">0</span>
             </div>
             <div class="payslip-row">
@@ -2072,7 +3107,7 @@
               <span class="val" id="resMealWD">0</span>
             </div>
             <div class="payslip-row">
-              <span class="key">週六誤餐費</span>
+              <span class="key">假日誤餐費</span>
               <span class="val" id="resMealSat">0</span>
             </div>
             <div class="payslip-row">
@@ -2145,9 +3180,34 @@
     </div>
     
     <div class="record-panel-body">
+      <!-- 使用說明 -->
+      <div class="record-guide-section">
+        <details>
+          <summary>
+            <span class="record-guide-title">快速使用說明</span>
+          </summary>
+          <div class="record-guide-compact">平時新增記錄，結算前篩選本期，最後一鍵帶入月曆。</div>
+          <div class="record-guide-steps">
+            <div class="record-guide-step">
+              <span class="record-guide-step-no">1</span>
+              <div class="record-guide-step-text"><strong>平時先記錄：</strong>選日期、填時數，或直接點 1h／1.5h／2h／4h／8h 快捷按鈕。</div>
+            </div>
+            <div class="record-guide-step">
+              <span class="record-guide-step-no">2</span>
+              <div class="record-guide-step-text"><strong>結算前篩選：</strong>可選「當前結算區間」或自訂日期，只看要帶入本期薪資的資料。</div>
+            </div>
+            <div class="record-guide-step">
+              <span class="record-guide-step-no">3</span>
+              <div class="record-guide-step-text"><strong>一鍵帶入月曆：</strong>先確認上方薪資區間，再按「一鍵帶入月曆」同步每日加班時數。</div>
+            </div>
+          </div>
+          <div class="record-guide-tip">提示：同一天重複新增會更新原本時數；資料會自動儲存在此瀏覽器，不會因重新整理消失。</div>
+        </details>
+      </div>
+
       <!-- 新增記錄 -->
       <div class="record-add-section">
-        <div class="record-add-title">新增加班記錄</div>
+        <div class="record-add-title">新增加班記錄（可用快捷時數）</div>
         <div class="record-add-row">
           <div class="record-add-field">
             <label>日期</label>
@@ -2170,42 +3230,9 @@
         <div class="record-feedback" id="recordFeedback"></div>
       </div>
 
-      <!-- 照片辨識 -->
-      <div class="record-photo-section">
-        <div class="record-photo-title">📷 照片辨識加班單</div>
-        <div class="record-photo-hint">
-          可選擇加班單照片，自動嘗試讀取日期與時數。手寫辨識可能有誤，匯入前請先確認下方預覽。
-        </div>
-        <div class="record-photo-example">
-          辨識很亂時，可在文字框整理成每行一筆，例如：<br>
-          3/23 2<br>
-          3/24 2<br>
-          3/28 8<br>
-          若只有抓到時數，可先設定下方「補日期起始日」，再重新解析。
-        </div>
-        <div class="record-add-row">
-          <div class="record-add-field">
-            <label>補日期起始日</label>
-            <input type="date" id="recordOcrStartDate" class="record-input">
-          </div>
-        </div>
-        <input type="file" id="recordPhotoInput" class="record-input" accept="image/*" multiple onchange="updateRecordPhotoFileStatus()">
-        <div class="record-photo-file-status" id="recordPhotoFileStatus">尚未選擇照片，可一次選多張。</div>
-        <div class="record-photo-actions">
-          <button type="button" class="record-secondary-btn" onclick="recognizeRecordPhotos()">辨識照片</button>
-          <button type="button" class="record-secondary-btn" onclick="parseOcrTextFromTextarea()">重新解析文字</button>
-        </div>
-        <textarea id="recordOcrText" class="record-input record-ocr-text" placeholder="辨識出的文字會顯示在這裡，也可以貼上文字後按「重新解析文字」。"></textarea>
-        <div class="record-ocr-preview" id="recordOcrPreview">
-          <div class="record-ocr-preview-title">辨識結果（可修改後匯入）</div>
-          <div id="recordOcrRows"></div>
-          <button type="button" class="record-import-btn" id="recordOcrImportBtn" onclick="importOcrPreviewToRecords()" disabled>匯入辨識結果</button>
-        </div>
-      </div>
-
       <!-- 區間篩選選項 -->
       <div class="record-filter-section">
-        <div class="record-filter-title">🔍 區間篩選</div>
+        <div class="record-filter-title">🔍 區間篩選（控制列表與帶入範圍）</div>
         
         <!-- 選項切換 -->
         <div class="record-filter-options">
@@ -2261,6 +3288,8 @@
         <div class="record-import-info">
           <span id="importRangeLabel">📅 當前結算區間：</span>
           <strong id="currentRangeDisplay">-</strong>
+          <div style="margin-top: 0.35rem;">只會把目前篩選範圍內的記錄帶入月曆。</div>
+          <div class="record-import-summary" id="recordImportSummary">目前可帶入 0 筆 / 0.0 小時</div>
         </div>
         <button class="record-import-btn" onclick="importRecordsToCalendar()">
           📥 一鍵帶入月曆
@@ -2271,7 +3300,7 @@
       <div class="record-list-section">
         <div class="record-list-header">
           <span id="recordListTitle">所有記錄</span>
-          <button class="record-clear-btn" onclick="clearAllRecords()">清除全部</button>
+          <button class="record-clear-btn" onclick="clearAllRecords()" id="recordClearBtn">清除全部（0）</button>
         </div>
         <div class="record-list" id="recordList">
           <div class="record-empty">尚無加班記錄</div>
@@ -2290,7 +3319,6 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <script>
     /* === 設定與資料 === */
     
@@ -2386,7 +3414,7 @@
     const settlementPeriod = calculateSettlementPeriod();
     
     const popupConfig = {
-      content: `<b>${settlementPeriod.displayStart}~${settlementPeriod.displayEnd}</b> 月份薪資結算。\n\n<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:12px;margin:10px 0;text-align:left;"><div style="font-weight:600;color:#166534;margin-bottom:8px;">📒 加班記錄本使用說明</div><div style="font-size:0.8rem;color:#15803d;line-height:1.6;"><b>平時記錄：</b>點右下角 📝 → 輸入日期時數 → 新增<br><b>結算帶入：</b>生成月曆 → 點 📝 → 一鍵帶入月曆<br><small style="color:#166534;">💡 資料會自動儲存，關閉瀏覽器也不會消失</small></div></div><span style="display:inline-block;background:#fef3c7;color:#92400e;padding:6px 12px;border-radius:6px;font-size:0.8rem;font-weight:500;">⚠️ 若結算日期有變請手動調整日期區間</span>`,
+      content: `<b>${settlementPeriod.displayStart}~${settlementPeriod.displayEnd}</b> 月份薪資結算。\n\n<div style="background:rgba(0,229,255,0.12);border:1px solid rgba(0,229,255,0.35);border-radius:10px;padding:14px;margin:12px 0;text-align:left;color:#dffcff;"><div style="font-weight:800;color:#ffffff;margin-bottom:8px;">📒 加班記錄本使用說明</div><div style="font-size:0.9rem;line-height:1.75;"><b style="color:#b8ffce;">1. 平時記錄：</b>點右下角 📝，選日期與時數後新增。<br><b style="color:#b8ffce;">2. 結算篩選：</b>用「當前結算區間」或「自訂區間」確認本期資料。<br><b style="color:#b8ffce;">3. 帶入月曆：</b>先生成月曆，再按「一鍵帶入月曆」。<br><small style="color:#a8fbff;">同一天重複新增會更新時數；資料會自動儲存在此瀏覽器。</small></div></div><span style="display:inline-block;background:rgba(255,209,102,0.18);border:1px solid rgba(255,209,102,0.45);color:#fff3c4;padding:7px 12px;border-radius:8px;font-size:0.9rem;font-weight:700;">⚠️ 若結算日期有變，請先調整上方日期區間再帶入</span>`,
       range: { start: settlementPeriod.start, end: settlementPeriod.end }
     };
 
@@ -2622,438 +3650,93 @@
       }, 3500);
     }
 
-    let ocrPreviewRecords = [];
-
-    function getDefaultRecordYear() {
-      const startDate = document.getElementById('startDate').value;
-      if (startDate) return Number(startDate.slice(0, 4));
-      return new Date().getFullYear();
+    function getMainDateRange() {
+      const start = document.getElementById('startDate')?.value || '';
+      const end = document.getElementById('endDate')?.value || '';
+      return { start, end };
     }
 
-    function normalizeRecognizedDate(month, day) {
-      const year = getDefaultRecordYear();
-      const mm = String(Number(month)).padStart(2, '0');
-      const dd = String(Number(day)).padStart(2, '0');
-      return `${year}-${mm}-${dd}`;
+    function getDisplayRange(range) {
+      if (!range || !range.start || !range.end) return '-';
+      const start = range.start.split('-');
+      const end = range.end.split('-');
+      return `${start[1]}/${start[2]} ~ ${end[1]}/${end[2]}`;
     }
 
-    function cleanOcrLine(line) {
-      return line
-        .replace(/[０-９]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xFEE0))
-        .replace(/[|｜]/g, '/')
-        .replace(/[：:]/g, ' ')
-        .replace(/\s+/g, ' ')
-        .trim();
-    }
-
-    function normalizeOcrNumberText(text) {
-      return cleanOcrLine(String(text || ''))
-        .replace(/[OoQq]/g, '0')
-        .replace(/[Il!]/g, '1')
-        .replace(/[Zz]/g, '2')
-        .replace(/[Bb]/g, '8');
-    }
-
-    function parseAllowedOvertimeHours(text) {
-      const normalized = normalizeOcrNumberText(text);
-      const match = normalized.match(/\b\d+(?:\.\d+)?\b/);
-      if (!match) return null;
-
-      const value = Number(match[0]);
-      return [1, 1.5, 2, 4, 5, 8].includes(value) ? value : null;
-    }
-
-    function mergeOcrRows(rows) {
-      const rowsByDate = new Map();
-      rows.forEach(row => {
-        if (!row || !row.date || !row.hours) return;
-        rowsByDate.set(row.date, (rowsByDate.get(row.date) || 0) + Number(row.hours));
-      });
-      return [...rowsByDate.entries()]
-        .map(([date, hours]) => ({ date, hours }))
-        .sort((a, b) => a.date.localeCompare(b.date));
-    }
-
-    function getOcrWordBox(word) {
-      const box = word && (word.bbox || word.boundingBox);
-      if (!box) return null;
-      const x0 = Number(box.x0 ?? box.left);
-      const y0 = Number(box.y0 ?? box.top);
-      const x1 = Number(box.x1 ?? (box.left + box.width));
-      const y1 = Number(box.y1 ?? (box.top + box.height));
-      if ([x0, y0, x1, y1].some(value => Number.isNaN(value))) return null;
-      return { x0, y0, x1, y1 };
-    }
-
-    function getOcrWords(data) {
-      if (Array.isArray(data?.words) && data.words.length > 0) return data.words;
-
-      const words = [];
-      const visit = node => {
-        if (!node) return;
-        if (Array.isArray(node)) {
-          node.forEach(visit);
-          return;
-        }
-        if (typeof node !== 'object') return;
-        if (node.text && getOcrWordBox(node)) words.push(node);
-        ['blocks', 'paragraphs', 'lines', 'words'].forEach(key => {
-          if (Array.isArray(node[key])) visit(node[key]);
-        });
-      };
-
-      visit(data);
-      return words;
-    }
-
-    function getPreviousMonth(month) {
-      return month === 1 ? 12 : month - 1;
-    }
-
-    function detectOcrSheetMonth(tokens, width, height) {
-      const monthCandidates = tokens
-        .filter(token => token.x > width * 0.62 && token.y > height * 0.12 && token.y < height * 0.36)
-        .map(token => Number(normalizeOcrNumberText(token.text).match(/\b\d{1,2}\b/)?.[0]))
-        .filter(value => value >= 1 && value <= 12);
-
-      return monthCandidates.length ? monthCandidates[monthCandidates.length - 1] : null;
-    }
-
-    function normalizeDateFromDayWithSheetMonth(day, sheetMonth) {
-      if (!sheetMonth) return null;
-      const month = day >= 21 ? getPreviousMonth(sheetMonth) : sheetMonth;
-      return normalizeRecognizedDate(month, day);
-    }
-
-    function parseDateFromOcrToken(text, sheetMonth) {
-      const normalized = normalizeOcrNumberText(text).replace(/[\\_.,]/g, '/');
-      const fullDateMatch = normalized.match(/\b(\d{1,2})\s*\/\s*(\d{1,2})\b/);
-      if (fullDateMatch) {
-        const month = Number(fullDateMatch[1]);
-        const day = Number(fullDateMatch[2]);
-        if (month >= 1 && month <= 12 && day >= 1 && day <= 31) {
-          return normalizeRecognizedDate(month, day);
-        }
-      }
-
-      const dayMatch = normalized.match(/\b\d{1,2}\b/);
-      if (!dayMatch) return null;
-      const day = Number(dayMatch[0]);
-      if (day < 1 || day > 31) return null;
-      return normalizeDateFromDayWithSheetMonth(day, sheetMonth);
-    }
-
-    function parseOcrRecordsFromLayout(data) {
-      const words = getOcrWords(data);
-      if (words.length === 0) return [];
-
-      const tokens = words
-        .map(word => {
-          const box = getOcrWordBox(word);
-          if (!box) return null;
-          return {
-            text: cleanOcrLine(word.text || ''),
-            x: (box.x0 + box.x1) / 2,
-            y: (box.y0 + box.y1) / 2,
-            box
-          };
-        })
-        .filter(token => token && token.text);
-
-      if (tokens.length === 0) return [];
-
-      const width = Math.max(...tokens.map(token => token.box.x1));
-      const height = Math.max(...tokens.map(token => token.box.y1));
-      const sheetMonth = detectOcrSheetMonth(tokens, width, height);
-      const tableTop = height * 0.28;
-      const dateColumnEnd = width * 0.22;
-      const hourColumnStart = width * 0.48;
-      const hourColumnEnd = width * 0.72;
-      const rowTolerance = Math.max(18, height * 0.025);
-
-      const dateCandidates = tokens
-        .filter(token => token.y > tableTop && token.x < dateColumnEnd)
-        .map(token => ({ ...token, date: parseDateFromOcrToken(token.text, sheetMonth) }))
-        .filter(token => token.date);
-
-      const hourCandidates = tokens
-        .filter(token => token.y > tableTop && token.x >= hourColumnStart && token.x <= hourColumnEnd)
-        .map(token => ({ ...token, hours: parseAllowedOvertimeHours(token.text) }))
-        .filter(token => token.hours);
-
-      const usedHours = new Set();
-      const rows = [];
-      dateCandidates.forEach(dateToken => {
-        const matchingHours = hourCandidates
-          .map((hourToken, index) => ({ hourToken, index, distance: Math.abs(hourToken.y - dateToken.y) }))
-          .filter(candidate => !usedHours.has(candidate.index) && candidate.distance <= rowTolerance)
-          .sort((a, b) => a.distance - b.distance);
-
-        if (matchingHours.length === 0) return;
-        const match = matchingHours[0];
-        usedHours.add(match.index);
-        rows.push({ date: dateToken.date, hours: match.hourToken.hours });
-      });
-
-      return mergeOcrRows(rows);
-    }
-
-    function extractHoursFromLine(line, dateMatch) {
-      let target = line.slice(dateMatch.index + dateMatch[0].length);
-      target = target
-        // 移除工作描述中的時間區間，避免 1730-1930 被當作時數。
-        .replace(/\b\d{3,4}\s*[-~－—]\s*\d{3,4}\b/g, ' ')
-        .replace(/\b\d{1,2}\s*[:：]\s*\d{2}\b/g, ' ');
-
-      const numbers = [...target.matchAll(/\b\d+(?:\.\d+)?\b/g)]
-        .map(match => Number(match[0]))
-        .filter(value => value > 0 && value <= 12 && value !== 60);
-
-      return numbers.length ? numbers[numbers.length - 1] : null;
-    }
-
-    function extractStandaloneHours(text) {
-      const normalized = cleanOcrLine(text)
-        .replace(/\b\d{1,2}\s*[\/\-]\s*\d{1,2}\b/g, ' ')
-        .replace(/\b\d{3,4}\s*[-~－—]\s*\d{3,4}\b/g, ' ')
-        .replace(/\b\d{1,2}\s*[:：]\s*\d{2}\b/g, ' ');
-      return [...normalized.matchAll(/\b(?:1(?:\.5)?|2|4|5|8)\b/g)]
-        .map(match => Number(match[0]))
-        // 常見誤餐 60 與員工編號等已被規則排除；只保留加班單常用時數。
-        .filter(value => [1, 1.5, 2, 4, 5, 8].includes(value));
-    }
-
-    function getOcrTextLines(text) {
-      return text
-        .split(/\r?\n/)
-        .map(cleanOcrLine)
-        .filter(line => line && !/(Name|Emp|Dept|Month|Hours|Meal|Allowance|Total|姓名|員工|部門|月份|加班時數|誤餐費|總計)/i.test(line));
-    }
-
-    function extractDatesFromText(text) {
-      const rows = [];
-      getOcrTextLines(text).forEach(line => {
-        const matches = [...line.matchAll(/\b(\d{1,2})\s*[\/\-]\s*(\d{1,2})\b/g)];
-        matches.forEach(match => {
-          const month = Number(match[1]);
-          const day = Number(match[2]);
-          if (month < 1 || month > 12 || day < 1 || day > 31) return;
-          rows.push(normalizeRecognizedDate(month, day));
-        });
-      });
-      return rows;
-    }
-
-    function buildSequentialRowsFromHours(hoursList) {
-      const startInput = document.getElementById('recordOcrStartDate');
-      if (!startInput || !startInput.value || hoursList.length === 0) return [];
-
-      return hoursList.map((hours, index) => ({
-        date: addDays(startInput.value, index),
-        hours
-      }));
-    }
-
-    function parseOcrRecords(text) {
-      const rowsByDate = new Map();
-      const lines = getOcrTextLines(text);
-
-      lines.forEach(line => {
-        const dateMatch = line.match(/\b(\d{1,2})\s*[\/\-]\s*(\d{1,2})\b/);
-        if (!dateMatch) return;
-
-        const month = Number(dateMatch[1]);
-        const day = Number(dateMatch[2]);
-        if (month < 1 || month > 12 || day < 1 || day > 31) return;
-
-        const hours = extractHoursFromLine(line, dateMatch);
-        if (!hours) return;
-
-        const date = normalizeRecognizedDate(month, day);
-        rowsByDate.set(date, (rowsByDate.get(date) || 0) + hours);
-      });
-
-      const parsedRows = [...rowsByDate.entries()]
-        .map(([date, hours]) => ({ date, hours }))
-        .sort((a, b) => a.date.localeCompare(b.date));
-
-      if (parsedRows.length > 0) return parsedRows;
-
-      const dates = extractDatesFromText(text);
-      const fallbackHours = extractStandaloneHours(text);
-      if (dates.length > 0 && fallbackHours.length >= dates.length) {
-        return mergeOcrRows(dates.map((date, index) => ({
-          date,
-          hours: fallbackHours[index]
-        })));
-      }
-
-      return buildSequentialRowsFromHours(fallbackHours);
-    }
-
-    function updateRecordPhotoFileStatus() {
-      const input = document.getElementById('recordPhotoInput');
-      const status = document.getElementById('recordPhotoFileStatus');
-      if (!input || !status) return;
-
-      const files = Array.from(input.files || []);
-      if (files.length === 0) {
-        status.textContent = '尚未選擇照片，可一次選多張。';
-        return;
-      }
-
-      const names = files.map(file => file.name).join('、');
-      status.textContent = `已選 ${files.length} 個檔案：${names}`;
-    }
-
-    async function recognizeRecordPhotos() {
-      const input = document.getElementById('recordPhotoInput');
-      const textArea = document.getElementById('recordOcrText');
-      if (!input || input.files.length === 0) {
-        showRecordFeedback('請先選擇加班單照片', 'warning');
-        return;
-      }
-      if (!window.Tesseract) {
-        showRecordFeedback('OCR 套件尚未載入，請確認網路後重新整理頁面', 'error');
-        return;
-      }
-
-      const files = Array.from(input.files);
-      const status = document.getElementById('recordPhotoFileStatus');
-      showRecordFeedback(`正在辨識 ${files.length} 張照片，手寫資料請稍候...`, 'success');
-      const chunks = [];
-      const layoutRows = [];
-      try {
-        for (let index = 0; index < files.length; index++) {
-          const file = files[index];
-          if (status) {
-            status.textContent = `正在辨識 ${index + 1}/${files.length}：${file.name}`;
-          }
-          const result = await Tesseract.recognize(file, 'eng+chi_tra');
-          layoutRows.push(...parseOcrRecordsFromLayout(result.data));
-          chunks.push(`--- ${file.name} ---\n${result.data.text || ''}`);
-        }
-        textArea.value = chunks.join('\n\n');
-        if (status) {
-          status.textContent = `已完成 ${files.length} 個檔案辨識，可在下方確認文字與結果。`;
-        }
-        ocrPreviewRecords = mergeOcrRows(layoutRows);
-        if (ocrPreviewRecords.length === 0) {
-          ocrPreviewRecords = parseOcrRecords(textArea.value);
-        }
-        renderOcrPreview();
-        if (ocrPreviewRecords.length === 0) {
-          showRecordFeedback('尚未辨識到日期與時數，請確認照片清楚或手動修正文字', 'warning');
-        } else {
-          showRecordFeedback(`已解析 ${ocrPreviewRecords.length} 筆，請確認後匯入`, 'success');
-        }
-      } catch (error) {
-        console.error('OCR failed:', error);
-        showRecordFeedback('照片辨識失敗，請改貼辨識文字或換一張較清楚的照片', 'error');
-        updateRecordPhotoFileStatus();
-      }
-    }
-
-    function parseOcrTextFromTextarea() {
-      const textArea = document.getElementById('recordOcrText');
-      const text = textArea ? textArea.value : '';
-      ocrPreviewRecords = parseOcrRecords(text);
-      renderOcrPreview();
-
-      if (ocrPreviewRecords.length === 0) {
-        showRecordFeedback('尚未辨識到日期與時數，請確認照片清楚或手動修正文字', 'warning');
-      } else {
-        showRecordFeedback(`已解析 ${ocrPreviewRecords.length} 筆，請確認後匯入`, 'success');
-      }
-    }
-
-    function renderOcrPreview() {
-      const preview = document.getElementById('recordOcrPreview');
-      const rows = document.getElementById('recordOcrRows');
-      const importBtn = document.getElementById('recordOcrImportBtn');
-      if (!preview || !rows || !importBtn) return;
-
-      preview.classList.add('show');
-      importBtn.disabled = ocrPreviewRecords.length === 0;
-
-      if (ocrPreviewRecords.length === 0) {
-        rows.innerHTML = '<div class="record-ocr-empty">尚無可匯入資料。可在上方文字框修正辨識文字後重新解析。</div>';
-        return;
-      }
-
-      rows.innerHTML = ocrPreviewRecords.map((record, index) => `
-        <div class="record-ocr-row">
-          <input type="date" class="record-input" value="${record.date}" onchange="updateOcrPreviewRecord(${index}, 'date', this.value)">
-          <input type="number" class="record-input" min="0" step="0.5" value="${formatRecordHours(record.hours)}" onchange="updateOcrPreviewRecord(${index}, 'hours', this.value)">
-          <button type="button" class="record-ocr-remove" onclick="removeOcrPreviewRecord(${index})">移除</button>
-        </div>
-      `).join('');
-    }
-
-    function updateOcrPreviewRecord(index, key, value) {
-      if (!ocrPreviewRecords[index]) return;
-      if (key === 'hours') {
-        ocrPreviewRecords[index].hours = parseFloat(value) || 0;
-      } else {
-        ocrPreviewRecords[index].date = value;
-      }
-      ocrPreviewRecords.sort((a, b) => a.date.localeCompare(b.date));
-      renderOcrPreview();
-    }
-
-    function removeOcrPreviewRecord(index) {
-      ocrPreviewRecords.splice(index, 1);
-      renderOcrPreview();
-    }
-
-    function importOcrPreviewToRecords() {
-      const validRecords = ocrPreviewRecords
-        .filter(record => record.date && record.hours > 0)
-        .sort((a, b) => a.date.localeCompare(b.date));
-
-      if (validRecords.length === 0) {
-        showRecordFeedback('沒有有效的辨識結果可匯入', 'warning');
-        return;
-      }
-
+    function getRecordStats(range = null) {
       const records = getRecords();
-      validRecords.forEach(record => {
-        const existingIndex = records.findIndex(item => item.date === record.date);
-        if (existingIndex >= 0) {
-          records[existingIndex].hours = record.hours;
-        } else {
-          records.push({ date: record.date, hours: record.hours });
-        }
-      });
-      records.sort((a, b) => a.date.localeCompare(b.date));
-      saveRecords(records);
+      const scopedRecords = range && range.start && range.end
+        ? records.filter(record => record.date >= range.start && record.date <= range.end)
+        : records;
+      const hours = scopedRecords.reduce((sum, record) => sum + Number(record.hours || 0), 0);
+      return { records: scopedRecords, count: scopedRecords.length, hours };
+    }
 
-      const rangeStart = validRecords[0].date;
-      const rangeEnd = validRecords[validRecords.length - 1].date;
-      document.getElementById('startDate').value = rangeStart;
-      document.getElementById('endDate').value = rangeEnd;
-      const customCheckbox = document.getElementById('filterUseCustom');
-      const settlementCheckbox = document.getElementById('filterUseSettlement');
-      if (customCheckbox && settlementCheckbox) {
-        customCheckbox.checked = false;
-        settlementCheckbox.checked = false;
-        document.getElementById('filterCustomSection').style.display = 'none';
-        document.getElementById('filterSettlementSection').style.display = 'none';
-        saveFilterCustomRange();
+    function getCalendarTotalHours() {
+      const totalEl = document.getElementById('otTotalHours');
+      return totalEl ? parseFloat(totalEl.textContent) || 0 : 0;
+    }
+
+    function setWorkflowStep(id, state) {
+      const step = document.getElementById(id);
+      if (!step) return;
+      step.classList.remove('active', 'done');
+      if (state) step.classList.add(state);
+    }
+
+    function updateDashboardSummary() {
+      const mainRange = getMainDateRange();
+      const rangeEl = document.getElementById('summaryRange');
+      const calendarHoursEl = document.getElementById('summaryCalendarHours');
+      const recordHoursEl = document.getElementById('summaryRecordHours');
+      const importStatusEl = document.getElementById('summaryImportStatus');
+      if (!rangeEl || !calendarHoursEl || !recordHoursEl || !importStatusEl) return;
+
+      const hasRange = Boolean(mainRange.start && mainRange.end);
+      const calendarVisible = !document.getElementById('calendarCard')?.classList.contains('hidden');
+      const resultVisible = !document.getElementById('resultArea')?.classList.contains('hidden');
+      const calendarHours = getCalendarTotalHours();
+      const recordStats = getRecordStats(hasRange ? mainRange : null);
+      const baseSalary = parseFloat(document.getElementById('baseSalary')?.value) || 0;
+
+      rangeEl.textContent = getDisplayRange(mainRange);
+      calendarHoursEl.textContent = `${formatRecordHours(calendarHours)}h`;
+      recordHoursEl.textContent = `${recordStats.count} 筆 / ${formatRecordHours(recordStats.hours)}h`;
+
+      if (!calendarVisible) {
+        importStatusEl.textContent = '尚未生成月曆';
+      } else if (recordStats.count > 0 && Math.abs(calendarHours - recordStats.hours) < 0.01) {
+        importStatusEl.textContent = '已與記錄本一致';
+      } else if (calendarHours > 0) {
+        importStatusEl.textContent = '月曆已有填寫';
+      } else {
+        importStatusEl.textContent = '尚未帶入';
       }
-      generateCalendar();
-      updateCurrentRangeDisplay();
-      updateSettlementRangeDisplay();
-      updateImportRangeDisplay();
-      importRecordsToCalendar();
 
-      showRecordFeedback(`已匯入 ${validRecords.length} 筆，並自動生成 ${formatRecordDate(rangeStart)} ~ ${formatRecordDate(rangeEnd)} 月曆`, 'success');
+      setWorkflowStep('flowStepRange', hasRange ? 'done' : 'active');
+      setWorkflowStep('flowStepCalendar', calendarVisible ? 'done' : (hasRange ? 'active' : null));
+      setWorkflowStep('flowStepSalary', baseSalary > 0 ? 'done' : (calendarVisible ? 'active' : null));
+      setWorkflowStep('flowStepResult', resultVisible ? 'done' : (baseSalary > 0 ? 'active' : null));
+    }
+
+    function updateRecordActionSummaries() {
+      const clearBtn = document.getElementById('recordClearBtn');
+      const records = getRecords();
+      if (clearBtn) clearBtn.textContent = `清除全部（${records.length}）`;
+
+      const summaryEl = document.getElementById('recordImportSummary');
+      if (!summaryEl) return;
+      const activeRange = getRecordEntryRange();
+      const stats = getRecordStats(activeRange && activeRange.start && activeRange.end ? activeRange : null);
+      summaryEl.textContent = `目前可帶入 ${stats.count} 筆 / ${formatRecordHours(stats.hours)} 小時`;
     }
 
     function saveRecords(records) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
       updateFabBadge();
       renderRecordList();
+      updateDashboardSummary();
+      updateRecordActionSummaries();
       // 如果面板是打開的，更新獎金提醒
       const panel = document.getElementById('recordPanel');
       if (panel.classList.contains('active')) {
@@ -3072,6 +3755,7 @@
         updateImportRangeDisplay();
         renderRecordList();
         updateBonusReminder();
+        updateRecordActionSummaries();
         
         // 添加 Enter 鍵快捷鍵支持
         const dateInput = document.getElementById('recordDate');
@@ -3086,12 +3770,8 @@
         // 重新獲取元素
         const newDateEl = document.getElementById('recordDate');
         const newHoursEl = document.getElementById('recordHours');
-        const ocrStartEl = document.getElementById('recordOcrStartDate');
         newDateEl.value = getSuggestedRecordDate();
         newHoursEl.value = '';
-        if (ocrStartEl && !ocrStartEl.value) {
-          ocrStartEl.value = newDateEl.value;
-        }
         
         // 添加 Enter 鍵監聽
         newDateEl.addEventListener('keydown', function(e) {
@@ -3313,11 +3993,14 @@
         showRecordFeedback('目前沒有可清除的加班記錄', 'warning');
         return;
       }
-      if (confirm(`確定要清除 ${records.length} 筆加班記錄嗎？此操作無法復原。`) &&
-          confirm('再次確認：清除後無法從系統內復原，確定清除全部？')) {
-        saveRecords([]);
-        showRecordFeedback('已清除所有加班記錄', 'success');
+      if (!confirm(`確定要清除 ${records.length} 筆加班記錄嗎？此操作無法復原。`)) return;
+      const typed = prompt('請輸入「清除」以確認刪除全部記錄');
+      if (typed !== '清除') {
+        showRecordFeedback('已取消清除；未輸入正確確認文字', 'warning');
+        return;
       }
+      saveRecords([]);
+      showRecordFeedback('已清除所有加班記錄', 'success');
     }
 
     function updateFabBadge() {
@@ -3433,6 +4116,8 @@
         const totalHours = records.reduce((sum, record) => sum + record.hours, 0);
         displayEl.textContent = `${displayEl.textContent}，${records.length} 筆 / ${formatRecordHours(totalHours)} 小時`;
       }
+      updateRecordActionSummaries();
+      updateDashboardSummary();
     }
 
     // 更新結算區間顯示
@@ -3615,6 +4300,8 @@
       });
 
       listEl.innerHTML = html;
+      updateRecordActionSummaries();
+      updateDashboardSummary();
     }
 
     function importRecordsToCalendar() {
@@ -3674,6 +4361,7 @@
       });
 
       updateTotal();
+      updateDashboardSummary();
 
       // 滾動到月曆位置
       calendarCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -3682,12 +4370,15 @@
       } else {
         showRecordFeedback(`已帶入 ${filledCount} 筆到月曆（${formatRecordDate(rangeStart)} ~ ${formatRecordDate(rangeEnd)}）`, 'success');
       }
+      updateDashboardSummary();
     }
 
     // 頁面載入時初始化
     document.addEventListener('DOMContentLoaded', function() {
       loadFilterCustomRange();
       updateFabBadge();
+      updateDashboardSummary();
+      updateRecordActionSummaries();
     });
 
     /* === 快速按鈕功能 === */
@@ -3838,13 +4529,15 @@
         if (makeupWorkdays.includes(key)) {
           label = "補班";
           className = "cell-festival";
-          dayType = "holiday"; 
+          // 補班日保留原本醒目顏色，但計算回到平日算法。
+          dayType = "weekday"; 
         }
 
         if (holidays[key]) {
           label = holidays[key];
-          className = (weekday === 0 || weekday === 6) && !makeupWorkdays.includes(key) ? "cell-weekend" : "cell-festival";
-          dayType = "holiday";
+          className = "cell-festival";
+          // 節日保留金色顯示；若與週末假日重疊，依假日算法計算。
+          dayType = (weekday === 0 || weekday === 6) && !makeupWorkdays.includes(key) ? "weekend" : "holiday";
         }
 
         if (typhoonHolidays[key]) {
@@ -3927,6 +4620,7 @@
 
       const total = w2 + w233 + w266 + s2 + s233 + s332 + holiday;
       document.getElementById("otTotalHours").textContent = total.toFixed(1);
+      updateDashboardSummary();
     }
 
     function parse(id) { return parseFloat(document.getElementById(id).value) || 0; }
@@ -4044,10 +4738,15 @@
       document.getElementById("resTotalDed").textContent = formatCurrency(totalDed);
 
       document.getElementById("finalNetPay").textContent = "NT$ " + formatCurrency(net);
+      document.getElementById("summaryNetPay").textContent = "NT$ " + formatCurrency(net);
+      document.getElementById("summaryOvertimePay").textContent = formatCurrency(totalAdd);
+      document.getElementById("summaryDeductionPay").textContent = formatCurrency(totalDed);
+      document.getElementById("summaryResultHours").textContent = `${formatRecordHours(otTotal)}h`;
 
       // 顯示結果區
       const resArea = document.getElementById("resultArea");
       resArea.classList.remove("hidden");
+      updateDashboardSummary();
       resArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
@@ -4064,6 +4763,8 @@
       document.getElementById("popupText").innerHTML = popupConfig.content.replace(/\n/g, "<br>");
       startDateInput.value = popupConfig.range.start;
       endDateInput.value = popupConfig.range.end;
+      updateDashboardSummary();
+      updateImportRangeDisplay();
       
       setTimeout(() => {
         document.getElementById("popupModal").classList.add("active");
