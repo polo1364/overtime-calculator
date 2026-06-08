@@ -4,17 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="專業的薪資計算與管理系統，支援加班費計算、請假管理等功能">
-  <meta name="app-version" content="v3.5">
+  <meta name="app-version" content="v3.6">
   <meta name="app-version-major" content="3">
-  <meta name="app-version-minor" content="5">
+  <meta name="app-version-minor" content="6">
   <meta name="app-version-date" content="20260608">
   <meta name="theme-color" content="#061823">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="薪資管理">
   
-  <!-- App Version: v3.5 20260608 -->
-  <title>大瑞科技 | 薪資管理系統 v3.5</title>
+  <!-- App Version: v3.6 20260608 -->
+  <title>大瑞科技 | 薪資管理系統 v3.6</title>
   
   <!-- PWA Manifest (透過 JS 動態載入，避免 file:// 協議錯誤) -->
   <script>
@@ -3582,6 +3582,34 @@
     .money-burst-layer {
       mix-blend-mode: screen;
     }
+
+    @media (max-width: 560px) {
+      .record-panel .record-add-section > .record-add-row,
+      .record-panel .record-filter-section .record-filter-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+
+      .record-panel .record-add-section .record-add-btn {
+        grid-column: auto;
+        min-height: 44px;
+        margin-top: 0.125rem;
+      }
+
+      .record-panel .record-add-field,
+      .record-panel .record-input {
+        width: 100%;
+        min-width: 0;
+      }
+
+      .record-panel .record-filter-section .record-input,
+      .record-panel .record-add-section .record-input {
+        font-size: 0.9375rem;
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -3592,7 +3620,7 @@
       <div class="header-badge">大瑞薪資核心上線中</div>
       <h1>大瑞科技</h1>
       <p>薪資結算控制台</p>
-      <div class="app-version" aria-label="目前版本">SYSTEM V3.5 20260608</div>
+      <div class="app-version" aria-label="目前版本">SYSTEM V3.6 20260608</div>
     </div>
   </header>
 
@@ -4129,7 +4157,7 @@
   <script>
     /* === 設定與資料 === */
     const APP_VERSION_MAJOR = 3;
-    const APP_VERSION_MINOR = 5;
+    const APP_VERSION_MINOR = 6;
     const APP_VERSION = `v${APP_VERSION_MAJOR}.${APP_VERSION_MINOR}`;
     const APP_VERSION_DATE = '20260608';
     
