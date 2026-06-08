@@ -4,17 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="專業的薪資計算與管理系統，支援加班費計算、請假管理等功能">
-  <meta name="app-version" content="v3.6">
+  <meta name="app-version" content="v3.7">
   <meta name="app-version-major" content="3">
-  <meta name="app-version-minor" content="6">
+  <meta name="app-version-minor" content="7">
   <meta name="app-version-date" content="20260608">
   <meta name="theme-color" content="#061823">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="薪資管理">
   
-  <!-- App Version: v3.6 20260608 -->
-  <title>大瑞科技 | 薪資管理系統 v3.6</title>
+  <!-- App Version: v3.7 20260608 -->
+  <title>大瑞科技 | 薪資管理系統 v3.7</title>
   
   <!-- PWA Manifest (透過 JS 動態載入，避免 file:// 協議錯誤) -->
   <script>
@@ -3584,6 +3584,12 @@
     }
 
     @media (max-width: 560px) {
+      .record-panel {
+        left: 14px;
+        right: 14px;
+        width: auto;
+      }
+
       .record-panel .record-add-section > .record-add-row,
       .record-panel .record-filter-section .record-filter-row {
         display: grid;
@@ -3601,13 +3607,25 @@
       .record-panel .record-input {
         width: 100%;
         min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
       }
 
       .record-panel .record-filter-section .record-input,
       .record-panel .record-add-section .record-input {
-        font-size: 0.9375rem;
-        padding-left: 0.75rem;
-        padding-right: 0.75rem;
+        display: block;
+        inline-size: 100%;
+        min-inline-size: 0;
+        max-inline-size: 100%;
+        font-size: 0.875rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+      }
+
+      .record-panel input[type="date"].record-input {
+        -webkit-appearance: none;
+        appearance: none;
+        text-align: center;
       }
     }
   </style>
@@ -3620,7 +3638,7 @@
       <div class="header-badge">大瑞薪資核心上線中</div>
       <h1>大瑞科技</h1>
       <p>薪資結算控制台</p>
-      <div class="app-version" aria-label="目前版本">SYSTEM V3.6 20260608</div>
+      <div class="app-version" aria-label="目前版本">SYSTEM V3.7 20260608</div>
     </div>
   </header>
 
@@ -4157,7 +4175,7 @@
   <script>
     /* === 設定與資料 === */
     const APP_VERSION_MAJOR = 3;
-    const APP_VERSION_MINOR = 6;
+    const APP_VERSION_MINOR = 7;
     const APP_VERSION = `v${APP_VERSION_MAJOR}.${APP_VERSION_MINOR}`;
     const APP_VERSION_DATE = '20260608';
     
