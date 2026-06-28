@@ -4,17 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="專業的薪資計算與管理系統，支援加班費計算、請假管理等功能">
-  <meta name="app-version" content="v3.7">
+  <meta name="app-version" content="v3.8">
   <meta name="app-version-major" content="3">
-  <meta name="app-version-minor" content="7">
-  <meta name="app-version-date" content="20260608">
+  <meta name="app-version-minor" content="8">
+  <meta name="app-version-date" content="20260628">
   <meta name="theme-color" content="#061823">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="薪資管理">
   
-  <!-- App Version: v3.7 20260608 -->
-  <title>大瑞科技 | 薪資管理系統 v3.7</title>
+  <!-- App Version: v3.8 20260628 -->
+  <title>大瑞科技 | 薪資管理系統 v3.8</title>
   
   <!-- PWA Manifest (透過 JS 動態載入，避免 file:// 協議錯誤) -->
   <script>
@@ -3638,7 +3638,7 @@
       <div class="header-badge">大瑞薪資核心上線中</div>
       <h1>大瑞科技</h1>
       <p>薪資結算控制台</p>
-      <div class="app-version" aria-label="目前版本">SYSTEM V3.7 20260608</div>
+      <div class="app-version" aria-label="目前版本">SYSTEM V3.8 20260628</div>
     </div>
   </header>
 
@@ -4175,9 +4175,9 @@
   <script>
     /* === 設定與資料 === */
     const APP_VERSION_MAJOR = 3;
-    const APP_VERSION_MINOR = 7;
+    const APP_VERSION_MINOR = 8;
     const APP_VERSION = `v${APP_VERSION_MAJOR}.${APP_VERSION_MINOR}`;
-    const APP_VERSION_DATE = '20260608';
+    const APP_VERSION_DATE = '20260628';
     
     // 自動計算結算區間的函數
     function calculateSettlementPeriod() {
@@ -4325,7 +4325,8 @@
     };
     
     const typhoonHolidays = {
-      // 2026年颱風假（如有需要可自行新增）
+      // 2026年颱風假
+      "2026-06-26": "颱風假"
     };
 
     const makeupWorkdays = [
