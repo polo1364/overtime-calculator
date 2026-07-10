@@ -47,37 +47,37 @@
       /* 輔助色 */
       --success: #2d6a4f;
       --success-bg: #e8f5e9;
-      --warning: #b87a14;
-      --warning-bg: #fef7e6;
+      --warning: #9e6510;
+      --warning-bg: #fef6e6;
       --danger: #b23b3b;
       --danger-bg: #fdf0f0;
       
       /* 紙質底色 */
       --bg-primary: #faf7f2;
       --bg-secondary: #ffffff;
-      --bg-tertiary: #f3efe8;
-      --bg-muted: #ede8df;
-      
-      /* 文字 */
-      --text-primary: #1e1e1e;
-      --text-secondary: #5c5346;
-      --text-tertiary: #9b8e7c;
-      
-      /* 邊框 */
-      --border: #e0d9cc;
-      --border-light: #ede6d8;
-      --border-strong: #c4bbaa;
-      
+      --bg-tertiary: #ede7dd;
+      --bg-muted: #e5ddd2;
+
+      /* 文字 — 全部滿足 WCAG AA (≥4.5:1) */
+      --text-primary: #171717;
+      --text-secondary: #4a3f33;
+      --text-tertiary: #6b5e4f;
+
+      /* 邊框 — 加深以提升區塊辨識 */
+      --border: #cec4b2;
+      --border-light: #ddd2c0;
+      --border-strong: #a89880;
+
       /* 圓角 */
       --radius-sm: 4px;
       --radius-md: 6px;
       --radius-lg: 8px;
       --radius-xl: 10px;
-      
-      /* 陰影 — 少量、務實 */
-      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-      --shadow-md: 0 2px 8px rgba(0,0,0,0.06);
-      --shadow-lg: 0 4px 16px rgba(0,0,0,0.08);
+
+      /* 陰影 — 加深層次感 */
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-md: 0 2px 8px rgba(0,0,0,0.09);
+      --shadow-lg: 0 4px 16px rgba(0,0,0,0.12);
       
       /* 動畫 */
       --ease-out: cubic-bezier(0.2, 0, 0, 1);
@@ -438,7 +438,7 @@
     /* 節日/假日 */
     .cell-festival { background: #fefaf0 !important; border-color: #f0e0b0 !important; }
     .cell-festival .day-date { color: var(--warning); }
-    .cell-festival .day-badge { background: var(--warning-bg); color: #a06810; }
+    .cell-festival .day-badge { background: var(--warning-bg); color: #8a5208; }
 
     .day-input {
       width: 100%;
@@ -727,7 +727,7 @@
       font-size: 0.7rem;
       font-weight: 700;
       background: #fff;
-      border: 1px solid #c4bbaa;
+      border: 1px solid var(--border-strong);
       border-radius: 3px;
       margin: 0 1px;
     }
@@ -959,7 +959,7 @@
     }
     .record-feedback.show { display: block; }
     .record-feedback.success { background: var(--success-bg); color: var(--success); border: 1px solid rgba(45,106,79,0.2); }
-    .record-feedback.warning { background: var(--warning-bg); color: #a06810; border: 1px solid rgba(184,122,20,0.2); }
+    .record-feedback.warning { background: var(--warning-bg); color: #8a5208; border: 1px solid rgba(158,101,16,0.25); }
     .record-feedback.error { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(178,59,59,0.2); }
 
     /* 帶入區塊 */
@@ -1180,18 +1180,18 @@
       margin-bottom: 0.875rem;
     }
 
-    .record-bonus-title { font-size: 0.78rem; font-weight: 700; color: #a06810; margin-bottom: 0.625rem; }
+    .record-bonus-title { font-size: 0.78rem; font-weight: 700; color: #8a5208; margin-bottom: 0.625rem; }
     .record-bonus-content { display: flex; flex-direction: column; gap: 0.4rem; }
     .record-bonus-current { display: flex; align-items: baseline; gap: 0.4rem; }
-    .record-bonus-label { font-size: 0.78rem; color: #8b5e14; }
+    .record-bonus-label { font-size: 0.78rem; color: #7a4d08; }
 
     .record-bonus-hours {
       font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', 'Courier New', monospace;
       font-size: 1.15rem;
       font-weight: 700;
-      color: #b87a14;
+      color: var(--warning);
     }
-    .record-bonus-unit { font-size: 0.78rem; color: #8b5e14; }
+    .record-bonus-unit { font-size: 0.78rem; color: #7a4d08; }
 
     .record-bonus-progress {
       height: 6px;
@@ -1206,8 +1206,8 @@
       transition: width 0.3s ease;
     }
 
-    .record-bonus-next { font-size: 0.72rem; color: #8b5e14; line-height: 1.4; }
-    .record-bonus-next strong { color: #b87a14; font-weight: 700; }
+    .record-bonus-next { font-size: 0.72rem; color: #7a4d08; line-height: 1.4; }
+    .record-bonus-next strong { color: var(--warning); font-weight: 700; }
 
     /* === Workflow Card === */
     .workflow-card { padding: 0.875rem; margin-bottom: 1.125rem; }
