@@ -1,13 +1,15 @@
-const CACHE_NAME = 'salary-calculator-v2';
+const CACHE_NAME = 'salary-command-deck-v7';
 // 動態獲取 Service Worker 所在路徑
 const BASE_PATH = self.location.pathname.replace('/service-worker.js', '');
 
 const urlsToCache = [
   BASE_PATH + '/',
   BASE_PATH + '/index.html',
+  BASE_PATH + '/styles.css',
+  BASE_PATH + '/vendor/gsap.min.js',
+  BASE_PATH + '/motion.js',
   BASE_PATH + '/manifest.json',
-  BASE_PATH + '/icon-192.png',
-  BASE_PATH + '/icon-512.png'
+  BASE_PATH + '/assets/icons.svg'
 ];
 
 // 安裝 Service Worker
@@ -16,14 +18,7 @@ self.addEventListener('install', (event) => {
     caches.open(CACHE_NAME)
       .then((cache) => {
         console.log('Opened cache, BASE_PATH:', BASE_PATH);
-        // 使用 Promise.all 來處理可能的錯誤
-        return Promise.all(
-          urlsToCache.map(url => {
-            return cache.add(url).catch(err => {
-              console.warn('Failed to cache:', url, err);
-            });
-          })
-        );
+        return cache.addAll(urlsToCache);
       })
       .then(() => {
         // 強制激活新的 Service Worker

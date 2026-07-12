@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="專業的薪資計算與管理系統，支援加班費計算、請假管理等功能">
   <meta name="app-version" content="v3.8">
   <meta name="app-version-major" content="3">
@@ -27,16 +27,9 @@
   </script>
   
   <!-- Icons -->
-  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
-  <link rel="apple-touch-icon" href="./icon-192.png">
-  
-  <!-- Google Fonts - 精選字體組合 -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="./assets/icons.svg">
 
-  <style>
+  <style id="legacyStyles" media="not all">
     :root {
       /* 主色調 - 專業企業藍 */
       --primary: #2563eb;
@@ -3629,6 +3622,7 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
 
@@ -3684,9 +3678,9 @@
     </section>
     
     <!-- 1. 結算週期設定 -->
-    <div class="card" style="animation-delay: 0.1s;">
+    <div class="card">
       <div class="card-header">
-        <div class="card-icon blue">📅</div>
+        <div class="card-icon blue" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M7 3v3m10-3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z"/></svg></div>
         <div>
           <div class="card-title">結算週期設定</div>
           <div class="card-subtitle">選擇薪資計算的日期範圍</div>
@@ -3695,17 +3689,17 @@
       <div class="card-body">
         <div class="grid-2">
           <div class="form-group">
-            <label class="form-label">開始日期</label>
+            <label class="form-label" for="startDate">開始日期</label>
             <input type="date" id="startDate" class="form-input" onchange="updateDashboardSummary(); updateImportRangeDisplay();">
           </div>
           <div class="form-group">
-            <label class="form-label">結束日期</label>
+            <label class="form-label" for="endDate">結束日期</label>
             <input type="date" id="endDate" class="form-input" onchange="updateDashboardSummary(); updateImportRangeDisplay();">
           </div>
         </div>
         <div class="mt-md">
           <button class="btn btn-primary" onclick="generateCalendar()">
-            <span class="btn-icon">📋</span>
+            <svg class="ui-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M9 5h6m-7-2h8v4H8V3ZM6 5H4v16h16V5h-2M8 12h8m-8 4h8"/></svg>
             生成加班填寫表
           </button>
         </div>
@@ -3713,9 +3707,9 @@
     </div>
 
     <!-- 2. 加班填寫區 -->
-    <div class="card hidden" id="calendarCard" style="animation-delay: 0.2s;">
+    <div class="card hidden" id="calendarCard">
       <div class="card-header">
-        <div class="card-icon orange">⏰</div>
+        <div class="card-icon orange" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v5l3 2M8 3 5 6m11-3 3 3"/></svg></div>
         <div>
           <div class="card-title">加班時數登記</div>
           <div class="card-subtitle">依實際情況填寫每日加班時數</div>
@@ -3724,19 +3718,19 @@
       <div class="card-body">
         <!-- 操作提示 -->
         <div class="shortcut-hint">
-          <span class="shortcut-hint-icon">👆</span>
+          <span class="shortcut-hint-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M8 11V7a2 2 0 0 1 4 0v3-5a2 2 0 0 1 4 0v5-3a2 2 0 0 1 4 0v7c0 4-3 7-7 7h-1c-3 0-5-2-7-5l-2-3a2 2 0 0 1 3-2l2 2"/></svg></span>
           <span class="shortcut-hint-text">
             <b>點擊按鈕快速填入：</b>
-            <span style="background:#dbeafe;padding:2px 6px;border-radius:4px;color:#1d4ed8;font-weight:600;">2</span>
-            <span style="background:#fef3c7;padding:2px 6px;border-radius:4px;color:#b45309;font-weight:600;">4</span>
-            <span style="background:#d1fae5;padding:2px 6px;border-radius:4px;color:#047857;font-weight:600;">8</span>
+            <span class="shortcut-key shortcut-key-2">2</span>
+            <span class="shortcut-key shortcut-key-4">4</span>
+            <span class="shortcut-key shortcut-key-8">8</span>
             小時，
-            <span style="background:#fee2e2;padding:2px 6px;border-radius:4px;color:#dc2626;font-weight:600;">✕</span> 清除
+            <span class="shortcut-key shortcut-key-clear">✕</span> 清除
           </span>
         </div>
 
         <div class="note">
-          <span class="note-icon">💡</span>
+          <span class="note-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M9 18h6m-5 3h4m3-8a7 7 0 1 0-10 0c1 1 2 2 2 4h6c0-2 1-3 2-4Z"/></svg></span>
           <span class="note-text">系統將自動判斷平日、假日與節日費率；假日與節日重疊時依假日算法。</span>
         </div>
 
@@ -3772,9 +3766,9 @@
     </div>
 
     <!-- 3. 薪資參數配置 -->
-    <div class="card" style="animation-delay: 0.3s;">
+    <div class="card">
       <div class="card-header">
-        <div class="card-icon green">⚙️</div>
+        <div class="card-icon green" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 13.5v-3l-2-.7-.8-1.8.9-1.9L15 4l-1.9.9L11.2 4H9.8L8.9 4.9 7 4 4.9 6.1 5.8 8 5 9.8l-2 .7v3l2 .7.8 1.8-.9 1.9L7 20l1.9-.9 1.9.9h2.4l1.9-.9 1.9.9 2.1-2.1-.9-1.9.8-1.8 2-.7Z"/></svg></div>
         <div>
           <div class="card-title">薪資參數配置</div>
           <div class="card-subtitle">設定薪資結構與扣款項目</div>
@@ -3784,108 +3778,108 @@
         <div class="grid-2">
           <!-- 左側：收入 -->
           <div>
-            <div class="section-label">💰 收入參數</div>
+            <div class="section-label">收入參數</div>
             
             <div class="form-group">
-              <label class="form-label">本薪（月薪）</label>
+              <label class="form-label" for="baseSalary">本薪（月薪）</label>
               <input type="number" id="baseSalary" class="form-input" placeholder="請輸入本薪金額" oninput="saveSensitiveData('baseSalary', this.value)">
             </div>
             
-            <div class="grid-2" style="gap: 0.75rem;">
+            <div class="grid-2 grid-compact">
               <div class="form-group">
-                <label class="form-label">全勤獎金</label>
+                <label class="form-label" for="bonus">全勤獎金</label>
                 <div class="input-group">
                   <input type="number" id="bonus" class="form-input" value="2000" readonly>
-                  <span class="input-icon">🔒</span>
+                  <span class="input-icon" aria-hidden="true">唯讀</span>
                 </div>
               </div>
               <div class="form-group">
-                <label class="form-label">伙食費</label>
+                <label class="form-label" for="meal">伙食費</label>
                 <div class="input-group">
                   <input type="number" id="meal" class="form-input" value="1800" readonly>
-                  <span class="input-icon">🔒</span>
+                  <span class="input-icon" aria-hidden="true">唯讀</span>
                 </div>
               </div>
             </div>
             
             <div class="form-group">
-              <label class="form-label">其他津貼</label>
+              <label class="form-label" for="extraPay">其他津貼</label>
               <input type="number" id="extraPay" class="form-input" placeholder="例如：職務加給、交通津貼" oninput="saveSensitiveData('extraPay', this.value)">
             </div>
           </div>
 
           <!-- 右側：扣款 -->
           <div>
-            <div class="section-label">🛡️ 扣款與保險</div>
+            <div class="section-label">扣款與保險</div>
             
             <div class="form-group">
-              <label class="form-label">請假時數（小時）</label>
+              <div class="form-label">請假時數（小時）</div>
               <div class="leave-types-grid">
                 <div class="leave-type-item">
-                  <div class="leave-type-label">
+                  <label class="leave-type-label" for="leavePersonal">
                     事假
                     <span class="leave-type-badge full">全薪</span>
-                  </div>
+                  </label>
                   <input type="number" id="leavePersonal" class="form-input leave-type-input" placeholder="0" min="0" step="0.5">
                 </div>
                 <div class="leave-type-item">
-                  <div class="leave-type-label">
+                  <label class="leave-type-label" for="leaveSick">
                     病假
                     <span class="leave-type-badge half">半薪</span>
-                  </div>
+                  </label>
                   <input type="number" id="leaveSick" class="form-input leave-type-input" placeholder="0" min="0" step="0.5">
                 </div>
                 <div class="leave-type-item">
-                  <div class="leave-type-label">
+                  <label class="leave-type-label" for="leaveMarriage">
                     婚假
                     <span class="leave-type-badge full">全薪</span>
-                  </div>
+                  </label>
                   <input type="number" id="leaveMarriage" class="form-input leave-type-input" placeholder="0" min="0" step="0.5">
                 </div>
                 <div class="leave-type-item">
-                  <div class="leave-type-label">
+                  <label class="leave-type-label" for="leaveBereavement">
                     喪假
                     <span class="leave-type-badge full">全薪</span>
-                  </div>
+                  </label>
                   <input type="number" id="leaveBereavement" class="form-input leave-type-input" placeholder="0" min="0" step="0.5">
                 </div>
                 <div class="leave-type-item">
-                  <div class="leave-type-label">
+                  <label class="leave-type-label" for="leaveMaternity">
                     產假
                     <span class="leave-type-badge full">全薪</span>
-                  </div>
+                  </label>
                   <input type="number" id="leaveMaternity" class="form-input leave-type-input" placeholder="0" min="0" step="0.5">
                 </div>
                 <div class="leave-type-item">
-                  <div class="leave-type-label">
+                  <label class="leave-type-label" for="leavePaternity">
                     陪產假
                     <span class="leave-type-badge full">全薪</span>
-                  </div>
+                  </label>
                   <input type="number" id="leavePaternity" class="form-input leave-type-input" placeholder="0" min="0" step="0.5">
                 </div>
                 <div class="leave-type-item">
-                  <div class="leave-type-label">
+                  <label class="leave-type-label" for="leaveFamilyCare">
                     家庭照顧假
                     <span class="leave-type-badge full">全薪</span>
-                  </div>
+                  </label>
                   <input type="number" id="leaveFamilyCare" class="form-input leave-type-input" placeholder="0" min="0" step="0.5">
                 </div>
               </div>
             </div>
             
-            <div class="grid-2" style="gap: 0.75rem;">
+            <div class="grid-2 grid-compact">
               <div class="form-group compact">
-                <label class="form-label">勞退自提（%）</label>
+                <label class="form-label" for="pensionRate">勞退自提（%）</label>
                 <input type="number" id="pensionRate" class="form-input" placeholder="0 ~ 6">
               </div>
               <div class="form-group compact">
-                <label class="form-label">健保眷屬人數</label>
+                <label class="form-label" for="dependents">健保眷屬人數</label>
                 <input type="number" id="dependents" class="form-input" placeholder="0">
               </div>
             </div>
             
             <div class="form-group">
-              <label class="form-label">補充保費計算基數</label>
+              <label class="form-label" for="supplementaryPremium">補充保費計算基數</label>
               <input type="number" id="supplementaryPremium" class="form-input" placeholder="填寫第二頁獎金總額">
             </div>
           </div>
@@ -3900,7 +3894,7 @@
 
         <div class="mt-lg">
           <button class="btn btn-primary" onclick="calculate(event)">
-            <span class="btn-icon">🧮</span>
+            <svg class="ui-icon" aria-hidden="true" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h2m4 0h2m-8 4h2m4 0h2"/></svg>
             立即計算薪資
           </button>
         </div>
@@ -4005,7 +3999,7 @@
               <span class="key">請假扣款</span>
               <span class="val text-danger" id="dedLeave">0</span>
             </div>
-            <div class="payslip-row" id="dedBonusRow" style="display: none;">
+            <div class="payslip-row" id="dedBonusRow">
               <span class="key">全勤獎金扣除</span>
               <span class="val text-danger" id="dedBonus">0</span>
             </div>
@@ -4021,15 +4015,15 @@
   </main>
 
   <!-- 浮動按鈕 + 加班記錄本 -->
-  <button class="fab" id="fabBtn" onclick="toggleRecordPanel()">
-    <span class="fab-icon">📝</span>
+  <button class="fab" id="fabBtn" onclick="toggleRecordPanel()" aria-label="開啟加班記錄本" aria-controls="recordPanel" aria-expanded="false">
+    <svg class="ui-icon fab-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8m-8 4h8m-8 4h5"/></svg>
     <span class="fab-badge" id="fabBadge">0</span>
   </button>
 
-  <div class="record-panel" id="recordPanel">
+  <div class="record-panel" id="recordPanel" role="dialog" aria-modal="true" aria-labelledby="recordPanelTitle" aria-hidden="true" tabindex="-1">
     <div class="record-panel-header">
-      <h3>📒 加班任務抽屜</h3>
-      <button class="record-panel-close" onclick="toggleRecordPanel()">✕</button>
+      <h3 id="recordPanelTitle">加班任務抽屜</h3>
+      <button class="record-panel-close" onclick="toggleRecordPanel()" aria-label="關閉加班記錄本">✕</button>
     </div>
     
     <div class="record-panel-body">
@@ -4063,12 +4057,12 @@
         <div class="record-add-title">快速新增時數</div>
         <div class="record-add-row">
           <div class="record-add-field">
-            <label>日期</label>
+            <label for="recordDate">日期</label>
             <input type="date" id="recordDate" class="record-input">
           </div>
           <div class="record-add-field">
-            <label>時數</label>
-            <input type="number" id="recordHours" class="record-input" placeholder="0" min="0" step="0.5" style="width: 70px;">
+            <label for="recordHours">時數</label>
+            <input type="number" id="recordHours" class="record-input record-hours-input" placeholder="0" min="0" step="0.5">
           </div>
           <button class="record-add-btn" onclick="addRecord()" id="recordAddBtn">+ 新增</button>
         </div>
@@ -4085,7 +4079,7 @@
 
       <!-- 區間篩選選項 -->
       <div class="record-filter-section">
-        <div class="record-filter-title">🔍 區間控制（列表與帶入範圍）</div>
+        <div class="record-filter-title">區間控制（列表與帶入範圍）</div>
         
         <!-- 選項切換 -->
         <div class="record-filter-options">
@@ -4100,23 +4094,23 @@
         </div>
 
         <!-- 自訂區間輸入 -->
-        <div class="record-filter-custom" id="filterCustomSection" style="display: none;">
+        <div class="record-filter-custom" id="filterCustomSection">
           <div class="record-filter-row">
             <div class="record-add-field">
-              <label>開始日期</label>
+              <label for="filterStartDate">開始日期</label>
               <input type="date" id="filterStartDate" class="record-input" onchange="updateFilteredRecords(); updateImportRangeDisplay(); saveFilterCustomRange();">
             </div>
             <div class="record-add-field">
-              <label>結束日期</label>
+              <label for="filterEndDate">結束日期</label>
               <input type="date" id="filterEndDate" class="record-input" onchange="updateFilteredRecords(); updateImportRangeDisplay(); saveFilterCustomRange();">
             </div>
           </div>
         </div>
 
         <!-- 當前結算區間顯示 -->
-        <div class="record-filter-settlement" id="filterSettlementSection" style="display: none;">
+        <div class="record-filter-settlement" id="filterSettlementSection">
           <div class="record-filter-settlement-info">
-            <span>📅 結算區間：</span>
+            <span>結算區間：</span>
             <strong id="filterSettlementRangeDisplay">-</strong>
           </div>
         </div>
@@ -4124,7 +4118,7 @@
 
       <!-- 累積獎金提醒 -->
       <div class="record-bonus-section" id="bonusReminderSection">
-        <div class="record-bonus-title">💰 獎金進度監控</div>
+        <div class="record-bonus-title">獎金進度監控</div>
         <div class="record-bonus-content">
           <div class="record-bonus-current">
             <span class="record-bonus-label">當前累積時數：</span>
@@ -4139,13 +4133,13 @@
       <!-- 一鍵帶入 -->
       <div class="record-import-section">
         <div class="record-import-info">
-          <span id="importRangeLabel">📅 當前結算區間：</span>
+          <span id="importRangeLabel">當前結算區間：</span>
           <strong id="currentRangeDisplay">-</strong>
-          <div style="margin-top: 0.35rem;">只會把目前篩選範圍內的記錄帶入月曆。</div>
+          <div class="record-import-note">只會把目前篩選範圍內的記錄帶入月曆。</div>
           <div class="record-import-summary" id="recordImportSummary">目前可帶入 0 筆 / 0.0 小時</div>
         </div>
         <button class="record-import-btn" onclick="importRecordsToCalendar()">
-          📥 載入到月曆面板
+          載入到月曆面板
         </button>
       </div>
 
@@ -4164,14 +4158,16 @@
 
   <!-- Modal -->
   <div class="modal-overlay" id="popupModal">
-    <div class="modal">
-      <div class="modal-icon">📢</div>
-      <div class="modal-title">系統公告</div>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="popupTitle" aria-describedby="popupText" tabindex="-1">
+      <div class="modal-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M4 13V9l13-5v14L4 13Zm0 0 2 7h4l-2-6m10-5c2 1 2 5 0 6"/></svg></div>
+      <div class="modal-title" id="popupTitle">系統公告</div>
       <div class="modal-content" id="popupText"></div>
       <button class="btn btn-primary" onclick="closePopup()">我瞭解了</button>
     </div>
   </div>
 
+  <script src="./vendor/gsap.min.js"></script>
+  <script src="./motion.js"></script>
   <script>
     /* === 設定與資料 === */
     const APP_VERSION_MAJOR = 3;
@@ -4271,7 +4267,7 @@
     const settlementPeriod = calculateSettlementPeriod();
     
     const popupConfig = {
-      content: `<b>${settlementPeriod.displayStart}~${settlementPeriod.displayEnd}</b> 月份薪資結算。\n\n<div style="background:rgba(0,229,255,0.12);border:1px solid rgba(0,229,255,0.35);border-radius:10px;padding:14px;margin:12px 0;text-align:left;color:#dffcff;"><div style="font-weight:800;color:#ffffff;margin-bottom:8px;">📒 加班記錄本使用說明</div><div style="font-size:0.9rem;line-height:1.75;"><b style="color:#b8ffce;">1. 平時記錄：</b>點右下角 📝，選日期與時數後新增。<br><b style="color:#b8ffce;">2. 結算篩選：</b>用「當前結算區間」或「自訂區間」確認本期資料。<br><b style="color:#b8ffce;">3. 帶入月曆：</b>先生成月曆，再按「一鍵帶入月曆」。<br><small style="color:#a8fbff;">同一天重複新增會更新時數；資料會自動儲存在此瀏覽器。</small></div></div><span style="display:inline-block;background:rgba(255,209,102,0.18);border:1px solid rgba(255,209,102,0.45);color:#fff3c4;padding:7px 12px;border-radius:8px;font-size:0.9rem;font-weight:700;">⚠️ 若結算日期有變，請先調整上方日期區間再帶入</span>`,
+      content: `<b>${settlementPeriod.displayStart}~${settlementPeriod.displayEnd}</b> 月份薪資結算。\n\n<div style="background:rgba(0,229,255,0.12);border:1px solid rgba(0,229,255,0.35);border-radius:10px;padding:14px;margin:12px 0;text-align:left;color:#dffcff;"><div style="font-weight:800;color:#ffffff;margin-bottom:8px;">加班記錄本使用說明</div><div style="font-size:0.9rem;line-height:1.75;"><b style="color:#b8ffce;">1. 平時記錄：</b>點右下角記錄按鈕，選日期與時數後新增。<br><b style="color:#b8ffce;">2. 結算篩選：</b>用「當前結算區間」或「自訂區間」確認本期資料。<br><b style="color:#b8ffce;">3. 帶入月曆：</b>先生成月曆，再按「一鍵帶入月曆」。<br><small style="color:#a8fbff;">同一天重複新增會更新時數；資料會自動儲存在此瀏覽器。</small></div></div><span style="display:inline-block;background:rgba(255,209,102,0.18);border:1px solid rgba(255,209,102,0.45);color:#fff3c4;padding:7px 12px;border-radius:8px;font-size:0.9rem;font-weight:700;">若結算日期有變，請先調整上方日期區間再帶入</span>`,
       range: { start: settlementPeriod.start, end: settlementPeriod.end }
     };
 
@@ -4542,8 +4538,10 @@
     function setWorkflowStep(id, state) {
       const step = document.getElementById(id);
       if (!step) return;
+      const previousState = step.className;
       step.classList.remove('active', 'done');
       if (state) step.classList.add(state);
+      if (previousState !== step.className) window.UiMotion?.workflowTransition(step);
     }
 
     function updateDashboardSummary() {
@@ -4619,11 +4617,55 @@
       }
     }
 
+    function getFocusable(container) {
+      return [...container.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')]
+        .filter((element) => !element.disabled && element.getAttribute('aria-hidden') !== 'true');
+    }
+
+    function trapDialogFocus(event, dialog) {
+      if (event.key !== 'Tab') return;
+      const focusable = getFocusable(dialog);
+      if (!focusable.length) {
+        event.preventDefault();
+        dialog.focus();
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    function setAppInert(isInert) {
+      [document.querySelector('.header'), document.querySelector('.main'), document.getElementById('fabBtn')]
+        .filter(Boolean)
+        .forEach((element) => { element.inert = isInert; });
+    }
+
     function toggleRecordPanel() {
       const panel = document.getElementById('recordPanel');
-      panel.classList.toggle('active');
+      const isOpen = !panel.classList.contains('active');
+      if (isOpen) panel.classList.add('active');
+      if (isOpen) panel.setAttribute('aria-hidden', 'false');
+      document.getElementById('fabBtn')?.setAttribute('aria-expanded', String(isOpen));
+      if (isOpen) window.UiMotion?.openRecordPanel(panel);
+      else if (window.UiMotion) window.UiMotion.closeRecordPanel(panel, () => {
+        panel.classList.remove('active');
+        panel.setAttribute('aria-hidden', 'true');
+        document.getElementById('fabBtn')?.focus();
+      });
+      else {
+        panel.classList.remove('active');
+        panel.setAttribute('aria-hidden', 'true');
+        document.getElementById('fabBtn')?.focus();
+      }
       
-      if (panel.classList.contains('active')) {
+      if (isOpen) {
         updateCurrentRangeDisplay();
         updateSettlementRangeDisplay();
         updateImportRangeDisplay();
@@ -4661,6 +4703,7 @@
             addRecord();
           }
         });
+        window.setTimeout(() => panel.querySelector('.record-panel-close')?.focus(), 0);
       } else {
         // 取消編輯模式
         if (editingIndex !== null) {
@@ -4762,8 +4805,10 @@
       
       infoEl.innerHTML = `
         <div class="record-item-edit-form">
+          <label class="sr-only" for="edit-date-${index}">記錄日期</label>
           <input type="date" id="edit-date-${index}" class="record-item-edit-input" value="${record.date}">
-          <input type="number" id="edit-hours-${index}" class="record-item-edit-input" value="${record.hours}" min="0" step="0.5" style="width: 80px;">
+          <label class="sr-only" for="edit-hours-${index}">加班時數</label>
+          <input type="number" id="edit-hours-${index}" class="record-item-edit-input record-edit-hours" value="${record.hours}" min="0" step="0.5">
           <div class="record-item-edit-actions">
             <button class="record-item-edit-btn record-item-edit-save" onclick="saveEdit(${index})">✓</button>
             <button class="record-item-edit-btn record-item-edit-cancel" onclick="cancelEdit(${index})">✕</button>
@@ -4950,10 +4995,10 @@
         if (startDate && endDate) {
           const start = startDate.split('-');
           const end = endDate.split('-');
-          labelEl.textContent = '📅 自訂區間：';
+          labelEl.textContent = '自訂區間：';
           displayEl.textContent = `${start[1]}/${start[2]} ~ ${end[1]}/${end[2]}`;
         } else {
-          labelEl.textContent = '📅 自訂區間：';
+          labelEl.textContent = '自訂區間：';
           displayEl.textContent = '-';
         }
       } else if (settlementCheckbox.checked) {
@@ -4964,12 +5009,12 @@
         if (startDate && endDate) {
           const start = startDate.split('-');
           const end = endDate.split('-');
-          labelEl.textContent = '📅 當前結算區間：';
+          labelEl.textContent = '當前結算區間：';
           displayEl.textContent = `${start[1]}/${start[2]} ~ ${end[1]}/${end[2]}`;
         } else {
           // 使用自動計算的結算區間
           const settlementPeriod = calculateSettlementPeriod();
-          labelEl.textContent = '📅 當前結算區間：';
+          labelEl.textContent = '當前結算區間：';
           displayEl.textContent = `${settlementPeriod.displayStart} ~ ${settlementPeriod.displayEnd}`;
         }
       } else {
@@ -4980,11 +5025,11 @@
         if (startDate && endDate) {
           const start = startDate.split('-');
           const end = endDate.split('-');
-          labelEl.textContent = '📅 當前結算區間：';
+          labelEl.textContent = '當前結算區間：';
           displayEl.textContent = `${start[1]}/${start[2]} ~ ${end[1]}/${end[2]}`;
         } else {
           const settlementPeriod = calculateSettlementPeriod();
-          labelEl.textContent = '📅 當前結算區間：';
+          labelEl.textContent = '當前結算區間：';
           displayEl.textContent = `${settlementPeriod.displayStart} ~ ${settlementPeriod.displayEnd}`;
         }
       }
@@ -5171,8 +5216,8 @@
               ${statusText ? `<span class="record-item-status ${statusClass}">${statusText}</span>` : ''}
             </div>
             <div class="record-item-actions">
-              <button class="record-item-edit" onclick="editRecord(${originalIndex})" title="編輯">✏️</button>
-              <button class="record-item-delete" onclick="deleteRecord(${originalIndex})" title="刪除">🗑️</button>
+              <button class="record-item-edit" onclick="editRecord(${originalIndex})" title="編輯" aria-label="編輯 ${displayDate}"><svg class="ui-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m4 20 4-1 11-11-3-3L5 16l-1 4Zm10-13 3 3"/></svg></button>
+              <button class="record-item-delete" onclick="deleteRecord(${originalIndex})" title="刪除" aria-label="刪除 ${displayDate}"><svg class="ui-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 7h14m-9-3h4l1 3M8 10v8m4-8v8m4-8v8M7 7l1 14h8l1-14"/></svg></button>
             </div>
           </div>
         `;
@@ -5186,6 +5231,7 @@
     function importRecordsToCalendar() {
       const records = getRecords();
       const calendarCard = document.getElementById('calendarCard');
+      const importedInputs = [];
 
       // 決定帶入用的區間：有選篩選區間（自訂/結算）則用篩選區間，否則用主頁結算區間
       const filterRange = getActiveFilterRange();
@@ -5235,12 +5281,14 @@
           input.value = record.hours;
           input.classList.add('just-filled');
           setTimeout(() => input.classList.remove('just-filled'), 500);
+          importedInputs.push(input);
           filledCount++;
         }
       });
 
       updateTotal();
       updateDashboardSummary();
+      window.UiMotion?.importHighlight(importedInputs);
 
       // 滾動到月曆位置
       calendarCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -5388,7 +5436,9 @@
         return;
       }
 
+      let weekNumber = 1;
       let currentRow = document.createElement("tr");
+      currentRow.setAttribute('data-week-label', `第 ${weekNumber} 週`);
       let d = new Date(start);
 
       // 補白
@@ -5443,12 +5493,13 @@
             <span class="day-date">${mm}/${dd}</span>
             <span class="day-badge">${label}</span>
           </div>
+          <label class="sr-only" for="${inputId}">${mm}/${dd} 加班時數</label>
           <input type="number" id="${inputId}" class="day-input" min="0" step="0.5" placeholder="—" data-daytype="${dayType}" onchange="updateTotal()" oninput="updateTotal()">
           <div class="quick-btns">
-            <button class="quick-btn quick-btn-2" onclick="quickFill('${inputId}', 2)">2</button>
-            <button class="quick-btn quick-btn-4" onclick="quickFill('${inputId}', 4)">4</button>
-            <button class="quick-btn quick-btn-8" onclick="quickFill('${inputId}', 8)">8</button>
-            <button class="quick-btn quick-btn-c" onclick="quickFill('${inputId}', 0)">✕</button>
+            <button class="quick-btn quick-btn-2" onclick="quickFill('${inputId}', 2)" aria-label="${mm}/${dd} 填入 2 小時">2</button>
+            <button class="quick-btn quick-btn-4" onclick="quickFill('${inputId}', 4)" aria-label="${mm}/${dd} 填入 4 小時">4</button>
+            <button class="quick-btn quick-btn-8" onclick="quickFill('${inputId}', 8)" aria-label="${mm}/${dd} 填入 8 小時">8</button>
+            <button class="quick-btn quick-btn-c" onclick="quickFill('${inputId}', 0)" aria-label="${mm}/${dd} 清除加班時數">✕</button>
           </div>
         `;
         currentRow.appendChild(cell);
@@ -5456,6 +5507,8 @@
         if (weekday === 6) {
           tbody.appendChild(currentRow);
           currentRow = document.createElement("tr");
+          weekNumber += 1;
+          currentRow.setAttribute('data-week-label', `第 ${weekNumber} 週`);
         }
       }
 
@@ -5475,6 +5528,7 @@
       setupShortcutKeys();
       // 更新一鍵帶入區塊的顯示
       updateImportRangeDisplay();
+      window.UiMotion?.calendarReveal();
     }
 
     function updateTotal() {
@@ -5516,46 +5570,8 @@
     function parse(id) { return parseFloat(document.getElementById(id).value) || 0; }
     function formatCurrency(num) { return Math.round(num).toLocaleString(); }
 
-    function triggerSalaryEffect(sourceEvent = null) {
-      const layer = document.createElement('div');
-      layer.className = 'money-burst-layer';
-      document.body.appendChild(layer);
-
-      const fallbackX = window.innerWidth / 2;
-      const fallbackY = window.innerHeight / 2;
-      const x = sourceEvent?.clientX || fallbackX;
-      const y = sourceEvent?.clientY || fallbackY;
-
-      const ring = document.createElement('span');
-      ring.className = 'money-ring';
-      ring.style.setProperty('--x', `${x}px`);
-      ring.style.setProperty('--y', `${y}px`);
-      layer.appendChild(ring);
-
-      const symbols = ['$', '$', 'NT$', '💰', '🪙'];
-      for (let index = 0; index < 12; index++) {
-        const coin = document.createElement('span');
-        const angle = (Math.PI * 2 * index) / 12;
-        const distance = 72 + Math.random() * 92;
-        coin.className = 'money-coin';
-        coin.textContent = symbols[index % symbols.length];
-        coin.style.setProperty('--x', `${x}px`);
-        coin.style.setProperty('--y', `${y}px`);
-        coin.style.setProperty('--dx', `${Math.cos(angle) * distance}px`);
-        coin.style.setProperty('--dy', `${Math.sin(angle) * distance - 30}px`);
-        coin.style.setProperty('--rot', `${Math.random() * 360 - 180}deg`);
-        coin.style.setProperty('--size', `${0.95 + Math.random() * 0.75}rem`);
-        layer.appendChild(coin);
-      }
-
-      const payslip = document.querySelector('.payslip');
-      if (payslip) {
-        payslip.classList.remove('money-flash');
-        void payslip.offsetWidth;
-        payslip.classList.add('money-flash');
-      }
-
-      window.setTimeout(() => layer.remove(), 1000);
+    function triggerSalaryEffect(netPay) {
+      window.UiMotion?.resultReveal(netPay);
     }
 
     function calculate(event) {
@@ -5679,13 +5695,20 @@
       const resArea = document.getElementById("resultArea");
       resArea.classList.remove("hidden");
       updateDashboardSummary();
-      triggerSalaryEffect(event);
+      triggerSalaryEffect(net);
       resArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     /* === 彈窗邏輯 === */
     function closePopup() {
-      document.getElementById("popupModal").classList.remove("active");
+      const modal = document.getElementById("popupModal");
+      const finishClose = () => {
+        modal.classList.remove("active");
+        setAppInert(false);
+        document.getElementById('fabBtn')?.focus();
+      };
+      if (window.UiMotion) window.UiMotion.closeModal(modal, finishClose);
+      else finishClose();
     }
 
     window.addEventListener('DOMContentLoaded', function() {
@@ -5700,8 +5723,35 @@
       updateImportRangeDisplay();
       
       setTimeout(() => {
-        document.getElementById("popupModal").classList.add("active");
+        const popupModal = document.getElementById("popupModal");
+        setAppInert(true);
+        popupModal.classList.add("active");
+        window.UiMotion?.openModal(popupModal);
+        popupModal.querySelector('.modal')?.focus();
       }, 600);
+      window.UiMotion?.initialReveal();
+
+      document.addEventListener('keydown', (event) => {
+        const popupModal = document.getElementById('popupModal');
+        const recordPanel = document.getElementById('recordPanel');
+        if (popupModal.classList.contains('active')) {
+          if (event.key === 'Escape') {
+            event.preventDefault();
+            closePopup();
+            return;
+          }
+          trapDialogFocus(event, popupModal);
+          return;
+        }
+        if (recordPanel.classList.contains('active')) {
+          if (event.key === 'Escape') {
+            event.preventDefault();
+            toggleRecordPanel();
+            return;
+          }
+          trapDialogFocus(event, recordPanel);
+        }
+      });
     });
 
     /* === PWA Service Worker Registration === */
