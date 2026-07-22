@@ -9,6 +9,7 @@ const assert = (condition, message) => {
 
 const html = read('index.html');
 const css = read('styles.css');
+const uiverse = read('uiverse.css');
 const motion = read('motion.js');
 const sw = read('service-worker.js');
 const manifest = JSON.parse(read('manifest.json'));
