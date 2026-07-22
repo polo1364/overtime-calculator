@@ -57,3 +57,18 @@
   transform: translate(4px, 4px);
   box-shadow: 0 0 0 var(--ink);
 }
+
+.quick-btn {
+  min-width: 44px;
+  min-height: 44px;
+  border: 2px solid var(--ink);
+  border-radius: 3px;
+  background: #fff;
+  color: var(--ink);
+  font-weight: 900;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.quick-btn:hover { background: var(--yellow); }
+.quick-btn:active { transform: translate(3px, 3px); box-shadow: none; }
+.quick-btn-c { background: #ffe0dc; color: #8b1608; }

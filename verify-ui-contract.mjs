@@ -73,6 +73,11 @@ assert(/font-family:[^;]*(?:Microsoft JhengHei|PingFang TC)/i.test(css), 'Tradit
 assert(/\.form-input[^}]*font-size:\s*(?:1rem|16px)/i.test(`${css}\n${uiverse}`), 'primary inputs must be at least 16px');
 assert(/\.btn:active[^}]*transform:\s*translate\(4px,\s*4px\)/i.test(uiverse), 'physical button press treatment is missing');
 assert(/\.nb-card[^}]*border:\s*var\(--brutal-border\)/i.test(uiverse), 'scoped Uiverse card treatment is missing');
+assert(/\.summary-tile:nth-child\(1\)[^}]*background:\s*var\(--yellow\)/i.test(css), 'summary color coding is missing');
+assert(/\.calendar td[^}]*border:\s*var\(--brutal-border\)/i.test(css), 'calendar cells need Neo Brutal borders');
+assert(/\.quick-btn:active[^}]*box-shadow:\s*(?:none|0 0 0)/i.test(uiverse), 'quick-hour keys need a pressed state');
+assert(/\.calendar td\.has-overtime[^}]*background:\s*var\(--green\)/i.test(css), 'filled overtime state is missing');
+assert(/\.calendar td\.overtime-alert[^}]*background:\s*var\(--red\)/i.test(css), 'overtime warning state is missing');
 assert(!/\.\w*(?:title|label|text)[^{]*\{[^}]*(?:filter:\s*blur|animation:\s*[^;]*glitch)/i.test(`${css}\n${uiverse}`), 'text clarity is weakened by blur or glitch');
 const headerLabelRule = cssRuleBody(css, '.header-badge, .app-version, .section-label, .payslip-subtitle');
 assert(/color:\s*var\(--ink\)/i.test(headerLabelRule), 'header and section labels must use near-black ink');

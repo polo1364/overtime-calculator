@@ -118,15 +118,22 @@ button { cursor: pointer; }
   border: 1px solid var(--line); border-radius: 10px; padding: .55rem .7rem; color: var(--muted);
 }
 .workflow-step-no {
-  display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid currentColor;
-  border-radius: 50%; font: 600 .78rem "JetBrains Mono", monospace;
+  display: grid; place-items: center; width: 28px; height: 28px;
+  border: 2px solid var(--ink); border-radius: 50%; background: #fff; color: var(--ink);
+  box-shadow: 3px 3px 0 var(--ink); font: 600 .78rem var(--font-number);
 }
 .workflow-step.active { border-color: var(--ink); color: var(--ink); background: var(--cyan-soft); }
 .workflow-step.done { border-color: rgba(66,211,146,.5); color: var(--green-text); }
+.workflow-step.active .workflow-step-no { background: var(--yellow); }
+.workflow-step.done .workflow-step-no { background: var(--green); }
 .dashboard-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; margin-top: .75rem; }
-.summary-tile { padding: .75rem; border-left: 2px solid var(--cyan); background: rgba(0,0,0,.16); }
+.summary-tile { padding: .75rem; border: var(--brutal-border); box-shadow: 4px 4px 0 var(--ink); }
+.summary-tile:nth-child(1) { background: var(--yellow); }
+.summary-tile:nth-child(2) { background: var(--green); }
+.summary-tile:nth-child(3) { background: var(--pink); }
+.summary-tile:nth-child(4) { background: var(--cyan); }
 .summary-label { display: block; color: var(--muted); font-size: .75rem; }
-.summary-value { font: 600 .9rem "JetBrains Mono", monospace; }
+.summary-value { color: var(--ink); font: 800 .95rem var(--font-number); }
 
 .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
 .form-group { margin-bottom: 1rem; }
@@ -160,18 +167,20 @@ button { cursor: pointer; }
 .legend-dot.holiday { background: var(--gold); }
 
 .calendar-wrapper { overflow-x: auto; }
-.calendar { width: 100%; border-collapse: separate; border-spacing: 6px; table-layout: fixed; }
-.calendar th { color: var(--muted); font: 600 .75rem "JetBrains Mono", monospace; }
-.calendar td { height: 142px; vertical-align: top; border: 1px solid var(--line); border-radius: 9px; padding: .55rem; background: var(--paper-raised); }
-.calendar td.cell-weekend { border-color: rgba(255,107,107,.42); }
-.calendar td.cell-festival { border-color: rgba(244,201,93,.55); }
+.calendar { width: 100%; border-collapse: separate; border-spacing: 8px; table-layout: fixed; }
+.calendar th { color: var(--ink); font: 800 .75rem var(--font-ui); }
+.calendar td {
+  height: 142px; vertical-align: top; border: var(--brutal-border); border-radius: 4px;
+  padding: .55rem; background: #fff; box-shadow: 4px 4px 0 var(--ink);
+}
+.calendar td.cell-weekend { background: #ffe2e2; }
+.calendar td.cell-festival { background: #fff0a8; }
 .day-header { display: flex; justify-content: space-between; gap: .25rem; }
-.day-date, .day-input { font-family: "JetBrains Mono", monospace; }
-.day-badge { color: var(--muted); font-size: .75rem; }
+.day-date, .day-badge { color: var(--ink); font-family: var(--font-number); }
+.day-input { font-family: "JetBrains Mono", monospace; }
+.day-badge { font-size: .75rem; }
 .day-input { width: 100%; min-height: 44px; margin-block: .5rem; border: 1px solid var(--line); border-radius: 7px; background: #fff; color: var(--ink); text-align: center; }
 .quick-btns { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; }
-.quick-btn { min-width: 32px; min-height: 44px; border: 1px solid var(--line); border-radius: 6px; color: var(--ink); background: transparent; }
-.quick-btn-c { color: var(--red); }
 .total-hours { display: flex; align-items: baseline; justify-content: flex-end; gap: .5rem; margin-top: 1rem; }
 .total-value { color: var(--ink); font: 700 2rem "JetBrains Mono", monospace; }
 
@@ -296,8 +305,8 @@ button { cursor: pointer; }
   border: 1px solid var(--ink); border-radius: 50%; color: var(--ink); background: var(--cyan-soft);
 }
 .day-input.just-filled { border-color: var(--green); box-shadow: 0 0 0 3px rgba(66,211,146,.16); }
-.calendar td.has-overtime { border-color: var(--green); background: rgba(66,211,146,.06); }
-.calendar td.overtime-alert { border-color: var(--red); background: rgba(255,107,107,.06); }
+.calendar td.has-overtime { border-color: var(--green); background: var(--green); }
+.calendar td.overtime-alert { border-color: var(--red); background: var(--red); }
 .has-overtime .day-input { color: var(--ink); }
 .overtime-alert .day-input { color: var(--red); }
 
@@ -334,9 +343,9 @@ button { cursor: pointer; }
   .workflow-step-label { font-size: .78rem; }
   .calendar thead { display: none; }
   .calendar, .calendar tbody, .calendar tr, .calendar td { display: block; width: 100%; }
-  .calendar tr { margin-bottom: 1rem; border-top: 1px solid var(--cyan); }
-  .calendar tr::before { content: attr(data-week-label); display: block; padding: .55rem; color: var(--ink); font: 600 .75rem "JetBrains Mono", monospace; }
-  .calendar td { min-height: 120px; height: auto; margin-top: .45rem; }
+  .calendar tr { margin-bottom: 1.25rem; border-top: 4px solid var(--ink); }
+  .calendar tr::before { content: attr(data-week-label); display: block; padding: .55rem; color: var(--ink); background: var(--yellow); font: 900 .875rem var(--font-ui); }
+  .calendar td { min-height: 120px; height: auto; margin: .65rem 0; }
   .calendar td.empty { display: none; }
   .record-add-row { grid-template-columns: 1fr 1fr; }
   .record-add-btn { grid-column: 1 / -1; }
