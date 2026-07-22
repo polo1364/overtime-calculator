@@ -108,6 +108,10 @@ for (const selector of ['.calendar td', '.form-input, .record-input, .record-ite
   assert(/background:\s*(?:var\(--paper(?:-raised)?\)|var\(--yellow\)|#fff(?:fff)?)(?:\s|;)/i.test(rule), `${selector} must use a bright surface`);
   assert(!/background:[^;]*(?:#0[0-9a-f]{5}|rgba\(0\s*,\s*(?:0|7|10|11|20|25))/i.test(rule), `${selector} still uses an active dark surface`);
 }
+assert(/\.record-panel[^}]*border-left:\s*4px solid var\(--ink\)/i.test(css), 'record board needs a strong boundary');
+assert(/\.record-feedback\.success[^}]*background:\s*var\(--green\)/i.test(css), 'success feedback card is missing');
+assert(/\.record-feedback\.error[^}]*background:\s*var\(--red\)/i.test(css), 'error feedback card is missing');
+assert(/@media\s*\(max-width:\s*768px\)[\s\S]*?\.record-panel[^}]*width:\s*100%/i.test(css), 'mobile record board must be full width');
 for (const selector of ['.leave-type-badge', '.calendar th', '.day-badge', '.fab-badge', '.record-guide-step-no', '.record-item-status']) {
   const rule = cssRuleBody(css, selector);
   assert(rule, `${selector} supporting-label rule is missing`);

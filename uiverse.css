@@ -79,3 +79,28 @@
 .quick-btn:hover { background: var(--yellow); }
 .quick-btn:active { transform: translate(3px, 3px); box-shadow: none; }
 .quick-btn-c { background: #ffe0dc; color: #8b1608; }
+
+.record-panel-close,
+.record-clear-btn,
+.record-item-edit,
+.record-item-delete,
+.record-quick-btn,
+.record-item-edit-btn {
+  min-width: 44px;
+  min-height: 44px;
+  border: 2px solid var(--ink);
+  border-radius: 3px;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.record-item-delete,
+.record-clear-btn { background: #ffe0dc; color: #701308; }
+
+.record-panel-close:active,
+.record-clear-btn:active,
+.record-item-edit:active,
+.record-item-delete:active,
+.record-quick-btn:active,
+.record-item-edit-btn:active { transform: translate(3px, 3px); box-shadow: none; }
