@@ -1,31 +1,46 @@
 :root {
-  color-scheme: dark;
-  --bg: #06111a;
-  --panel: #0b1b27;
-  --panel-2: #102532;
-  --line: #23404f;
-  --text: #e8f4f8;
-  --muted: #91a9b5;
-  --cyan: #27d4f2;
-  --cyan-soft: rgba(39, 212, 242, .12);
-  --green: #42d392;
-  --gold: #f4c95d;
-  --red: #ff6b6b;
-  --radius: 14px;
-  --shadow: 0 18px 48px rgba(0, 0, 0, .28);
+  --paper: #fff8e7;
+  --paper-raised: #ffffff;
+  --ink: #101010;
+  --ink-soft: #353535;
+  --blue: #3978ff;
+  --green: #73e5a5;
+  --yellow: #ffd84e;
+  --red: #ff5b45;
+  --pink: #ff9ac9;
+  --cyan: #73e5d1;
+  --brutal-border: 3px solid var(--ink);
+  --brutal-shadow: 6px 6px 0 var(--ink);
+  --brutal-shadow-blue: 6px 6px 0 var(--blue);
+  --radius: 8px;
+  --font-ui: "Microsoft JhengHei", "PingFang TC", system-ui, sans-serif;
+  --font-number: ui-monospace, "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+
+  /* Compatibility aliases for component styles migrated in later tasks. */
+  --bg: var(--paper);
+  --panel: var(--paper-raised);
+  --panel-2: var(--paper-raised);
+  --line: var(--ink);
+  --text: var(--ink);
+  --muted: var(--ink-soft);
+  --cyan-soft: rgba(115, 229, 209, .25);
+  --gold: var(--yellow);
+  --shadow: var(--brutal-shadow);
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  font-family: "Microsoft JhengHei", "PingFang TC", system-ui, sans-serif;
+}
 body {
+  min-width: 320px;
   margin: 0;
   min-height: 100vh;
   overflow-x: hidden;
-  background:
-    radial-gradient(circle at 80% 0, rgba(39, 212, 242, .08), transparent 30rem),
-    linear-gradient(180deg, #07141e, var(--bg));
-  color: var(--text);
-  font: 16px/1.55 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  font: 400 1rem/1.6 var(--font-ui);
 }
 button, input { font: inherit; }
 button, input, summary { min-height: 44px; }
@@ -48,8 +63,9 @@ button { cursor: pointer; }
 .shortcut-key-clear { color: var(--red); background: rgba(255,107,107,.1); }
 
 .header {
-  border-bottom: 1px solid var(--line);
-  background: rgba(6, 17, 26, .9);
+  color: var(--ink);
+  background: var(--yellow);
+  border-bottom: 4px solid var(--ink);
   padding: 2.5rem 1.25rem;
 }
 .header-content, .main { width: min(1180px, calc(100% - 2rem)); margin-inline: auto; }
@@ -65,10 +81,11 @@ button { cursor: pointer; }
 
 .card, .payslip, .workflow-card {
   overflow: hidden;
-  border: 1px solid var(--line);
+  color: var(--ink);
+  background: var(--paper-raised);
+  border: var(--brutal-border);
   border-radius: var(--radius);
-  background: linear-gradient(145deg, rgba(16, 37, 50, .95), rgba(9, 25, 36, .98));
-  box-shadow: var(--shadow);
+  box-shadow: var(--brutal-shadow);
 }
 .card-header {
   display: flex;
@@ -117,7 +134,7 @@ button { cursor: pointer; }
   padding: .65rem .75rem; background: #07151f; color: var(--text);
 }
 .form-input:focus, .record-input:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px var(--cyan-soft); }
-.form-input[readonly] { color: var(--muted); background: #0b1821; }
+.form-input[readonly] { color: var(--ink-soft); background: #f2f2f2; }
 .input-group { position: relative; }
 .input-icon { position: absolute; right: .75rem; top: 50%; translate: 0 -50%; color: var(--muted); }
 .leave-types-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
@@ -290,6 +307,24 @@ button { cursor: pointer; }
 .modal { width: min(520px, 100%); border: 1px solid var(--cyan); border-radius: var(--radius); padding: 1.25rem; background: var(--panel); box-shadow: var(--shadow); }
 .modal-title { font-size: 1.35rem; font-weight: 700; }
 .modal-content { margin-block: 1rem; color: var(--muted); }
+
+.card-subtitle,
+.form-label,
+.summary-label,
+.note-text,
+.modal-content,
+.record-guide-step-text {
+  color: var(--ink-soft);
+  font-size: max(.875rem, 14px);
+}
+
+.header h1,
+.card-title,
+.payslip-title,
+.modal-title {
+  color: var(--ink);
+  font-weight: 900;
+}
 
 @media (max-width: 768px) {
   .header-content, .main { width: min(100% - 1rem, 1180px); }

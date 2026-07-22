@@ -1,0 +1,59 @@
+/* Adapted from Uiverse.io components by 0xnihilism (MIT). */
+.nb-card {
+  border: var(--brutal-border);
+  background: var(--paper-raised);
+  box-shadow: var(--brutal-shadow);
+}
+
+.form-input,
+.record-input,
+.record-item-edit-input,
+.day-input {
+  min-height: 44px;
+  border: var(--brutal-border);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 700;
+  box-shadow: 4px 4px 0 var(--blue);
+}
+
+.form-input:focus,
+.record-input:focus,
+.record-item-edit-input:focus,
+.day-input:focus {
+  outline: 3px solid var(--yellow);
+  outline-offset: 3px;
+  border-color: var(--ink);
+}
+
+.btn,
+.record-add-btn,
+.record-import-btn {
+  min-height: 44px;
+  border: var(--brutal-border);
+  border-radius: 4px;
+  background: var(--ink);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-weight: 900;
+  box-shadow: 6px 6px 0 var(--blue);
+  transition: transform 140ms ease, box-shadow 140ms ease, background-color 140ms ease;
+}
+
+.btn:hover,
+.record-add-btn:hover,
+.record-import-btn:hover {
+  background: var(--blue);
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 var(--ink);
+}
+
+.btn:active,
+.record-add-btn:active,
+.record-import-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--ink);
+}
