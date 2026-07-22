@@ -35,6 +35,15 @@ const cssFontSizePx = (rule) => {
   const value = Number(match[1]);
   return match[2].toLowerCase() === 'rem' ? value * 16 : value;
 };
+const contrastRatio = (foreground, background) => {
+  const luminance = (hex) => {
+    const channels = hex.slice(1).match(/.{2}/g).map((channel) => Number.parseInt(channel, 16) / 255);
+    const linear = channels.map((channel) => (channel <= .04045 ? channel / 12.92 : ((channel + .055) / 1.055) ** 2.4));
+    return .2126 * linear[0] + .7152 * linear[1] + .0722 * linear[2];
+  };
+  const [light, dark] = [luminance(foreground), luminance(background)].sort((a, b) => b - a);
+  return (light + .05) / (dark + .05);
+};
 const extractArray = (source, name) => {
   const marker = source.indexOf(`const ${name} =`);
   assert(marker >= 0, `${name} declaration is missing`);
@@ -67,6 +76,10 @@ assert(legacyStyleEnd >= 0 && activeStylesheetLink > legacyStyleEnd, 'styles.css
 assert(html.indexOf('href="./styles.css"') < html.indexOf('href="./uiverse.css"'), 'uiverse.css must load after styles.css');
 assert(/--paper:\s*#fff8e7/i.test(css), 'warm paper token is missing');
 assert(/--ink:\s*#101010/i.test(css), 'near-black ink token is missing');
+const redInk = css.match(/--red-ink:\s*(#[0-9a-f]{6})/i);
+assert(redInk, 'dark danger text token is missing');
+assert(contrastRatio(redInk[1], '#ffffff') >= 4.5 && contrastRatio(redInk[1], '#ffd84e') >= 4.5, 'danger text must meet 4.5:1 contrast on white and yellow surfaces');
+assert(/\.text-danger[^}]*color:\s*var\(--red-ink\)/i.test(css), 'deduction text must use the dark danger token');
 assert(/--brutal-border:\s*3px solid var\(--ink\)/i.test(css), 'Neo Brutal border token is missing');
 assert(/--brutal-shadow:\s*6px 6px 0 var\(--ink\)/i.test(css), 'Neo Brutal hard-shadow token is missing');
 assert(/font-family:[^;]*(?:Microsoft JhengHei|PingFang TC)/i.test(css), 'Traditional Chinese local font stack is missing');
@@ -106,6 +119,7 @@ for (const selector of ['.total-value', '.payslip-amount', '.record-item-hours, 
   assert(/color:\s*var\(--ink\)/i.test(rule), `${selector} must use high-contrast ink text`);
 }
 assert(/@media\s*\(max-width:\s*480px\)[\s\S]*?\.dashboard-summary[^}]*grid-template-columns:\s*1fr/i.test(css), 'small-screen summary must be one column');
+assert(/@media\s*\(max-width:\s*480px\)[\s\S]*?\.grid-2[^}]*grid-template-columns:\s*1fr/i.test(css), 'small-screen payroll form grids must be one column');
 assert(!/money-burst-layer|money-coin|money-ring/.test(`${css}\n${motion}`), 'money burst effects must not exist in active assets');
 assert(!/fonts\.(?:googleapis|gstatic)\.com|@import\s+url\(/i.test(`${html}\n${css}`), 'external font URLs are forbidden');
 assert(!/<(?:script|link|img)\b[^>]*(?:src|href)="https?:\/\//i.test(html), 'all runtime assets must be local');
