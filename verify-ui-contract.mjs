@@ -175,6 +175,7 @@ assert(/if\s*\(isStyleOrScript\(event\.request\)\)\s*\{\s*event\.respondWith\(ne
 assert(/return caches\.open\(CACHE_NAME\)\.then\(\(cache\) => cache\.put\(request, clone\)\)\.catch\(\(\) => \{\}\);/.test(sw), 'cache writes must return a promise');
 assert((sw.match(/return cachePut\(request, response\)\.then\(\(\) => response\);/g) ?? []).length === 2, 'network-first and cache-first responses must await cache writes');
 assert(/return caches\.match\(request\)\.then\(\(cached\) => cached \|\| response\);/.test(sw), 'non-200 network responses must fall back to a cached response');
+assert(/networkFirst\(event\.request\)\.then\(\(response\) => response && response\.status === 200\s*\?\s*response\s*:\s*caches\.match\(BASE_PATH \+ '\/index\.html'\)\.then\(\(cached\) => cached \|\| response\)\)/.test(sw), 'navigation must fall back to cached index.html after an uncached error response');
 assert(!/rotation|rotate|filter|textShadow|scale/.test(motion), 'motion must not distort readable text');
 for (const asset of ['index.html', 'styles.css', 'uiverse.css', 'motion.js', 'vendor/gsap.min.js', 'manifest.json', 'assets/icons.svg']) {
   assert(sw.includes(asset), `${asset} is missing from service-worker cache`);

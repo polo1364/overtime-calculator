@@ -59,7 +59,9 @@ self.addEventListener('fetch', (event) => {
   if (!event.request.url.startsWith(self.location.origin)) return;
 
   if (event.request.mode === 'navigate' || event.request.destination === 'document') {
-    event.respondWith(networkFirst(event.request).then((response) => response || caches.match(BASE_PATH + '/index.html')));
+    event.respondWith(networkFirst(event.request).then((response) => response && response.status === 200
+      ? response
+      : caches.match(BASE_PATH + '/index.html').then((cached) => cached || response)));
     return;
   }
 
