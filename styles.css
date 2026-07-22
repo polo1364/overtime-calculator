@@ -308,7 +308,7 @@ button { cursor: pointer; }
 .calendar td.has-overtime { border: var(--brutal-border); background: var(--green); }
 .calendar td.overtime-alert { border: var(--brutal-border); background: var(--red); }
 .has-overtime .day-input { color: var(--ink); }
-.overtime-alert .day-input { color: var(--red); }
+.overtime-alert .day-input { color: var(--ink); }
 
 .modal-overlay {
   position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 1rem;

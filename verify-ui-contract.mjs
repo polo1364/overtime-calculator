@@ -96,7 +96,7 @@ for (const selector of ['.leave-type-badge', '.calendar th', '.day-badge', '.fab
   assert(rule, `${selector} supporting-label rule is missing`);
   assert(cssFontSizePx(rule) >= 12, `${selector} must be at least 12px`);
 }
-for (const selector of ['.total-value', '.payslip-amount', '.record-item-hours, .record-bonus-hours', '.has-overtime .day-input']) {
+for (const selector of ['.total-value', '.payslip-amount', '.record-item-hours, .record-bonus-hours', '.has-overtime .day-input', '.overtime-alert .day-input']) {
   const rule = cssRuleBody(css, selector);
   assert(rule, `${selector} readable-text rule is missing`);
   assert(/color:\s*var\(--ink\)/i.test(rule), `${selector} must use high-contrast ink text`);
