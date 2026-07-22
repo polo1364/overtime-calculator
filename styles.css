@@ -170,7 +170,7 @@ button { cursor: pointer; }
 .calendar { width: 100%; border-collapse: separate; border-spacing: 8px; table-layout: fixed; }
 .calendar th { color: var(--ink); font: 800 .75rem var(--font-ui); }
 .calendar td {
-  height: 142px; vertical-align: top; border: var(--brutal-border); border-radius: 4px;
+  height: 196px; vertical-align: top; border: var(--brutal-border); border-radius: 4px;
   padding: .55rem; background: #fff; box-shadow: 4px 4px 0 var(--ink);
 }
 .calendar td.cell-weekend { background: #ffe2e2; }
@@ -180,7 +180,7 @@ button { cursor: pointer; }
 .day-input { font-family: "JetBrains Mono", monospace; }
 .day-badge { font-size: .75rem; }
 .day-input { width: 100%; min-height: 44px; margin-block: .5rem; border: 1px solid var(--line); border-radius: 7px; background: #fff; color: var(--ink); text-align: center; }
-.quick-btns { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; }
+.quick-btns { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; }
 .total-hours { display: flex; align-items: baseline; justify-content: flex-end; gap: .5rem; margin-top: 1rem; }
 .total-value { color: var(--ink); font: 700 2rem "JetBrains Mono", monospace; }
 
@@ -305,8 +305,8 @@ button { cursor: pointer; }
   border: 1px solid var(--ink); border-radius: 50%; color: var(--ink); background: var(--cyan-soft);
 }
 .day-input.just-filled { border-color: var(--green); box-shadow: 0 0 0 3px rgba(66,211,146,.16); }
-.calendar td.has-overtime { border-color: var(--green); background: var(--green); }
-.calendar td.overtime-alert { border-color: var(--red); background: var(--red); }
+.calendar td.has-overtime { border: var(--brutal-border); background: var(--green); }
+.calendar td.overtime-alert { border: var(--brutal-border); background: var(--red); }
 .has-overtime .day-input { color: var(--ink); }
 .overtime-alert .day-input { color: var(--red); }
 

@@ -76,8 +76,12 @@ assert(/\.nb-card[^}]*border:\s*var\(--brutal-border\)/i.test(uiverse), 'scoped 
 assert(/\.summary-tile:nth-child\(1\)[^}]*background:\s*var\(--yellow\)/i.test(css), 'summary color coding is missing');
 assert(/\.calendar td[^}]*border:\s*var\(--brutal-border\)/i.test(css), 'calendar cells need Neo Brutal borders');
 assert(/\.quick-btn:active[^}]*box-shadow:\s*(?:none|0 0 0)/i.test(uiverse), 'quick-hour keys need a pressed state');
+assert(/\.quick-btns[^}]*grid-template-columns:\s*repeat\(2,\s*1fr\)/i.test(css), 'quick-hour controls must use a 2x2 grid');
+assert(/\.quick-btn[^}]*min-width:\s*44px[^}]*min-height:\s*44px/i.test(uiverse), 'quick-hour keys must retain 44px targets');
 assert(/\.calendar td\.has-overtime[^}]*background:\s*var\(--green\)/i.test(css), 'filled overtime state is missing');
 assert(/\.calendar td\.overtime-alert[^}]*background:\s*var\(--red\)/i.test(css), 'overtime warning state is missing');
+assert(/\.calendar td\.has-overtime[^}]*border(?:-color)?:\s*(?:var\(--ink\)|var\(--brutal-border\))/i.test(css), 'filled overtime state must retain an ink border');
+assert(/\.calendar td\.overtime-alert[^}]*border(?:-color)?:\s*(?:var\(--ink\)|var\(--brutal-border\))/i.test(css), 'overtime warning state must retain an ink border');
 assert(!/\.\w*(?:title|label|text)[^{]*\{[^}]*(?:filter:\s*blur|animation:\s*[^;]*glitch)/i.test(`${css}\n${uiverse}`), 'text clarity is weakened by blur or glitch');
 const headerLabelRule = cssRuleBody(css, '.header-badge, .app-version, .section-label, .payslip-subtitle');
 assert(/color:\s*var\(--ink\)/i.test(headerLabelRule), 'header and section labels must use near-black ink');
