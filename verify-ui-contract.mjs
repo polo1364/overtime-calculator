@@ -152,10 +152,17 @@ assert(/window\.UiMotion/.test(motion), 'window.UiMotion API is missing');
 for (const api of ['initialReveal', 'workflowTransition', 'calendarReveal', 'importHighlight', 'resultReveal', 'openRecordPanel', 'closeRecordPanel', 'openModal', 'closeModal']) {
   assert(new RegExp(`${api}\\s*:`).test(motion), `UiMotion.${api} is missing`);
 }
+const recordPanelHandler = html.slice(html.indexOf('function toggleRecordPanel'), html.indexOf('function addRecord'));
+assert(/setAppInert\(true\)/.test(recordPanelHandler) && /setAppInert\(false\)/.test(recordPanelHandler), 'record dialog must make the background inert until it closes');
+assert(/popupMotion\.eventCallback\('onComplete', focusPopup\)/.test(html) && /setTimeout\(focusPopup,\s*0\)/.test(html), 'announcement dialog must focus after its visible state is committed');
+assert(!/color:#dffcff|color:#fff3c4/.test(html), 'announcement callouts must not retain low-contrast legacy text colors');
 assert(/prefers-reduced-motion/.test(css) && /prefers-reduced-motion/.test(motion), 'reduced-motion support is incomplete');
+assert(/@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*?animation:\s*none\s*!important;\s*transition:\s*none\s*!important/.test(css), 'reduced motion must remove transitions instead of briefly delaying visibility');
 assert(/@media\s*\(max-width:\s*768px\)/.test(css), 'mobile calendar breakpoint is missing');
 assert(/\.calendar,\s*\.calendar tbody,\s*\.calendar tr,\s*\.calendar td\s*\{\s*display:\s*block/.test(css), 'mobile calendar must reuse the table DOM as a weekly list');
+assert(/class="grid-2 salary-form-grid"/.test(html) && /\.salary-form-grid\s*\{\s*grid-template-columns:\s*1fr/.test(css), 'tablet salary form must use one column');
 assert(/@media\s*\(max-width:\s*480px\)[\s\S]*?\.payslip-body\s*\{\s*grid-template-columns:\s*1fr/.test(css), 'small-screen payslip must use one column');
+assert(/@media\s*\(max-width:\s*480px\)[\s\S]*?\.main \.btn-primary\s*\{\s*width:\s*100%/.test(css), 'small-screen primary actions must use the available width');
 assert(/min-(?:height|width):\s*44px/.test(css), '44px target rule is missing');
 assert(gsap.includes('GSAP 3.15.0'), 'official GSAP 3.15.0 vendor file is missing');
 assert(/<title id="title">(?:薪資管理|&#x85AA;&#x8CC7;&#x7BA1;&#x7406;)<\/title>/.test(icon), 'icon title must be 薪資管理');

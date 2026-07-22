@@ -3776,7 +3776,7 @@
         </div>
       </div>
       <div class="card-body">
-        <div class="grid-2">
+        <div class="grid-2 salary-form-grid">
           <!-- 左側：收入 -->
           <div>
             <div class="section-label">收入參數</div>
@@ -4268,7 +4268,7 @@
     const settlementPeriod = calculateSettlementPeriod();
     
     const popupConfig = {
-      content: `<b>${settlementPeriod.displayStart}~${settlementPeriod.displayEnd}</b> 月份薪資結算。\n\n<div style="background:rgba(0,229,255,0.12);border:1px solid rgba(0,229,255,0.35);border-radius:10px;padding:14px;margin:12px 0;text-align:left;color:#dffcff;"><div style="font-weight:800;color:#ffffff;margin-bottom:8px;">加班記錄本使用說明</div><div style="font-size:0.9rem;line-height:1.75;"><b style="color:#b8ffce;">1. 平時記錄：</b>點右下角記錄按鈕，選日期與時數後新增。<br><b style="color:#b8ffce;">2. 結算篩選：</b>用「當前結算區間」或「自訂區間」確認本期資料。<br><b style="color:#b8ffce;">3. 帶入月曆：</b>先生成月曆，再按「一鍵帶入月曆」。<br><small style="color:#a8fbff;">同一天重複新增會更新時數；資料會自動儲存在此瀏覽器。</small></div></div><span style="display:inline-block;background:rgba(255,209,102,0.18);border:1px solid rgba(255,209,102,0.45);color:#fff3c4;padding:7px 12px;border-radius:8px;font-size:0.9rem;font-weight:700;">若結算日期有變，請先調整上方日期區間再帶入</span>`,
+      content: `<b>${settlementPeriod.displayStart}~${settlementPeriod.displayEnd}</b> 月份薪資結算。\n\n<div style="background:rgba(115,229,209,0.25);border:3px solid #101010;border-radius:4px;padding:14px;margin:12px 0;text-align:left;color:#101010;"><div style="font-weight:800;color:#101010;margin-bottom:8px;">加班記錄本使用說明</div><div style="font-size:0.9rem;line-height:1.75;"><b style="color:#14532d;">1. 平時記錄：</b>點右下角記錄按鈕，選日期與時數後新增。<br><b style="color:#14532d;">2. 結算篩選：</b>用「當前結算區間」或「自訂區間」確認本期資料。<br><b style="color:#14532d;">3. 帶入月曆：</b>先生成月曆，再按「一鍵帶入月曆」。<br><small style="color:#353535;">同一天重複新增會更新時數；資料會自動儲存在此瀏覽器。</small></div></div><span style="display:inline-block;background:#ffd84e;border:2px solid #101010;color:#101010;padding:7px 12px;border-radius:4px;font-size:0.9rem;font-weight:700;">若結算日期有變，請先調整上方日期區間再帶入</span>`,
       range: { start: settlementPeriod.start, end: settlementPeriod.end }
     };
 
@@ -4651,18 +4651,23 @@
     function toggleRecordPanel() {
       const panel = document.getElementById('recordPanel');
       const isOpen = !panel.classList.contains('active');
-      if (isOpen) panel.classList.add('active');
+      if (isOpen) {
+        panel.classList.add('active');
+        setAppInert(true);
+      }
       if (isOpen) panel.setAttribute('aria-hidden', 'false');
       document.getElementById('fabBtn')?.setAttribute('aria-expanded', String(isOpen));
       if (isOpen) window.UiMotion?.openRecordPanel(panel);
       else if (window.UiMotion) window.UiMotion.closeRecordPanel(panel, () => {
         panel.classList.remove('active');
         panel.setAttribute('aria-hidden', 'true');
+        setAppInert(false);
         document.getElementById('fabBtn')?.focus();
       });
       else {
         panel.classList.remove('active');
         panel.setAttribute('aria-hidden', 'true');
+        setAppInert(false);
         document.getElementById('fabBtn')?.focus();
       }
       
@@ -5727,8 +5732,14 @@
         const popupModal = document.getElementById("popupModal");
         setAppInert(true);
         popupModal.classList.add("active");
-        window.UiMotion?.openModal(popupModal);
-        popupModal.querySelector('.modal')?.focus();
+        const popupDialog = popupModal.querySelector('.modal');
+        const popupMotion = window.UiMotion?.openModal(popupModal);
+        const focusPopup = () => popupDialog?.focus();
+        if (popupMotion && typeof popupMotion.eventCallback === 'function') {
+          popupMotion.eventCallback('onComplete', focusPopup);
+        } else {
+          setTimeout(focusPopup, 0);
+        }
       }, 600);
       window.UiMotion?.initialReveal();
 

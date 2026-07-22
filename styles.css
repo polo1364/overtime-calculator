@@ -400,6 +400,7 @@ button { cursor: pointer; }
 @media (max-width: 768px) {
   .header-content, .main { width: min(100% - 1rem, 1180px); }
   .workflow-steps, .dashboard-summary, .grid-2, .payslip-body, .payslip-summary { grid-template-columns: 1fr 1fr; }
+  .salary-form-grid { grid-template-columns: 1fr; }
   .workflow-step-label { font-size: .78rem; }
   .calendar thead { display: none; }
   .calendar, .calendar tbody, .calendar tr, .calendar td { display: block; width: 100%; }
@@ -415,8 +416,9 @@ button { cursor: pointer; }
   .workflow-steps, .dashboard-summary, .grid-2, .payslip-summary, .leave-types-grid { grid-template-columns: 1fr; }
   .payslip-body { grid-template-columns: 1fr; }
   .card-body, .payslip-body { padding: .8rem; }
+  .main .btn-primary { width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }
