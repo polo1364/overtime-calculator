@@ -159,6 +159,10 @@ assert(/recordPanel\.inert\s*=\s*popupActive/.test(overlayStateHandler), 'the re
 assert(!/function setAppInert|setAppInert\(/.test(html), 'single-boolean inert handling must not remain');
 assert(/let popupOpenMotion\s*=\s*null/.test(html) && /let popupOpenToken\s*=\s*0/.test(html), 'popup open animation state must be tracked');
 assert(/popupOpenMotion\?\.kill\(\)/.test(html) && /token !== popupOpenToken\s*\|\|\s*!popupModal\.classList\.contains\('active'\)/.test(html), 'stale popup open callbacks must be cancelled and gated');
+const recordPanelHandler = html.slice(html.indexOf('function toggleRecordPanel'), html.indexOf('function addRecord'));
+assert(/let recordPanelOpenMotion\s*=\s*null/.test(html), 'record panel opening tween must be tracked');
+assert(/recordPanelOpenMotion\s*=\s*window\.UiMotion\?\.openRecordPanel\(panel\)\s*\?\?\s*null/.test(recordPanelHandler), 'record panel opening tween must be saved');
+assert(/recordPanelOpenMotion\?\.kill\(\);\s*recordPanelOpenMotion\s*=\s*null/.test(recordPanelHandler), 'record panel opening tween must be cancelled before close');
 assert(!/color:#dffcff|color:#fff3c4/.test(html), 'announcement callouts must not retain low-contrast legacy text colors');
 assert(/prefers-reduced-motion/.test(css) && /prefers-reduced-motion/.test(motion), 'reduced-motion support is incomplete');
 assert(/@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*?animation:\s*none\s*!important;\s*transition:\s*none\s*!important/.test(css), 'reduced motion must remove transitions instead of briefly delaying visibility');

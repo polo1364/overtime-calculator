@@ -4644,6 +4644,7 @@
 
     let popupOpenMotion = null;
     let popupOpenToken = 0;
+    let recordPanelOpenMotion = null;
 
     function syncOverlayState() {
       const popupModal = document.getElementById('popupModal');
@@ -4680,18 +4681,24 @@
       }
       if (isOpen) panel.setAttribute('aria-hidden', 'false');
       document.getElementById('fabBtn')?.setAttribute('aria-expanded', String(isOpen));
-      if (isOpen) window.UiMotion?.openRecordPanel(panel);
-      else if (window.UiMotion) window.UiMotion.closeRecordPanel(panel, () => {
-        panel.classList.remove('active');
-        panel.setAttribute('aria-hidden', 'true');
-        syncOverlayState();
-        focusActiveOverlay();
-      });
-      else {
-        panel.classList.remove('active');
-        panel.setAttribute('aria-hidden', 'true');
-        syncOverlayState();
-        focusActiveOverlay();
+      if (isOpen) {
+        recordPanelOpenMotion?.kill();
+        recordPanelOpenMotion = window.UiMotion?.openRecordPanel(panel) ?? null;
+      } else {
+        recordPanelOpenMotion?.kill();
+        recordPanelOpenMotion = null;
+        if (window.UiMotion) window.UiMotion.closeRecordPanel(panel, () => {
+          panel.classList.remove('active');
+          panel.setAttribute('aria-hidden', 'true');
+          syncOverlayState();
+          focusActiveOverlay();
+        });
+        else {
+          panel.classList.remove('active');
+          panel.setAttribute('aria-hidden', 'true');
+          syncOverlayState();
+          focusActiveOverlay();
+        }
       }
       
       if (isOpen) {
