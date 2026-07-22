@@ -22,6 +22,12 @@ assert(fs.existsSync(gsapPath), 'official GSAP vendor file is missing');
 const gsap = fs.readFileSync(gsapPath, 'utf8');
 const collect = (source, pattern) => new Set([...source.matchAll(pattern)].map((match) => match[1]));
 const missingFrom = (expected, actual) => [...expected].filter((item) => !actual.has(item));
+const cssRuleBody = (source, selector) => {
+  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return [...source.matchAll(new RegExp(`${escaped}\\s*\\{([^}]*)\\}`, 'g'))]
+    .map((match) => match[1])
+    .join('\n');
+};
 const extractArray = (source, name) => {
   const marker = source.indexOf(`const ${name} =`);
   assert(marker >= 0, `${name} declaration is missing`);
@@ -61,6 +67,19 @@ assert(/\.form-input[^}]*font-size:\s*(?:1rem|16px)/i.test(`${css}\n${uiverse}`)
 assert(/\.btn:active[^}]*transform:\s*translate\(4px,\s*4px\)/i.test(uiverse), 'physical button press treatment is missing');
 assert(/\.nb-card[^}]*border:\s*var\(--brutal-border\)/i.test(uiverse), 'scoped Uiverse card treatment is missing');
 assert(!/\.\w*(?:title|label|text)[^{]*\{[^}]*(?:filter:\s*blur|animation:\s*[^;]*glitch)/i.test(`${css}\n${uiverse}`), 'text clarity is weakened by blur or glitch');
+const headerLabelRule = cssRuleBody(css, '.header-badge, .app-version, .section-label, .payslip-subtitle');
+assert(/color:\s*var\(--ink\)/i.test(headerLabelRule), 'header and section labels must use near-black ink');
+for (const selector of ['.calendar td', '.form-input, .record-input, .record-item-edit-input', '.day-input', '.fab', '.record-panel', '.record-panel-header']) {
+  const rule = cssRuleBody(css, selector);
+  assert(rule, `${selector} surface rule is missing`);
+  assert(/background:\s*(?:var\(--paper(?:-raised)?\)|var\(--yellow\)|#fff(?:fff)?)(?:\s|;)/i.test(rule), `${selector} must use a bright surface`);
+  assert(!/background:[^;]*(?:#0[0-9a-f]{5}|rgba\(0\s*,\s*(?:0|7|10|11|20|25))/i.test(rule), `${selector} still uses an active dark surface`);
+}
+for (const selector of ['.leave-type-badge', '.calendar th', '.day-badge', '.fab-badge', '.record-guide-step-no', '.record-item-status']) {
+  const rule = cssRuleBody(css, selector);
+  assert(rule, `${selector} supporting-label rule is missing`);
+  assert(/(?:font-size\s*:\s*(?:\.75rem|12px)|font\s*:[^;]*(?:\.75rem|12px))/i.test(rule), `${selector} must be at least 12px`);
+}
 assert(/@media\s*\(max-width:\s*480px\)[\s\S]*?\.dashboard-summary[^}]*grid-template-columns:\s*1fr/i.test(css), 'small-screen summary must be one column');
 assert(!/money-burst-layer|money-coin|money-ring/.test(`${css}\n${motion}`), 'money burst effects must not exist in active assets');
 assert(!/fonts\.(?:googleapis|gstatic)\.com|@import\s+url\(/i.test(`${html}\n${css}`), 'external font URLs are forbidden');
@@ -106,7 +125,8 @@ for (const selector of [
   assert(css.includes(selector), `${selector} component style is missing`);
 }
 assert(/cache\.addAll\(urlsToCache\)/.test(sw), 'service worker must atomically cache required assets');
-for (const asset of ['index.html', 'styles.css', 'motion.js', 'vendor/gsap.min.js', 'manifest.json', 'assets/icons.svg']) {
+assert(/salary-command-deck-v16/.test(sw), 'service-worker cache version must advance for the Uiverse stylesheet');
+for (const asset of ['index.html', 'styles.css', 'uiverse.css', 'motion.js', 'vendor/gsap.min.js', 'manifest.json', 'assets/icons.svg']) {
   assert(sw.includes(asset), `${asset} is missing from service-worker cache`);
 }
 assert(manifest.theme_color === '#061823', 'manifest theme color is not synchronized');

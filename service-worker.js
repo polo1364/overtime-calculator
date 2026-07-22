@@ -1,4 +1,4 @@
-const CACHE_NAME = 'salary-command-deck-v7';
+const CACHE_NAME = 'salary-command-deck-v16';
 // 動態獲取 Service Worker 所在路徑
 const BASE_PATH = self.location.pathname.replace('/service-worker.js', '');
 
@@ -6,6 +6,7 @@ const urlsToCache = [
   BASE_PATH + '/',
   BASE_PATH + '/index.html',
   BASE_PATH + '/styles.css',
+  BASE_PATH + '/uiverse.css',
   BASE_PATH + '/vendor/gsap.min.js',
   BASE_PATH + '/motion.js',
   BASE_PATH + '/manifest.json',
