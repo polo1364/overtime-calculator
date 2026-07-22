@@ -37,9 +37,9 @@
         .fromTo('.header-content', { y: 16, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .45 })
         .fromTo(contentTargets, { y: 14, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .38, stagger: .055 }, '-=.2');
     },
-    workflowTransition: (step) => animate(step, { y: 5, autoAlpha: .55 }, { y: 0, autoAlpha: 1, duration: .28, ease: 'power2.out' }),
-    calendarReveal: () => animate('#calendar tbody td:not(.empty)', { y: 10, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .28, stagger: .018, ease: 'power2.out' }),
-    importHighlight: (targets) => animate(targets, { scale: .96, autoAlpha: .55 }, { scale: 1, autoAlpha: 1, duration: .35, stagger: .025, ease: 'power2.out' }),
+    workflowTransition: (step) => animate(step, { y: 4, autoAlpha: .75 }, { y: 0, autoAlpha: 1, duration: .2, ease: 'power1.out' }),
+    calendarReveal: () => animate('#calendar tbody td:not(.empty)', { y: 6, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .2, stagger: .012, ease: 'power1.out' }),
+    importHighlight: (targets) => animate(targets, { y: 4, autoAlpha: .7 }, { y: 0, autoAlpha: 1, duration: .24, stagger: .018, ease: 'power1.out' }),
     resultReveal: (value) => {
       const area = document.getElementById('resultArea');
       if (!area) return null;

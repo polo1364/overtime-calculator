@@ -4,8 +4,8 @@
   "description": "專業的薪資計算與管理系統，支援加班費計算、請假管理等功能",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#06111a",
-  "theme_color": "#061823",
+  "background_color": "#fff8e7",
+  "theme_color": "#fff8e7",
   "orientation": "portrait-primary",
   "icons": [
     {
@@ -19,4 +19,3 @@
   "lang": "zh-TW",
   "dir": "ltr"
 }
-

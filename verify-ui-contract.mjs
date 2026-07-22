@@ -168,10 +168,12 @@ for (const selector of [
   assert(css.includes(selector), `${selector} component style is missing`);
 }
 assert(/cache\.addAll\(urlsToCache\)/.test(sw), 'service worker must atomically cache required assets');
-assert(/salary-command-deck-v16/.test(sw), 'service-worker cache version must advance for the Uiverse stylesheet');
+assert(/const CACHE_NAME = 'salary-neo-brutal-v16'/.test(sw), 'Neo Brutal cache version is missing');
+assert(sw.includes("BASE_PATH + '/uiverse.css'"), 'uiverse.css is missing from the offline cache');
+assert(!/rotation|rotate|filter|textShadow/.test(motion), 'motion must not distort readable text');
 for (const asset of ['index.html', 'styles.css', 'uiverse.css', 'motion.js', 'vendor/gsap.min.js', 'manifest.json', 'assets/icons.svg']) {
   assert(sw.includes(asset), `${asset} is missing from service-worker cache`);
 }
-assert(manifest.theme_color === '#061823', 'manifest theme color is not synchronized');
+assert(manifest.theme_color === '#fff8e7', 'manifest theme color must match the paper background');
 
 console.log('UI contract verified.');

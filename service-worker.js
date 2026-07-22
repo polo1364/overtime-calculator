@@ -1,4 +1,4 @@
-const CACHE_NAME = 'salary-command-deck-v16';
+const CACHE_NAME = 'salary-neo-brutal-v16';
 // 動態獲取 Service Worker 所在路徑
 const BASE_PATH = self.location.pathname.replace('/service-worker.js', '');
 
