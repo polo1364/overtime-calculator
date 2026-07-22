@@ -4158,7 +4158,7 @@
   </div>
 
   <!-- Modal -->
-  <div class="modal-overlay" id="popupModal">
+  <div class="modal-overlay" id="popupModal" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="popupTitle" aria-describedby="popupText" tabindex="-1">
       <div class="modal-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M4 13V9l13-5v14L4 13Zm0 0 2 7h4l-2-6m10-5c2 1 2 5 0 6"/></svg></div>
       <div class="modal-title" id="popupTitle">系統公告</div>
@@ -4642,10 +4642,33 @@
       }
     }
 
-    function setAppInert(isInert) {
+    let popupOpenMotion = null;
+    let popupOpenToken = 0;
+
+    function syncOverlayState() {
+      const popupModal = document.getElementById('popupModal');
+      const recordPanel = document.getElementById('recordPanel');
+      const popupActive = popupModal?.classList.contains('active') ?? false;
+      const recordActive = recordPanel?.classList.contains('active') ?? false;
+      const hasActiveOverlay = popupActive || recordActive;
+
       [document.querySelector('.header'), document.querySelector('.main'), document.getElementById('fabBtn')]
         .filter(Boolean)
-        .forEach((element) => { element.inert = isInert; });
+        .forEach((element) => { element.inert = hasActiveOverlay; });
+      if (recordPanel) recordPanel.inert = popupActive;
+      if (popupModal) popupModal.inert = recordActive && !popupActive;
+    }
+
+    function focusActiveOverlay() {
+      const popupModal = document.getElementById('popupModal');
+      const recordPanel = document.getElementById('recordPanel');
+      if (popupModal?.classList.contains('active')) {
+        popupModal.querySelector('.modal')?.focus();
+      } else if (recordPanel?.classList.contains('active')) {
+        recordPanel.querySelector('.record-panel-close')?.focus();
+      } else {
+        document.getElementById('fabBtn')?.focus();
+      }
     }
 
     function toggleRecordPanel() {
@@ -4653,7 +4676,7 @@
       const isOpen = !panel.classList.contains('active');
       if (isOpen) {
         panel.classList.add('active');
-        setAppInert(true);
+        syncOverlayState();
       }
       if (isOpen) panel.setAttribute('aria-hidden', 'false');
       document.getElementById('fabBtn')?.setAttribute('aria-expanded', String(isOpen));
@@ -4661,14 +4684,14 @@
       else if (window.UiMotion) window.UiMotion.closeRecordPanel(panel, () => {
         panel.classList.remove('active');
         panel.setAttribute('aria-hidden', 'true');
-        setAppInert(false);
-        document.getElementById('fabBtn')?.focus();
+        syncOverlayState();
+        focusActiveOverlay();
       });
       else {
         panel.classList.remove('active');
         panel.setAttribute('aria-hidden', 'true');
-        setAppInert(false);
-        document.getElementById('fabBtn')?.focus();
+        syncOverlayState();
+        focusActiveOverlay();
       }
       
       if (isOpen) {
@@ -4709,7 +4732,7 @@
             addRecord();
           }
         });
-        window.setTimeout(() => panel.querySelector('.record-panel-close')?.focus(), 0);
+        window.setTimeout(focusActiveOverlay, 0);
       } else {
         // 取消編輯模式
         if (editingIndex !== null) {
@@ -5708,10 +5731,14 @@
     /* === 彈窗邏輯 === */
     function closePopup() {
       const modal = document.getElementById("popupModal");
+      popupOpenToken += 1;
+      popupOpenMotion?.kill();
+      popupOpenMotion = null;
       const finishClose = () => {
         modal.classList.remove("active");
-        setAppInert(false);
-        document.getElementById('fabBtn')?.focus();
+        modal.setAttribute('aria-hidden', 'true');
+        syncOverlayState();
+        focusActiveOverlay();
       };
       if (window.UiMotion) window.UiMotion.closeModal(modal, finishClose);
       else finishClose();
@@ -5730,11 +5757,19 @@
       
       setTimeout(() => {
         const popupModal = document.getElementById("popupModal");
-        setAppInert(true);
+        const token = ++popupOpenToken;
+        popupOpenMotion?.kill();
         popupModal.classList.add("active");
+        popupModal.setAttribute('aria-hidden', 'false');
+        syncOverlayState();
         const popupDialog = popupModal.querySelector('.modal');
         const popupMotion = window.UiMotion?.openModal(popupModal);
-        const focusPopup = () => popupDialog?.focus();
+        popupOpenMotion = popupMotion ?? null;
+        const focusPopup = () => {
+          if (token !== popupOpenToken || !popupModal.classList.contains('active')) return;
+          popupOpenMotion = null;
+          popupDialog?.focus();
+        };
         if (popupMotion && typeof popupMotion.eventCallback === 'function') {
           popupMotion.eventCallback('onComplete', focusPopup);
         } else {

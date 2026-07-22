@@ -132,7 +132,7 @@ assert(html.indexOf('motion.js') < html.lastIndexOf('<script>'), 'motion.js must
 assert(!/maximum-scale\s*=\s*1|user-scalable\s*=\s*no/i.test(html), 'viewport zoom must remain available');
 assert(/role="dialog"/.test(html) && /aria-modal="true"/.test(html), 'modal dialog semantics are missing');
 assert(/id="recordPanel"[^>]+role="dialog"[^>]+aria-modal="true"/.test(html), 'record panel dialog semantics are missing');
-assert(/setAppInert\(true\)/.test(html) && /setAppInert\(false\)/.test(html), 'modal inert lifecycle is missing');
+assert(/syncOverlayState\(\)/.test(html) && /focusActiveOverlay\(\)/.test(html), 'overlay-aware inert and focus lifecycle is missing');
 assert(/data-week-label/.test(html), 'calendar rows need week labels');
 assert(/aria-label="\$\{mm\}\/\$\{dd\} 填入 2 小時"/.test(html) && /aria-label="\$\{mm\}\/\$\{dd\} 清除加班時數"/.test(html), 'calendar shortcut labels are missing');
 assert(/function calculateSettlementPeriod\s*\(/.test(html), 'settlement function must remain');
@@ -152,9 +152,13 @@ assert(/window\.UiMotion/.test(motion), 'window.UiMotion API is missing');
 for (const api of ['initialReveal', 'workflowTransition', 'calendarReveal', 'importHighlight', 'resultReveal', 'openRecordPanel', 'closeRecordPanel', 'openModal', 'closeModal']) {
   assert(new RegExp(`${api}\\s*:`).test(motion), `UiMotion.${api} is missing`);
 }
-const recordPanelHandler = html.slice(html.indexOf('function toggleRecordPanel'), html.indexOf('function addRecord'));
-assert(/setAppInert\(true\)/.test(recordPanelHandler) && /setAppInert\(false\)/.test(recordPanelHandler), 'record dialog must make the background inert until it closes');
-assert(/popupMotion\.eventCallback\('onComplete', focusPopup\)/.test(html) && /setTimeout\(focusPopup,\s*0\)/.test(html), 'announcement dialog must focus after its visible state is committed');
+const overlayStateHandler = html.slice(html.indexOf('function syncOverlayState'), html.indexOf('function toggleRecordPanel'));
+assert(/const popupActive\s*=/.test(overlayStateHandler) && /const recordActive\s*=/.test(overlayStateHandler), 'overlay state must be derived from both active dialogs');
+assert(/const hasActiveOverlay\s*=\s*popupActive\s*\|\|\s*recordActive/.test(overlayStateHandler), 'background inertness must account for every active dialog');
+assert(/recordPanel\.inert\s*=\s*popupActive/.test(overlayStateHandler), 'the record dialog must be inert only while the popup is above it');
+assert(!/function setAppInert|setAppInert\(/.test(html), 'single-boolean inert handling must not remain');
+assert(/let popupOpenMotion\s*=\s*null/.test(html) && /let popupOpenToken\s*=\s*0/.test(html), 'popup open animation state must be tracked');
+assert(/popupOpenMotion\?\.kill\(\)/.test(html) && /token !== popupOpenToken\s*\|\|\s*!popupModal\.classList\.contains\('active'\)/.test(html), 'stale popup open callbacks must be cancelled and gated');
 assert(!/color:#dffcff|color:#fff3c4/.test(html), 'announcement callouts must not retain low-contrast legacy text colors');
 assert(/prefers-reduced-motion/.test(css) && /prefers-reduced-motion/.test(motion), 'reduced-motion support is incomplete');
 assert(/@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*?animation:\s*none\s*!important;\s*transition:\s*none\s*!important/.test(css), 'reduced motion must remove transitions instead of briefly delaying visibility');
@@ -164,6 +168,10 @@ assert(/class="grid-2 salary-form-grid"/.test(html) && /\.salary-form-grid\s*\{\
 assert(/@media\s*\(max-width:\s*480px\)[\s\S]*?\.payslip-body\s*\{\s*grid-template-columns:\s*1fr/.test(css), 'small-screen payslip must use one column');
 assert(/@media\s*\(max-width:\s*480px\)[\s\S]*?\.main \.btn-primary\s*\{\s*width:\s*100%/.test(css), 'small-screen primary actions must use the available width');
 assert(/min-(?:height|width):\s*44px/.test(css), '44px target rule is missing');
+for (const [selector, color] of [['.quick-btn-2', 'var(--cyan)'], ['.quick-btn-4', 'var(--yellow)'], ['.quick-btn-8', 'var(--green)'], ['.quick-btn-c', 'var(--red)'], ['.record-clear-btn', 'var(--pink)']]) {
+  assert(cssRuleBody(uiverse, selector).includes(`background: ${color}`), `${selector} Neo Brutal surface color is missing`);
+}
+assert(/:focus-visible\s*\{[^}]*outline:\s*3px solid var\(--ink\)/.test(css), 'focus indicators must contrast with every bright surface');
 assert(gsap.includes('GSAP 3.15.0'), 'official GSAP 3.15.0 vendor file is missing');
 assert(/<title id="title">(?:薪資管理|&#x85AA;&#x8CC7;&#x7BA1;&#x7406;)<\/title>/.test(icon), 'icon title must be 薪資管理');
 for (const selector of [

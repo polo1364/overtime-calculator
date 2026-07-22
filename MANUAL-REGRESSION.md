@@ -26,5 +26,7 @@
 ## 2026-07-22 QA 記錄
 
 - Google Chrome（Playwright 1.54.0 headless）測試 1440×1000、768×1000、375×812。
-- 瀏覽器 QA 46／46 通過；console、page error、HTTP error 與線上 request failure 均為 0。
-- 離線重載確認 `salary-neo-brutal-v16` 為唯一 active cache，必要 shell asset 均回應 200。
+- 瀏覽器 QA 49／49 連續 10 次通過；console、page error、HTTP error 與線上 request failure 均為 0。
+- 頁面 54 個控制項與記錄面板 14 個控制項完成 Tab／Shift+Tab 全循環；黃、綠、粉、青、白、紅 surface 均顯示 3px 高對比 focus outline。
+- Popup 開啟中立即 Escape 不會回焦隱藏 dialog；popup／記錄面板重疊關閉時 inert 與焦點依剩餘 active overlay 保持正確。
+- 先建立 `salary-neo-brutal-v15` 後觸發 activation，確認只保留 v16；離線必要 shell asset 均回應 200。

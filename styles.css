@@ -48,7 +48,7 @@ body {
 button, input { font: inherit; }
 button, input, summary { min-height: 44px; }
 button { cursor: pointer; }
-:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .hidden { display: none !important; }
 .sr-only {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
