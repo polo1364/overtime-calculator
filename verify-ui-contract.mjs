@@ -28,6 +28,13 @@ const cssRuleBody = (source, selector) => {
     .map((match) => match[1])
     .join('\n');
 };
+const cssFontSizePx = (rule) => {
+  const match = rule.match(/font-size\s*:\s*(\d*\.?\d+)(rem|px)\b/i)
+    ?? rule.match(/font\s*:[^;]*?(?:^|\s)(\d*\.?\d+)(rem|px)\b/i);
+  if (!match) return Number.NaN;
+  const value = Number(match[1]);
+  return match[2].toLowerCase() === 'rem' ? value * 16 : value;
+};
 const extractArray = (source, name) => {
   const marker = source.indexOf(`const ${name} =`);
   assert(marker >= 0, `${name} declaration is missing`);
@@ -78,7 +85,12 @@ for (const selector of ['.calendar td', '.form-input, .record-input, .record-ite
 for (const selector of ['.leave-type-badge', '.calendar th', '.day-badge', '.fab-badge', '.record-guide-step-no', '.record-item-status']) {
   const rule = cssRuleBody(css, selector);
   assert(rule, `${selector} supporting-label rule is missing`);
-  assert(/(?:font-size\s*:\s*(?:\.75rem|12px)|font\s*:[^;]*(?:\.75rem|12px))/i.test(rule), `${selector} must be at least 12px`);
+  assert(cssFontSizePx(rule) >= 12, `${selector} must be at least 12px`);
+}
+for (const selector of ['.total-value', '.payslip-amount', '.record-item-hours, .record-bonus-hours', '.has-overtime .day-input']) {
+  const rule = cssRuleBody(css, selector);
+  assert(rule, `${selector} readable-text rule is missing`);
+  assert(/color:\s*var\(--ink\)/i.test(rule), `${selector} must use high-contrast ink text`);
 }
 assert(/@media\s*\(max-width:\s*480px\)[\s\S]*?\.dashboard-summary[^}]*grid-template-columns:\s*1fr/i.test(css), 'small-screen summary must be one column');
 assert(!/money-burst-layer|money-coin|money-ring/.test(`${css}\n${motion}`), 'money burst effects must not exist in active assets');
