@@ -18,15 +18,15 @@ const isStyleOrScript = (request) => {
 };
 
 const cachePut = (request, response) => {
-  if (!response || response.status !== 200 || response.type !== 'basic') return;
+  if (!response || response.status !== 200 || response.type !== 'basic') return Promise.resolve();
   const clone = response.clone();
-  caches.open(CACHE_NAME).then((cache) => cache.put(request, clone)).catch(() => {});
+  return caches.open(CACHE_NAME).then((cache) => cache.put(request, clone)).catch(() => {});
 };
 
 const networkFirst = (request) => fetch(request)
   .then((response) => {
-    if (response && response.status === 200) cachePut(request, response);
-    return response;
+    if (response && response.status === 200) return cachePut(request, response).then(() => response);
+    return caches.match(request).then((cached) => cached || response);
   })
   .catch(() => caches.match(request));
 
@@ -34,7 +34,7 @@ const cacheFirst = (request) => caches.match(request)
   .then((cached) => {
     if (cached) return cached;
     return fetch(request).then((response) => {
-      cachePut(request, response);
+      if (response && response.status === 200) return cachePut(request, response).then(() => response);
       return response;
     });
   });
