@@ -51,6 +51,17 @@ assert(/<style id="legacyStyles" media="not all">/.test(html), 'legacy styleshee
 const legacyStyleEnd = html.indexOf('</style>');
 const activeStylesheetLink = html.indexOf('href="./styles.css"');
 assert(legacyStyleEnd >= 0 && activeStylesheetLink > legacyStyleEnd, 'styles.css link must load after the inert legacy stylesheet');
+assert(html.indexOf('href="./styles.css"') < html.indexOf('href="./uiverse.css"'), 'uiverse.css must load after styles.css');
+assert(/--paper:\s*#fff8e7/i.test(css), 'warm paper token is missing');
+assert(/--ink:\s*#101010/i.test(css), 'near-black ink token is missing');
+assert(/--brutal-border:\s*3px solid var\(--ink\)/i.test(css), 'Neo Brutal border token is missing');
+assert(/--brutal-shadow:\s*6px 6px 0 var\(--ink\)/i.test(css), 'Neo Brutal hard-shadow token is missing');
+assert(/font-family:[^;]*(?:Microsoft JhengHei|PingFang TC)/i.test(css), 'Traditional Chinese local font stack is missing');
+assert(/\.form-input[^}]*font-size:\s*(?:1rem|16px)/i.test(`${css}\n${uiverse}`), 'primary inputs must be at least 16px');
+assert(/\.btn:active[^}]*transform:\s*translate\(4px,\s*4px\)/i.test(uiverse), 'physical button press treatment is missing');
+assert(/\.nb-card[^}]*border:\s*var\(--brutal-border\)/i.test(uiverse), 'scoped Uiverse card treatment is missing');
+assert(!/\.\w*(?:title|label|text)[^{]*\{[^}]*(?:filter:\s*blur|animation:\s*[^;]*glitch)/i.test(`${css}\n${uiverse}`), 'text clarity is weakened by blur or glitch');
+assert(/@media\s*\(max-width:\s*480px\)[\s\S]*?\.dashboard-summary[^}]*grid-template-columns:\s*1fr/i.test(css), 'small-screen summary must be one column');
 assert(!/money-burst-layer|money-coin|money-ring/.test(`${css}\n${motion}`), 'money burst effects must not exist in active assets');
 assert(!/fonts\.(?:googleapis|gstatic)\.com|@import\s+url\(/i.test(`${html}\n${css}`), 'external font URLs are forbidden');
 assert(!/<(?:script|link|img)\b[^>]*(?:src|href)="https?:\/\//i.test(html), 'all runtime assets must be local');
