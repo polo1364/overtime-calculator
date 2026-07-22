@@ -169,11 +169,14 @@ for (const selector of [
 }
 assert(/cache\.addAll\(urlsToCache\)/.test(sw), 'service worker must atomically cache required assets');
 assert(/const CACHE_NAME = 'salary-neo-brutal-v16'/.test(sw), 'Neo Brutal cache version is missing');
-assert(sw.includes("BASE_PATH + '/uiverse.css'"), 'uiverse.css is missing from the offline cache');
-assert(!/rotation|rotate|filter|textShadow/.test(motion), 'motion must not distort readable text');
+const cachedUrls = extractArray(sw, 'urlsToCache');
+assert(cachedUrls.includes("BASE_PATH+'/uiverse.css'"), 'uiverse.css is missing from the atomically installed offline cache');
+assert(/if\s*\(isStyleOrScript\(event\.request\)\)\s*\{\s*event\.respondWith\(networkFirst\(event\.request\)\);\s*return;\s*\}/.test(sw), 'styles and scripts must use network-first caching');
+assert(!/rotation|rotate|filter|textShadow|scale/.test(motion), 'motion must not distort readable text');
 for (const asset of ['index.html', 'styles.css', 'uiverse.css', 'motion.js', 'vendor/gsap.min.js', 'manifest.json', 'assets/icons.svg']) {
   assert(sw.includes(asset), `${asset} is missing from service-worker cache`);
 }
 assert(manifest.theme_color === '#fff8e7', 'manifest theme color must match the paper background');
+assert(manifest.background_color === '#fff8e7', 'manifest background color must match the paper background');
 
 console.log('UI contract verified.');

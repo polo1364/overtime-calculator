@@ -79,7 +79,7 @@
       if (reduce() || !engine()) return finish([overlay]);
       return engine().timeline()
         .fromTo(overlay, { autoAlpha: 0 }, { autoAlpha: 1, duration: .2 })
-        .fromTo(overlay.querySelector('.modal'), { y: 16, scale: .98, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: .3, ease: 'power3.out' }, '<');
+        .fromTo(overlay.querySelector('.modal'), { y: 16, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .3, ease: 'power3.out' }, '<');
     },
     closeModal: (overlay, onComplete) => {
       if (!overlay) return null;
