@@ -29,6 +29,13 @@
   border-color: var(--ink);
 }
 
+.form-input[readonly] {
+  background: #f1ead8;
+  color: var(--ink);
+  border-style: dashed;
+  box-shadow: 4px 4px 0 #8f846d;
+}
+
 .btn,
 .record-add-btn,
 .record-import-btn {

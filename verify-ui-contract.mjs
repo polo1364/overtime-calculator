@@ -82,6 +82,10 @@ assert(/\.calendar td\.has-overtime[^}]*background:\s*var\(--green\)/i.test(css)
 assert(/\.calendar td\.overtime-alert[^}]*background:\s*var\(--red\)/i.test(css), 'overtime warning state is missing');
 assert(/\.calendar td\.has-overtime[^}]*border(?:-color)?:\s*(?:var\(--ink\)|var\(--brutal-border\))/i.test(css), 'filled overtime state must retain an ink border');
 assert(/\.calendar td\.overtime-alert[^}]*border(?:-color)?:\s*(?:var\(--ink\)|var\(--brutal-border\))/i.test(css), 'overtime warning state must retain an ink border');
+assert(/\.form-input\[readonly\][^}]*background:\s*#f1ead8/i.test(css), 'readonly fields need an explicit paper treatment');
+assert(/\.leave-type-item[^}]*border:\s*var\(--brutal-border\)/i.test(css), 'leave cards need Neo Brutal borders');
+assert(/\.payslip-header[^}]*background:\s*var\(--yellow\)/i.test(css), 'net pay header must be visually primary');
+assert(/\.payslip-amount[^}]*color:\s*var\(--ink\)/i.test(css), 'net pay amount must use readable ink');
 assert(!/\.\w*(?:title|label|text)[^{]*\{[^}]*(?:filter:\s*blur|animation:\s*[^;]*glitch)/i.test(`${css}\n${uiverse}`), 'text clarity is weakened by blur or glitch');
 const headerLabelRule = cssRuleBody(css, '.header-badge, .app-version, .section-label, .payslip-subtitle');
 assert(/color:\s*var\(--ink\)/i.test(headerLabelRule), 'header and section labels must use near-black ink');

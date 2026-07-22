@@ -310,6 +310,65 @@ button { cursor: pointer; }
 .has-overtime .day-input { color: var(--ink); }
 .overtime-alert .day-input { color: var(--ink); }
 
+/* Payroll forms and result ledger. */
+.form-label, .record-add-field label {
+  color: var(--ink);
+  font-size: .875rem;
+  font-weight: 800;
+}
+.form-input[readonly] {
+  background: #f1ead8;
+  color: var(--ink);
+  border-style: dashed;
+  box-shadow: 4px 4px 0 #8f846d;
+}
+.leave-type-item {
+  border: var(--brutal-border);
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 4px 4px 0 var(--pink);
+}
+.leave-type-item:focus-within {
+  outline: 3px solid var(--yellow);
+  outline-offset: 2px;
+}
+.leave-type-badge {
+  color: var(--ink);
+  background: var(--cyan);
+  border: 2px solid var(--ink);
+}
+
+.payslip-header {
+  background: var(--yellow);
+  border-bottom: 4px solid var(--ink);
+}
+.payslip-title, .payslip-amount, .payslip-subtitle { color: var(--ink); }
+.payslip-amount { font: 900 clamp(2rem, 6vw, 3.5rem) var(--font-number); }
+.payslip-summary {
+  gap: 8px;
+  padding: 12px;
+  background: var(--paper);
+}
+.payslip-summary-card {
+  border: 2px solid var(--ink);
+  background: #fff;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+.payslip-summary-card strong, .payslip-summary-card span { color: var(--ink); }
+.payslip-section {
+  border: var(--brutal-border);
+  background: #fff;
+  box-shadow: 5px 5px 0 var(--ink);
+}
+.payslip-section:first-child { box-shadow: 5px 5px 0 var(--green); }
+.payslip-section:last-child { box-shadow: 5px 5px 0 var(--red); }
+.payslip-row { border-bottom: 2px solid var(--ink); }
+.payslip-row.total {
+  background: var(--yellow);
+  border: 2px solid var(--ink);
+  padding-inline: .5rem;
+}
+
 .modal-overlay {
   position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 1rem;
   background: rgba(0, 7, 12, .78); visibility: hidden; opacity: 0;
