@@ -98,8 +98,18 @@
   box-shadow: 3px 3px 0 var(--ink);
 }
 
+.record-secondary-control {
+  min-width: 44px;
+  min-height: 44px;
+}
+
 .record-item-delete { background: var(--red); color: var(--ink); }
 .record-clear-btn { background: var(--pink); color: var(--ink); }
+
+.record-secondary-control:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
 
 .record-panel-close:active,
 .record-clear-btn:active,

@@ -115,7 +115,7 @@ button { cursor: pointer; }
 .workflow-card { padding: 1rem; }
 .workflow-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; }
 .workflow-step {
-  display: flex; align-items: center; gap: .55rem; min-height: 54px;
+  display: flex; flex-wrap: wrap; align-items: center; gap: .55rem; min-height: 54px;
   border: 1px solid var(--line); border-radius: 10px; padding: .55rem .7rem; color: var(--muted);
 }
 .workflow-step-no {
@@ -127,6 +127,12 @@ button { cursor: pointer; }
 .workflow-step.done { border-color: rgba(66,211,146,.5); color: var(--green-text); }
 .workflow-step.active .workflow-step-no { background: var(--yellow); }
 .workflow-step.done .workflow-step-no { background: var(--green); }
+.workflow-step-state {
+  display: inline-flex; min-height: 24px; margin-left: auto; align-items: center; gap: .3rem;
+  border: 2px solid currentColor; border-radius: 99px; padding: .1rem .45rem;
+  background: #fff; color: var(--ink); font-size: .72rem; font-weight: 900;
+}
+.workflow-step-state-icon { font-family: var(--font-number); }
 .dashboard-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; margin-top: .75rem; }
 .summary-tile { padding: .75rem; border: var(--brutal-border); box-shadow: 4px 4px 0 var(--ink); }
 .summary-tile:nth-child(1) { background: var(--yellow); }
@@ -146,7 +152,16 @@ button { cursor: pointer; }
 .form-input:focus, .record-input:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px var(--cyan-soft); }
 .form-input[readonly] { color: var(--ink-soft); background: #f2f2f2; }
 .input-group { position: relative; }
+.input-group .form-input { padding-right: 5.5rem; }
 .input-icon { position: absolute; right: .75rem; top: 50%; translate: 0 -50%; color: var(--muted); }
+.field-error {
+  display: block; margin-top: .55rem; border-left: 4px solid var(--red-ink); padding: .35rem .55rem;
+  color: var(--red-ink); background: #ffe2dc; font-size: .875rem; font-weight: 800;
+}
+.field-error[hidden] { display: none; }
+.form-input[aria-invalid="true"], .day-input[aria-invalid="true"] {
+  border-color: var(--red-ink); box-shadow: 4px 4px 0 var(--red-ink);
+}
 .leave-types-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
 .leave-type-item { border: 1px solid var(--line); border-radius: 9px; padding: .65rem; }
 .leave-type-label { display: flex; justify-content: space-between; color: var(--muted); font-size: .82rem; }
@@ -250,10 +265,17 @@ button { cursor: pointer; }
 .record-edit-hours { width: 80px; }
 .record-import-note { margin-top: .35rem; }
 .record-feedback { display: none; margin-top: .7rem; padding: .65rem .75rem; border: var(--brutal-border); border-radius: 4px; color: var(--ink); font-size: .82rem; font-weight: 800; }
-.record-feedback.show { display: block; }
+.record-feedback.show { display: flex; align-items: flex-start; gap: .6rem; }
 .record-feedback.success { background: var(--green); }
 .record-feedback.warning { background: var(--yellow); }
 .record-feedback.error { background: var(--red); }
+.record-feedback-icon {
+  display: inline-grid; flex: 0 0 28px; width: 28px; height: 28px; place-items: center;
+  border: 2px solid var(--ink); border-radius: 50%; background: #fff; font: 900 1rem var(--font-number);
+}
+.record-feedback-content { display: grid; gap: .15rem; }
+.record-feedback-label { font-size: .78rem; letter-spacing: .08em; }
+.record-feedback-message { line-height: 1.5; }
 
 .record-filter-section { border-color: rgba(39,212,242,.38) !important; }
 .record-filter-options { flex-wrap: wrap; padding-bottom: .7rem; border-bottom: 1px solid var(--line); }
@@ -310,6 +332,12 @@ button { cursor: pointer; }
 .calendar td.overtime-alert { border: var(--brutal-border); background: var(--red); }
 .has-overtime .day-input { color: var(--ink); }
 .overtime-alert .day-input { color: var(--ink); }
+.day-warning {
+  display: flex; margin-top: .55rem; align-items: center; gap: .35rem;
+  border: 2px solid var(--ink); padding: .25rem .4rem; background: #fff;
+  color: var(--red-ink); font-size: .75rem; font-weight: 900; line-height: 1.35;
+}
+.day-warning[hidden] { display: none; }
 
 /* Payroll forms and result ledger. */
 .form-label, .record-add-field label {

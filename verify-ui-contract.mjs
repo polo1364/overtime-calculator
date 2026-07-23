@@ -1,7 +1,10 @@
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import path from 'node:path';
+import vm from 'node:vm';
+import { fileURLToPath } from 'node:url';
 
-const root = path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1'));
+const root = path.dirname(fileURLToPath(import.meta.url));
 const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
 const assert = (condition, message) => {
   if (!condition) throw new Error(`UI contract failed: ${message}`);
@@ -14,9 +17,7 @@ const motion = read('motion.js');
 const sw = read('service-worker.js');
 const manifest = JSON.parse(read('manifest.json'));
 const icon = read('assets/icons.svg');
-const baselinePath = path.join(root, 'index.html.bak.20260712-2340');
-assert(fs.existsSync(baselinePath), 'pre-redesign index baseline is missing');
-const baselineHtml = fs.readFileSync(baselinePath, 'utf8');
+const baseline = JSON.parse(read('fixtures/ui-contract-baseline.json'));
 const gsapPath = path.join(root, 'vendor/gsap.min.js');
 assert(fs.existsSync(gsapPath), 'official GSAP vendor file is missing');
 const gsap = fs.readFileSync(gsapPath, 'utf8');
@@ -68,6 +69,65 @@ const extractArray = (source, name) => {
   }
   throw new Error(`UI contract failed: ${name} array is incomplete`);
 };
+const extractLiteral = (source, name) => {
+  const declaration = new RegExp(`(?:const|let|var)\\s+${name}\\s*=`);
+  const marker = source.search(declaration);
+  assert(marker >= 0, `${name} declaration is missing`);
+  const start = [source.indexOf('[', marker), source.indexOf('{', marker)]
+    .filter((index) => index >= 0)
+    .sort((a, b) => a - b)[0];
+  assert(Number.isInteger(start), `${name} data literal is missing`);
+  const open = source[start];
+  const close = open === '[' ? ']' : '}';
+  let depth = 0;
+  let quote = '';
+  let escaped = false;
+  let lineComment = false;
+  let blockComment = false;
+  for (let index = start; index < source.length; index += 1) {
+    const char = source[index];
+    const next = source[index + 1];
+    if (lineComment) {
+      if (char === '\n') lineComment = false;
+      continue;
+    }
+    if (blockComment) {
+      if (char === '*' && next === '/') {
+        blockComment = false;
+        index += 1;
+      }
+      continue;
+    }
+    if (quote) {
+      if (escaped) escaped = false;
+      else if (char === '\\') escaped = true;
+      else if (char === quote) quote = '';
+      continue;
+    }
+    if (char === '/' && next === '/') {
+      lineComment = true;
+      index += 1;
+      continue;
+    }
+    if (char === '/' && next === '*') {
+      blockComment = true;
+      index += 1;
+      continue;
+    }
+    if (char === '"' || char === "'" || char === '`') {
+      quote = char;
+      continue;
+    }
+    if (char === open) depth += 1;
+    if (char === close && --depth === 0) return source.slice(start, index + 1);
+  }
+  throw new Error(`UI contract failed: ${name} data literal is incomplete`);
+};
+const hashBusinessData = (source, name) => {
+  const literal = extractLiteral(source, name);
+  const value = vm.runInNewContext(`(${literal})`, Object.create(null), { timeout: 100 });
+  return crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');
+};
 
 assert(/<style id="legacyStyles" media="not all">/.test(html), 'legacy stylesheet must remain explicitly inert');
 const legacyStyleEnd = html.indexOf('</style>');
@@ -110,6 +170,7 @@ for (const selector of ['.calendar td', '.form-input, .record-input, .record-ite
 }
 assert(/\.record-panel[^}]*border-left:\s*4px solid var\(--ink\)/i.test(css), 'record board needs a strong boundary');
 assert(/\.record-feedback\.success[^}]*background:\s*var\(--green\)/i.test(css), 'success feedback card is missing');
+assert(/\.record-feedback\.warning[^}]*background:\s*var\(--yellow\)/i.test(css), 'warning feedback card is missing');
 assert(/\.record-feedback\.error[^}]*background:\s*var\(--red\)/i.test(css), 'error feedback card is missing');
 assert(/@media\s*\(max-width:\s*768px\)[\s\S]*?\.record-panel[^}]*width:\s*100%/i.test(css), 'mobile record board must be full width');
 for (const selector of ['.leave-type-badge', '.calendar th', '.day-badge', '.fab-badge', '.record-guide-step-no', '.record-item-status']) {
@@ -132,21 +193,51 @@ assert(html.indexOf('motion.js') < html.lastIndexOf('<script>'), 'motion.js must
 assert(!/maximum-scale\s*=\s*1|user-scalable\s*=\s*no/i.test(html), 'viewport zoom must remain available');
 assert(/role="dialog"/.test(html) && /aria-modal="true"/.test(html), 'modal dialog semantics are missing');
 assert(/id="recordPanel"[^>]+role="dialog"[^>]+aria-modal="true"/.test(html), 'record panel dialog semantics are missing');
+assert((html.match(/class="workflow-step-state"/g) ?? []).length === 4, 'every workflow step needs a visible state signal');
+assert(/id="flowStepRange"[^>]*aria-current="step"/.test(html), 'the active workflow step needs aria-current');
+assert(/workflow-step-state-label[^>]*>進行中</.test(html) && /workflow-step-state-label[^>]*>待處理</.test(html), 'workflow state labels are missing');
+const workflowHandler = html.slice(html.indexOf('function setWorkflowStep'), html.indexOf('function updateDashboardSummary'));
+assert(/aria-current/.test(workflowHandler) && /已完成/.test(workflowHandler) && /待處理/.test(workflowHandler), 'workflow state semantics must update with state');
+assert(/class="record-feedback" id="recordFeedback" role="status" aria-live="polite" aria-atomic="true"/.test(html), 'record feedback needs polite live status semantics');
+assert(/record-feedback-icon/.test(html) && /record-feedback-label/.test(html) && /record-feedback-message/.test(html), 'record feedback needs structured status content');
+const feedbackHandler = html.slice(html.indexOf('function showRecordFeedback'), html.indexOf('function getMainDateRange'));
+assert(/record-feedback-message/.test(feedbackHandler) && /record-feedback-label/.test(feedbackHandler), 'record feedback updates must preserve structured semantics');
+for (const field of ['startDate', 'endDate', 'baseSalary']) {
+  assert(new RegExp(`id="${field}"[^>]*aria-describedby="${field}Error"`).test(html), `${field} must reference its inline error`);
+  assert(new RegExp(`id="${field}Error"[^>]*class="field-error"`).test(html), `${field} inline error is missing`);
+}
+assert(/請選擇開始日期/.test(html) && /開始日期格式無效/.test(html), 'start date must distinguish blank and invalid format');
+assert(/請選擇結束日期/.test(html) && /結束日期格式無效/.test(html), 'end date must distinguish blank and invalid format');
+assert(/開始日期不可晚於結束日期/.test(html) && /結束日期不可早於開始日期/.test(html), 'reversed date range needs field-specific errors');
+assert(/請輸入本薪/.test(html) && /本薪格式無效/.test(html) && /本薪必須是大於 0 的有效金額/.test(html), 'base salary must distinguish missing, malformed, and non-positive values');
+const generateCalendarHandler = html.slice(html.indexOf('function generateCalendar'), html.indexOf('function updateTotal'));
+const calculateHandler = html.slice(html.indexOf('function calculate(event)'), html.indexOf('/* === 彈窗邏輯 === */'));
+assert(!/\balert\s*\(/.test(generateCalendarHandler), 'calendar validation must use inline errors instead of alert');
+assert(!/\balert\s*\(/.test(calculateHandler), 'salary validation must use an inline error instead of alert');
+assert((html.match(/class="input-icon">固定金額<\/span>/g) ?? []).length === 2, 'readonly labels must say exactly 固定金額');
+assert(/class="day-warning"[^>]*role="alert"[^>]*hidden/.test(html), 'calendar cells need a visible overtime warning message');
+assert(/setAttribute\('aria-invalid',\s*'true'\)/.test(html) && /setAttribute\('aria-describedby',\s*warning\.id\)/.test(html), 'overtime warnings must expose invalid and description semantics');
+assert(/removeAttribute\('aria-invalid'\)/.test(html) && /removeAttribute\('aria-describedby'\)/.test(html), 'valid overtime values must clear invalid semantics');
+assert(/\.day-warning[^}]*display:\s*(?:flex|block)/i.test(css), 'overtime warning needs a visible text treatment');
+assert(/\.day-warning\[hidden\][^}]*display:\s*none/i.test(css), 'valid overtime values must hide warning text');
 assert(/syncOverlayState\(\)/.test(html) && /focusActiveOverlay\(\)/.test(html), 'overlay-aware inert and focus lifecycle is missing');
 assert(/data-week-label/.test(html), 'calendar rows need week labels');
 assert(/aria-label="\$\{mm\}\/\$\{dd\} 填入 2 小時"/.test(html) && /aria-label="\$\{mm\}\/\$\{dd\} 清除加班時數"/.test(html), 'calendar shortcut labels are missing');
 assert(/function calculateSettlementPeriod\s*\(/.test(html), 'settlement function must remain');
 assert(/function updateTotal\s*\(/.test(html), 'updateTotal must remain');
 assert(/const insuranceTable\s*=/.test(html), 'insuranceTable must remain');
-const baselineIds = collect(baselineHtml, /\bid="([^"]+)"/g);
+const baselineIds = new Set(baseline.requiredDomIds);
 const currentIds = collect(html, /\bid="([^"]+)"/g);
 assert(missingFrom(baselineIds, currentIds).length === 0, `required DOM ids are missing: ${missingFrom(baselineIds, currentIds).join(', ')}`);
 const storagePattern = /localStorage\.(?:getItem|setItem|removeItem)\(\s*['"]([^'"]+)['"]/g;
-const baselineStorageKeys = collect(baselineHtml, storagePattern);
 const currentStorageKeys = collect(html, storagePattern);
+for (const key of collect(html, /const\s+[A-Z0-9_]*STORAGE_KEY\s*=\s*['"]([^'"]+)['"]/g)) currentStorageKeys.add(key);
+const baselineStorageKeys = new Set(baseline.localStorageKeys);
 assert(missingFrom(baselineStorageKeys, currentStorageKeys).length === 0, `localStorage keys changed: ${missingFrom(baselineStorageKeys, currentStorageKeys).join(', ')}`);
+const currentSensitiveFieldIds = vm.runInNewContext(`(${extractLiteral(html, 'SENSITIVE_KEYS')})`, Object.create(null), { timeout: 100 });
+assert(JSON.stringify(currentSensitiveFieldIds) === JSON.stringify(baseline.sensitiveFieldIds), 'sensitive salary field ids changed');
 for (const name of ['holidays', 'typhoonHolidays', 'makeupWorkdays', 'insuranceTable']) {
-  assert(extractArray(html, name) === extractArray(baselineHtml, name), `${name} business data changed`);
+  assert(hashBusinessData(html, name) === baseline.businessData[name].sha256, `${name} business data changed`);
 }
 assert(/window\.UiMotion/.test(motion), 'window.UiMotion API is missing');
 for (const api of ['initialReveal', 'workflowTransition', 'calendarReveal', 'importHighlight', 'resultReveal', 'openRecordPanel', 'closeRecordPanel', 'openModal', 'closeModal']) {
@@ -174,6 +265,12 @@ assert(/@media\s*\(max-width:\s*480px\)[\s\S]*?\.main \.btn-primary\s*\{\s*width
 assert(/min-(?:height|width):\s*44px/.test(css), '44px target rule is missing');
 for (const [selector, color] of [['.quick-btn-2', 'var(--cyan)'], ['.quick-btn-4', 'var(--yellow)'], ['.quick-btn-8', 'var(--green)'], ['.quick-btn-c', 'var(--red)'], ['.record-clear-btn', 'var(--pink)']]) {
   assert(cssRuleBody(uiverse, selector).includes(`background: ${color}`), `${selector} Neo Brutal surface color is missing`);
+}
+const recordSecondaryRule = cssRuleBody(uiverse, '.record-secondary-control');
+assert(/min-width:\s*44px/i.test(recordSecondaryRule) && /min-height:\s*44px/i.test(recordSecondaryRule), 'record secondary controls must retain 44px targets');
+assert(/\.record-secondary-control:active[^}]*transform:\s*translate\(3px,\s*3px\)[^}]*box-shadow:\s*none/i.test(uiverse), 'record secondary controls need a visible pressed state');
+for (const className of ['record-panel-close', 'record-clear-btn', 'record-quick-btn', 'record-item-edit', 'record-item-delete', 'record-item-edit-btn']) {
+  assert(new RegExp(`class="[^"]*${className}[^"]*record-secondary-control|class="[^"]*record-secondary-control[^"]*${className}`).test(html), `${className} must use the shared secondary-control contract`);
 }
 assert(/:focus-visible\s*\{[^}]*outline:\s*3px solid var\(--ink\)/.test(css), 'focus indicators must contrast with every bright surface');
 assert(gsap.includes('GSAP 3.15.0'), 'official GSAP 3.15.0 vendor file is missing');

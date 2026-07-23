@@ -3641,21 +3641,25 @@
   <main class="main">
     <section class="card workflow-card" aria-label="操作流程與目前狀態">
       <div class="workflow-steps">
-        <div class="workflow-step active" id="flowStepRange">
+        <div class="workflow-step active" id="flowStepRange" aria-current="step">
           <span class="workflow-step-no">1</span>
           <span class="workflow-step-label">區間鎖定</span>
+          <span class="workflow-step-state"><span class="workflow-step-state-icon" aria-hidden="true">▶</span><span class="workflow-step-state-label">進行中</span></span>
         </div>
         <div class="workflow-step" id="flowStepCalendar">
           <span class="workflow-step-no">2</span>
           <span class="workflow-step-label">時數載入</span>
+          <span class="workflow-step-state"><span class="workflow-step-state-icon" aria-hidden="true">○</span><span class="workflow-step-state-label">待處理</span></span>
         </div>
         <div class="workflow-step" id="flowStepSalary">
           <span class="workflow-step-no">3</span>
           <span class="workflow-step-label">參數校準</span>
+          <span class="workflow-step-state"><span class="workflow-step-state-icon" aria-hidden="true">○</span><span class="workflow-step-state-label">待處理</span></span>
         </div>
         <div class="workflow-step" id="flowStepResult">
           <span class="workflow-step-no">4</span>
           <span class="workflow-step-label">結算輸出</span>
+          <span class="workflow-step-state"><span class="workflow-step-state-icon" aria-hidden="true">○</span><span class="workflow-step-state-label">待處理</span></span>
         </div>
       </div>
       <div class="dashboard-summary">
@@ -3691,11 +3695,13 @@
         <div class="grid-2">
           <div class="form-group">
             <label class="form-label" for="startDate">開始日期</label>
-            <input type="date" id="startDate" class="form-input" onchange="updateDashboardSummary(); updateImportRangeDisplay();">
+            <input type="date" id="startDate" class="form-input" aria-describedby="startDateError" oninput="clearFieldError('startDate')" onchange="updateDashboardSummary(); updateImportRangeDisplay();">
+            <span id="startDateError" class="field-error" role="alert" hidden></span>
           </div>
           <div class="form-group">
             <label class="form-label" for="endDate">結束日期</label>
-            <input type="date" id="endDate" class="form-input" onchange="updateDashboardSummary(); updateImportRangeDisplay();">
+            <input type="date" id="endDate" class="form-input" aria-describedby="endDateError" oninput="clearFieldError('endDate')" onchange="updateDashboardSummary(); updateImportRangeDisplay();">
+            <span id="endDateError" class="field-error" role="alert" hidden></span>
           </div>
         </div>
         <div class="mt-md">
@@ -3783,7 +3789,8 @@
             
             <div class="form-group">
               <label class="form-label" for="baseSalary">本薪（月薪）</label>
-              <input type="number" id="baseSalary" class="form-input" placeholder="請輸入本薪金額" oninput="saveSensitiveData('baseSalary', this.value)">
+              <input type="number" id="baseSalary" class="form-input" placeholder="請輸入本薪金額" aria-describedby="baseSalaryError" oninput="clearFieldError('baseSalary'); saveSensitiveData('baseSalary', this.value)">
+              <span id="baseSalaryError" class="field-error" role="alert" hidden></span>
             </div>
             
             <div class="grid-2 grid-compact">
@@ -3791,14 +3798,14 @@
                 <label class="form-label" for="bonus">全勤獎金</label>
                 <div class="input-group">
                   <input type="number" id="bonus" class="form-input" value="2000" readonly>
-                  <span class="input-icon" aria-hidden="true">唯讀</span>
+                  <span class="input-icon">固定金額</span>
                 </div>
               </div>
               <div class="form-group">
                 <label class="form-label" for="meal">伙食費</label>
                 <div class="input-group">
                   <input type="number" id="meal" class="form-input" value="1800" readonly>
-                  <span class="input-icon" aria-hidden="true">唯讀</span>
+                  <span class="input-icon">固定金額</span>
                 </div>
               </div>
             </div>
@@ -4024,7 +4031,7 @@
   <div class="record-panel" id="recordPanel" role="dialog" aria-modal="true" aria-labelledby="recordPanelTitle" aria-hidden="true" tabindex="-1">
     <div class="record-panel-header">
       <h3 id="recordPanelTitle">加班任務抽屜</h3>
-      <button class="record-panel-close" onclick="toggleRecordPanel()" aria-label="關閉加班記錄本">✕</button>
+      <button class="record-panel-close record-secondary-control" onclick="toggleRecordPanel()" aria-label="關閉加班記錄本">✕</button>
     </div>
     
     <div class="record-panel-body">
@@ -4069,13 +4076,19 @@
         </div>
         <!-- 時數快捷按鈕 -->
         <div class="record-quick-hours">
-          <button class="record-quick-btn record-quick-hours-btn" onclick="setQuickHours(1)">1h</button>
-          <button class="record-quick-btn record-quick-hours-btn" onclick="setQuickHours(1.5)">1.5h</button>
-          <button class="record-quick-btn record-quick-hours-btn" onclick="setQuickHours(2)">2h</button>
-          <button class="record-quick-btn record-quick-hours-btn" onclick="setQuickHours(4)">4h</button>
-          <button class="record-quick-btn record-quick-hours-btn" onclick="setQuickHours(8)">8h</button>
+          <button class="record-quick-btn record-quick-hours-btn record-secondary-control" onclick="setQuickHours(1)">1h</button>
+          <button class="record-quick-btn record-quick-hours-btn record-secondary-control" onclick="setQuickHours(1.5)">1.5h</button>
+          <button class="record-quick-btn record-quick-hours-btn record-secondary-control" onclick="setQuickHours(2)">2h</button>
+          <button class="record-quick-btn record-quick-hours-btn record-secondary-control" onclick="setQuickHours(4)">4h</button>
+          <button class="record-quick-btn record-quick-hours-btn record-secondary-control" onclick="setQuickHours(8)">8h</button>
         </div>
-        <div class="record-feedback" id="recordFeedback"></div>
+        <div class="record-feedback" id="recordFeedback" role="status" aria-live="polite" aria-atomic="true">
+          <span class="record-feedback-icon" aria-hidden="true"></span>
+          <span class="record-feedback-content">
+            <strong class="record-feedback-label"></strong>
+            <span class="record-feedback-message"></span>
+          </span>
+        </div>
       </div>
 
       <!-- 區間篩選選項 -->
@@ -4148,7 +4161,7 @@
       <div class="record-list-section">
         <div class="record-list-header">
           <span id="recordListTitle">所有記錄</span>
-          <button class="record-clear-btn" onclick="clearAllRecords()" id="recordClearBtn">清除全部（0）</button>
+          <button class="record-clear-btn record-secondary-control" onclick="clearAllRecords()" id="recordClearBtn">清除全部（0）</button>
         </div>
         <div class="record-list" id="recordList">
           <div class="record-empty">尚無加班記錄</div>
@@ -4449,6 +4462,91 @@
       return formatDateForInput(new Date());
     }
 
+    function setFieldError(fieldId, message) {
+      const field = document.getElementById(fieldId);
+      const error = document.getElementById(`${fieldId}Error`);
+      if (!field || !error) return;
+      field.setAttribute('aria-invalid', 'true');
+      error.textContent = message;
+      error.hidden = false;
+    }
+
+    function clearFieldError(fieldId) {
+      const field = document.getElementById(fieldId);
+      const error = document.getElementById(`${fieldId}Error`);
+      if (!field || !error) return;
+      field.removeAttribute('aria-invalid');
+      error.textContent = '';
+      error.hidden = true;
+    }
+
+    function isValidDateValue(value) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+      const [year, month, day] = value.split('-').map(Number);
+      const date = new Date(year, month - 1, day);
+      return date.getFullYear() === year
+        && date.getMonth() === month - 1
+        && date.getDate() === day;
+    }
+
+    function validateSettlementDateRange() {
+      const startInput = document.getElementById('startDate');
+      const endInput = document.getElementById('endDate');
+      const startValue = startInput.value.trim();
+      const endValue = endInput.value.trim();
+      let valid = true;
+
+      clearFieldError('startDate');
+      clearFieldError('endDate');
+
+      if (!startValue) {
+        setFieldError('startDate', startInput.validity.badInput ? '開始日期格式無效' : '請選擇開始日期');
+        valid = false;
+      } else if (!isValidDateValue(startValue)) {
+        setFieldError('startDate', '開始日期格式無效');
+        valid = false;
+      }
+
+      if (!endValue) {
+        setFieldError('endDate', endInput.validity.badInput ? '結束日期格式無效' : '請選擇結束日期');
+        valid = false;
+      } else if (!isValidDateValue(endValue)) {
+        setFieldError('endDate', '結束日期格式無效');
+        valid = false;
+      }
+
+      if (valid && startValue > endValue) {
+        setFieldError('startDate', '開始日期不可晚於結束日期');
+        setFieldError('endDate', '結束日期不可早於開始日期');
+        valid = false;
+      }
+
+      if (!valid) {
+        [startInput, endInput].find((input) => input.getAttribute('aria-invalid') === 'true')?.focus();
+        return null;
+      }
+      return {
+        start: parseLocalDate(startValue),
+        end: parseLocalDate(endValue)
+      };
+    }
+
+    function validateBaseSalary() {
+      const input = document.getElementById('baseSalary');
+      const rawValue = input.value.trim();
+      clearFieldError('baseSalary');
+      if (!rawValue) {
+        setFieldError('baseSalary', input.validity.badInput ? '本薪格式無效' : '請輸入本薪');
+        return null;
+      }
+      const value = Number(rawValue);
+      if (!Number.isFinite(value) || value <= 0) {
+        setFieldError('baseSalary', '本薪必須是大於 0 的有效金額');
+        return null;
+      }
+      return value;
+    }
+
     function addDays(dateString, days) {
       const date = parseLocalDate(dateString);
       date.setDate(date.getDate() + days);
@@ -4499,13 +4597,25 @@
     function showRecordFeedback(message, type = 'success') {
       const feedback = document.getElementById('recordFeedback');
       if (!feedback) return;
+      const feedbackIcon = feedback.querySelector('.record-feedback-icon');
+      const feedbackLabel = feedback.querySelector('.record-feedback-label');
+      const feedbackMessage = feedback.querySelector('.record-feedback-message');
+      const status = {
+        success: { icon: '✓', label: '完成' },
+        warning: { icon: '!', label: '注意' },
+        error: { icon: '×', label: '錯誤' }
+      }[type] || { icon: 'i', label: '訊息' };
 
       window.clearTimeout(recordFeedbackTimer);
-      feedback.textContent = message;
       feedback.className = `record-feedback show ${type}`;
+      feedbackIcon.textContent = status.icon;
+      feedbackLabel.textContent = status.label;
+      feedbackMessage.textContent = message;
       recordFeedbackTimer = window.setTimeout(() => {
         feedback.className = 'record-feedback';
-        feedback.textContent = '';
+        feedbackIcon.textContent = '';
+        feedbackLabel.textContent = '';
+        feedbackMessage.textContent = '';
       }, 3500);
     }
 
@@ -4540,8 +4650,17 @@
       const step = document.getElementById(id);
       if (!step) return;
       const previousState = step.className;
+      const stateConfig = {
+        active: { icon: '▶', label: '進行中' },
+        done: { icon: '✓', label: '已完成' },
+        pending: { icon: '○', label: '待處理' }
+      }[state || 'pending'];
       step.classList.remove('active', 'done');
       if (state) step.classList.add(state);
+      step.toggleAttribute('aria-current', state === 'active');
+      if (state === 'active') step.setAttribute('aria-current', 'step');
+      step.querySelector('.workflow-step-state-icon').textContent = stateConfig.icon;
+      step.querySelector('.workflow-step-state-label').textContent = stateConfig.label;
       if (previousState !== step.className) window.UiMotion?.workflowTransition(step);
     }
 
@@ -4846,8 +4965,8 @@
           <label class="sr-only" for="edit-hours-${index}">加班時數</label>
           <input type="number" id="edit-hours-${index}" class="record-item-edit-input record-edit-hours" value="${record.hours}" min="0" step="0.5">
           <div class="record-item-edit-actions">
-            <button class="record-item-edit-btn record-item-edit-save" onclick="saveEdit(${index})">✓</button>
-            <button class="record-item-edit-btn record-item-edit-cancel" onclick="cancelEdit(${index})">✕</button>
+            <button class="record-item-edit-btn record-item-edit-save record-secondary-control" onclick="saveEdit(${index})" aria-label="儲存編輯">✓</button>
+            <button class="record-item-edit-btn record-item-edit-cancel record-secondary-control" onclick="cancelEdit(${index})" aria-label="取消編輯">✕</button>
           </div>
         </div>
       `;
@@ -5252,8 +5371,8 @@
               ${statusText ? `<span class="record-item-status ${statusClass}">${statusText}</span>` : ''}
             </div>
             <div class="record-item-actions">
-              <button class="record-item-edit" onclick="editRecord(${originalIndex})" title="編輯" aria-label="編輯 ${displayDate}"><svg class="ui-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m4 20 4-1 11-11-3-3L5 16l-1 4Zm10-13 3 3"/></svg></button>
-              <button class="record-item-delete" onclick="deleteRecord(${originalIndex})" title="刪除" aria-label="刪除 ${displayDate}"><svg class="ui-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 7h14m-9-3h4l1 3M8 10v8m4-8v8m4-8v8M7 7l1 14h8l1-14"/></svg></button>
+              <button class="record-item-edit record-secondary-control" onclick="editRecord(${originalIndex})" title="編輯" aria-label="編輯 ${displayDate}"><svg class="ui-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m4 20 4-1 11-11-3-3L5 16l-1 4Zm10-13 3 3"/></svg></button>
+              <button class="record-item-delete record-secondary-control" onclick="deleteRecord(${originalIndex})" title="刪除" aria-label="刪除 ${displayDate}"><svg class="ui-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 7h14m-9-3h4l1 3M8 10v8m4-8v8m4-8v8M7 7l1 14h8l1-14"/></svg></button>
             </div>
           </div>
         `;
@@ -5416,8 +5535,19 @@
         const cell = input.closest('td');
         if (!cell) return;
         const value = parseFloat(input.value) || 0;
+        const warning = document.getElementById(input.dataset.warningId);
+        const needsWarning = value > 8;
         cell.classList.toggle('has-overtime', value > 0);
-        cell.classList.toggle('overtime-alert', value > 8);
+        cell.classList.toggle('overtime-alert', needsWarning);
+        if (needsWarning && warning) {
+          input.setAttribute('aria-invalid', 'true');
+          input.setAttribute('aria-describedby', warning.id);
+          warning.hidden = false;
+        } else {
+          input.removeAttribute('aria-invalid');
+          input.removeAttribute('aria-describedby');
+          if (warning) warning.hidden = true;
+        }
       });
     }
 
@@ -5462,15 +5592,11 @@
     /* === 核心邏輯 === */
     
     function generateCalendar() {
-      const start = new Date(document.getElementById("startDate").value);
-      const end = new Date(document.getElementById("endDate").value);
+      const range = validateSettlementDateRange();
+      if (!range) return;
+      const { start, end } = range;
       const tbody = document.querySelector("#calendar tbody");
       tbody.innerHTML = "";
-
-      if (isNaN(start) || isNaN(end) || start > end) {
-        alert("請確認日期範圍是否正確");
-        return;
-      }
 
       let weekNumber = 1;
       let currentRow = document.createElement("tr");
@@ -5530,7 +5656,8 @@
             <span class="day-badge">${label}</span>
           </div>
           <label class="sr-only" for="${inputId}">${mm}/${dd} 加班時數</label>
-          <input type="number" id="${inputId}" class="day-input" min="0" step="0.5" placeholder="—" data-daytype="${dayType}" onchange="updateTotal()" oninput="updateTotal()">
+          <input type="number" id="${inputId}" class="day-input" min="0" step="0.5" placeholder="—" data-daytype="${dayType}" data-warning-id="warning-${key}" onchange="updateTotal()" oninput="updateTotal()">
+          <div id="warning-${key}" class="day-warning" role="alert" hidden><span aria-hidden="true">!</span><span>超過 8 小時，請確認</span></div>
           <div class="quick-btns">
             <button class="quick-btn quick-btn-2" onclick="quickFill('${inputId}', 2)" aria-label="${mm}/${dd} 填入 2 小時">2</button>
             <button class="quick-btn quick-btn-4" onclick="quickFill('${inputId}', 4)" aria-label="${mm}/${dd} 填入 4 小時">4</button>
@@ -5611,8 +5738,11 @@
     }
 
     function calculate(event) {
-      const base = parse("baseSalary");
-      if (base === 0) { alert("請輸入本薪"); return; }
+      const base = validateBaseSalary();
+      if (base === null) {
+        document.getElementById('baseSalary')?.focus();
+        return;
+      }
 
       // 1. 基礎參數
       const bonusBase = 2000;
