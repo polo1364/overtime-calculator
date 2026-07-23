@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "commit": "d01f7ef2a8a1cd3888870cd3191dd65412215fb0",
+  "environment": {
+    "browser": "Google Chrome 150.0.7871.129",
+    "playwright": "1.61.1",
+    "headless": true,
+    "baseUrl": "http://127.0.0.1:8000/",
+    "viewports": [
+      "1440x1000",
+      "768x1000",
+      "375x812"
+    ]
+  },
+  "scope": [
+    "workflow visible state text and icons",
+    "aria-current step lifecycle",
+    "blank malformed and reversed settlement dates",
+    "missing malformed non-positive and valid base salary",
+    "over-8h warning and valid-state restoration",
+    "record live-status feedback structure",
+    "record secondary 44px targets and pressed states",
+    "responsive overflow and full-width record panel",
+    "service-worker cache contents and offline reload",
+    "console page network and request-failure health"
+  ],
+  "runs": [
+    {
+      "id": "run-1",
+      "startedAt": "2026-07-23T10:40:28.453Z",
+      "finishedAt": "2026-07-23T10:40:41.353Z",
+      "total": 26,
+      "passed": 26,
+      "failed": 0,
+      "failedNames": []
+    },
+    {
+      "id": "run-2",
+      "startedAt": "2026-07-23T10:40:45.035Z",
+      "finishedAt": "2026-07-23T10:40:57.497Z",
+      "total": 26,
+      "passed": 26,
+      "failed": 0,
+      "failedNames": []
+    }
+  ]
+}
