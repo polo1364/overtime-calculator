@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "commit": "d01f7ef2a8a1cd3888870cd3191dd65412215fb0",
+  "environment": {
+    "browser": "Google Chrome 150.0.7871.129",
+    "playwright": "1.61.1",
+    "headless": true,
+    "baseUrl": "http://127.0.0.1:8000/",
+    "viewports": [
+      "1440x1000",
+      "768x1000",
+      "375x812"
+    ]
+  },
+  "scope": [
+    "workflow visible state text and icons",
+    "aria-current step lifecycle",
+    "blank malformed and reversed settlement dates",
+    "missing malformed non-positive and valid base salary",
+    "over-8h warning and valid-state restoration",
+    "record live-status feedback structure",
+    "record secondary 44px targets and pressed states",
+    "responsive overflow and full-width record panel",
+    "service-worker cache contents and offline reload",
+    "console page network and request-failure health"
+  ],
+  "runs": [
+    {
+      "id": "run-1",
+      "startedAt": "2026-07-23T10:40:28.453Z",
+      "finishedAt": "2026-07-23T10:40:41.353Z",
+      "total": 26,
+      "passed": 26,
+      "failed": 0,
+      "failedNames": []
+    },
+    {
+      "id": "run-2",
+      "startedAt": "2026-07-23T10:40:45.035Z",
+      "finishedAt": "2026-07-23T10:40:57.497Z",
+      "total": 26,
+      "passed": 26,
+      "failed": 0,
+      "failedNames": []
+    }
+  ],
+  "reviewerFollowUpRuns": [
+    {
+      "id": "live-status-ax-tree",
+      "checkedAt": "2026-07-23T11:03:18.900Z",
+      "commit": "3b3b2af",
+      "browser": "Google Chrome 150.0.7871.129",
+      "total": 8,
+      "passed": 8,
+      "failed": 0,
+      "checks": [
+        "idle status node present in accessibility tree",
+        "idle status role equals status",
+        "idle node visually hidden without display none or visibility hidden",
+        "triggered status node remains present",
+        "triggered status role remains status",
+        "triggered DOM text is populated",
+        "triggered accessibility text matches DOM text",
+        "console page request and HTTP errors remain zero"
+      ]
+    }
+  ]
+}
