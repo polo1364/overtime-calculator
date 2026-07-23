@@ -129,6 +129,11 @@ const hashBusinessData = (source, name) => {
   return crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');
 };
 
+assert(Array.isArray(baseline.requiredDomIds) && baseline.requiredDomIds.length === 93, 'baseline must preserve all 93 pre-redesign DOM ids');
+for (const id of ['legacyStyles', 'recordPanelTitle', 'popupTitle']) {
+  assert(baseline.requiredDomIds.includes(id), `baseline is missing required DOM id: ${id}`);
+}
+
 assert(/<style id="legacyStyles" media="not all">/.test(html), 'legacy stylesheet must remain explicitly inert');
 const legacyStyleEnd = html.indexOf('</style>');
 const activeStylesheetLink = html.indexOf('href="./styles.css"');
@@ -172,6 +177,15 @@ assert(/\.record-panel[^}]*border-left:\s*4px solid var\(--ink\)/i.test(css), 'r
 assert(/\.record-feedback\.success[^}]*background:\s*var\(--green\)/i.test(css), 'success feedback card is missing');
 assert(/\.record-feedback\.warning[^}]*background:\s*var\(--yellow\)/i.test(css), 'warning feedback card is missing');
 assert(/\.record-feedback\.error[^}]*background:\s*var\(--red\)/i.test(css), 'error feedback card is missing');
+const recordFeedbackIdleRule = cssRuleBody(css, '.record-feedback');
+assert(!/(?:display:\s*none|visibility:\s*hidden)/i.test(recordFeedbackIdleRule), 'idle record status must remain in the accessibility tree');
+assert(/position:\s*absolute/i.test(recordFeedbackIdleRule)
+  && /width:\s*1px/i.test(recordFeedbackIdleRule)
+  && /height:\s*1px/i.test(recordFeedbackIdleRule)
+  && /clip:\s*rect\(0(?:px)?(?:,\s*|\s+)0(?:px)?(?:,\s*|\s+)0(?:px)?(?:,\s*|\s+)0(?:px)?\)/i.test(recordFeedbackIdleRule),
+'idle record status needs a visually-hidden treatment');
+const recordFeedbackVisibleRule = cssRuleBody(css, '.record-feedback.show');
+assert(/display:\s*flex/i.test(recordFeedbackVisibleRule) && /position:\s*static/i.test(recordFeedbackVisibleRule), 'shown record feedback must restore its visible card layout');
 assert(/@media\s*\(max-width:\s*768px\)[\s\S]*?\.record-panel[^}]*width:\s*100%/i.test(css), 'mobile record board must be full width');
 for (const selector of ['.leave-type-badge', '.calendar th', '.day-badge', '.fab-badge', '.record-guide-step-no', '.record-item-status']) {
   const rule = cssRuleBody(css, selector);
