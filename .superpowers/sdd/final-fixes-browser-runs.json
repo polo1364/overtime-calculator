@@ -43,5 +43,26 @@
       "failed": 0,
       "failedNames": []
     }
+  ],
+  "reviewerFollowUpRuns": [
+    {
+      "id": "live-status-ax-tree",
+      "checkedAt": "2026-07-23T11:03:18.900Z",
+      "commit": "3b3b2af",
+      "browser": "Google Chrome 150.0.7871.129",
+      "total": 8,
+      "passed": 8,
+      "failed": 0,
+      "checks": [
+        "idle status node present in accessibility tree",
+        "idle status role equals status",
+        "idle node visually hidden without display none or visibility hidden",
+        "triggered status node remains present",
+        "triggered status role remains status",
+        "triggered DOM text is populated",
+        "triggered accessibility text matches DOM text",
+        "console page request and HTTP errors remain zero"
+      ]
+    }
   ]
 }

@@ -106,10 +106,10 @@
 ## 檔案雜湊
 
 - `index.html`: `4BCB99AB7F935CEF58D59B0BC3E6DBD9B8A7557374A192189922253203BBF58A`
-- `styles.css`: `CBD31BE6F2E08368F0F8E78409D75CDC7D6A1276D010351174AAF0A97EFFDA62`
+- `styles.css`: `E81413FBDF157C011768B45DC71212C510B4316D2BEBC9B7086E8ACD0CE0073A`
 - `uiverse.css`: `18AAF5DE95D0BCC89E2012BD0F5367CC065B95671CC11CDA12D9C30598A33439`
-- `verify-ui-contract.mjs`: `BB60CF97A84E1BFF876D242B78DE7A208C608C8DEDCBB83A6A6242A7AF9C3BFF`
-- `fixtures/ui-contract-baseline.json`: `9C747DA89B8AD92E84DC4287E92ABD2112CAA15DD91412157DEC4EA70B55DCBE`
+- `verify-ui-contract.mjs`: `755F87D10C55FE1E26276D7D21AABBB093E40BB955071EF80D7935897D99E108`
+- `fixtures/ui-contract-baseline.json`: `536B47DDABB75DAB2448A60D6BCF83E745C2E3F6F01F7CEA70A32C5C877AEB47`
 
 ## 備註 / 風險
 
@@ -117,3 +117,49 @@
 - QA 為 headless Chrome；三個 viewport screenshots 已人工檢查。未發現需再修改產品的視覺問題。
 - Repo 原有 `*.bak.*` 與其他 `.superpowers/` artifacts 維持 untracked，未納入本次提交、未刪除、未覆寫。
 - `motion.js`、`service-worker.js`、薪資公式與 business arrays 未修改。
+
+## Reviewer follow-up fix wave
+
+### 結果
+
+- 狀態：`DONE`
+- 產品修正 commit：`3b3b2af`
+- 僅處理 reviewer 指定的兩項 Important finding。
+
+### DOM ID baseline
+
+- `fixtures/ui-contract-baseline.json` 的 `requiredDomIds` 已補齊 `legacyStyles`、`recordPanelTitle`、`popupTitle`，總數為 93。
+- `verify-ui-contract.mjs` 會固定檢查 baseline 必須為 93 個 ID，且上述三個 ID 必須在 baseline 中。
+- TDD RED：補 verifier、尚未補 fixture 時，`node verify-ui-contract.mjs` exit 1：
+  - `UI contract failed: baseline must preserve all 93 pre-redesign DOM ids`
+- Clean-checkout negative：
+  - 移除 `recordPanelTitle` 後 exit 1：`UI contract failed: required DOM ids are missing: recordPanelTitle`
+  - 移除 `popupTitle` 後 exit 1：`UI contract failed: required DOM ids are missing: popupTitle`
+- 兩個 detached temp worktree 均已安全移除。
+
+### Persistent live status
+
+- `.record-feedback` 閒置時改為 1px clipped visually-hidden treatment，不使用 `display:none` 或 `visibility:hidden`。
+- `.record-feedback.show` 恢復 `position: static`、`display: flex` 與可見卡片版面。
+- TDD RED：fixture 補齊但 CSS 尚未修正時，`node verify-ui-contract.mjs` exit 1：
+  - `UI contract failed: idle record status must remain in the accessibility tree`
+- Chrome 150 CDP accessibility tree，先開啟記錄抽屜、尚未觸發訊息：
+  - `recordFeedback` present=`true`、ignored=`false`、role=`status`
+  - computed display=`block`、visibility=`visible`、position=`absolute`、clip=`rect(0px, 0px, 0px, 0px)`、size=`1x1`
+- 觸發缺少日期警告後：
+  - 同一節點 present=`true`、ignored=`false`、role=`status`
+  - DOM 與 AX tree 文字均更新為 `注意`、`請先選擇日期`
+  - computed display=`flex`、visibility=`visible`、position=`static`
+  - console errors 0、page errors 0、failed requests 0、HTTP >=400 0
+
+### 驗證
+
+- `node verify-payslip.mjs`：exit 0，`totalDed: 4621`、fixture `7780`、`Math.round(net): 46627`
+- `node verify-ui-contract.mjs`：exit 0，`UI contract verified.`
+- `git diff --check`：exit 0
+- Browser AX follow-up：2026-07-23T11:03:18.900Z，8／8 pass
+
+### 備註 / 風險
+
+- 內建 browser runtime 本次仍無可用 binding；依 troubleshooting 確認 `agent.browsers.list()` 為空後，以既有 Playwright 1.61.1 啟動本機 Chrome 150，透過 CDP 讀取實際 accessibility tree。
+- `recordFeedback` 位於記錄抽屜內；抽屜關閉時，其父 dialog 按既有設計為 `visibility:hidden`。上述「訊息前節點存在」驗證是在使用者已開啟抽屜、尚未觸發訊息的真實互動狀態。
